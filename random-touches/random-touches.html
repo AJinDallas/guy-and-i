@@ -1,0 +1,1771 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#f4f4f2" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#14120f" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="application-name" content="Random Touches" />
+    <meta name="description" content="Random Touches — one touch, one random place to land. Everything picked literally at random, no feed, no endless scroll." />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Random Touches" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Random Touches" />
+    <meta property="og:description" content="One touch, one random place to land — everything picked literally at random. You never know where you're going. That's the fun." />
+    <meta property="og:image" content="data:image/png;base64,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" />
+    <link rel="apple-touch-icon" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAER0lEQVR4nO3cQU7cQBCFYRNlD8tIUbacBU7MWWCLImXJEbKwhKwwb9Jue6pedf/fMiGiKX63zTCdu9en+wW45Fv2AuCLOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARB6Tv2QvY7fHlI3sJ/d6eH7KXsMNdif8wrnQQin8o7nEMmcWWcyK+cQyfxZZnIo5xTJXFllsidj+tTFvG4ve1e8XhNp14VhNwua1YDcWBwy3GYuegjK8cZpIfh8MUPKVPJj8O2EqOI/3iMJc7n8w4KKNF4pTS4qCMdlmz4pkDUk4cbBt7pUys3vs5lmX59fPH1z98//0nfiWK/wpbJLxCeuQiuDj0rfRvwE1XGPyyaaVnjv/OvfFjbsd/hbtE7xx920bHQIO3kLAVRm4elXYOBCsQR98+HLl7+6+wj3scRyYYM33/FXYLjYOXN46LnKH1znH8wrr1pem/wiOs40Au4oBEHJCIAxJxQCIOSNZxHP/9yK1/w+K/wiOs40Au9ziOXFgxF6X/Cru5x7H0TjBy7v4r7FMgDmSp8R7S9SJr/DVEyhXpv8IOlXaOlpnmzt1/hbvU2Dk+XblATYbuv8J2xeJY+U/Zf4UtKt1WEIw4IBEHpJLPHKcb4/nxdLPHceWVifWvZk5k6tvKYKcXTzfpzrHrWz7tFjL1zoHrZoxj1NOLp5sujoFPL55uujjQbq44xj69eLq54sAuxAGJOCARByTigEQckOaKY+zTi6ebKw7sMl0cA59ePN10cSzjnl483YxxoNGkb/YZ8vTi6abeOQY7vXi6SXeOTyOdXjzd7HGs6OCiqW8ruI44IBEHpJLPHP7Pj/4rbFEsDv/Ti/4rbFfptuJ/etF/hbvU2Dn8Ty/6r7BDpZ0DwQrE4X960X+Ffdzj8D+96L/Cbu5xIJF1HP6nF/1XeIR1HMhFHJCIAxJxQCIOSMQByToO/9OL/is8IjSOt+eHyE83pMgZWu8cS4XTi/4r7OYex1Lh9KL/CvsUiANZ7l6f7oM/5ePLR98/9D+9eOsVBj+0Vdo5/E8v+q9wl4SdYzmweaz839t9ixXG/6xX4z2k/7Dq4CL/FbbIua3wgsdeKROr9MyBYGlxsHm0y5pV5s5BHy0Sp5R8W6GP63LnwzMHpPw42DyU9Mnkx7EYTMGQw0xyXiFVDr5yOgaHLFYWO8cnn7lksZqAVxyL2XSCuX3tXreVraluMW5ZrHzjWA2fiGcWK/c4VkMm4pzFqkYcW6VD8Q9iq14cCGP30wp8EAck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQekv0QNWfaxD133AAAAAElFTkSuQmCC" />
+    <link rel="apple-touch-icon" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEgklEQVR4nO3cS05bQRRF0SJKH5qRonQZC4yYsUAXRUqTIaRhZJlPyHMdV91zXu3VzEe5ut4uY0zq6vHuugG9vlUPgGwEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECTfqweQ3D68VI9wGU/3N9UjdLqKu+Z3N9H8S1ZMSQHtPp1TKRkFBLRUNx+Zl+T+RfTi9TT7DfieQOaLm8/zKDI9gajnI8+dOAbkuSkHhpuxC8hwR1bc9uMVkNt2PFltySggq72Y89mVS0A+G0lhsjGLgEx2Ecdhb/UBOWwhV/n26gNCtOKAyp9AO1C7w8qAqOdSCjfJSxgk2T+R2Fr79fPHx198/v1n/iRbZE27Rdmn8fqp++mDccrqgZkwbcnH9akvYf99PDb+mTmypj1LzQmkHD8diy48iiZPO/8QSj2BYCIsoL5zvurVIWvaPkkBKZud/6hkTdutICC+fzjO/N3GnED6k3Lm0zprWkVMQPBEQJAQECQEBAkBQUJAkMQEpH+eNfMTsaxpFTEBwVNSQMqTcv4TOmvabkkBtd7NVj0eWdP2CQsIbvJ+JvrwBN34UVH5szlr2g6pJ9CWXfs8HlnTniXvBDr64slt+GBkTbtdcEAHWdvPmnaL1JcwmCAgSAgIEgKChIAgiX8XNsj+3m8PQkDvffFd48NvkdEpXsLe2PEtCINwAr06KwuOoiNOIEgIqLU1bkEYhIBWuQVhEAKCZPWA1rkFYZDVA4KIgCAhIEgICBICgoSAIFk9oHVuQRhk9YAgIqBVbkEYhIBaW+MWhEEICBJ+oOzV7m9BGIQT6I0d34IwCCfQe3u9BWEQAvocrWzESxgkBAQJAUFCQJAQECTx78Ky3m9nTbtFcEBZtyBkTbtd6ktY1i0IWdOeJe8EyroFIWvaDqknEEyEBZR1C0LWtH2SAsq6BSFr2m5JAcFQTEBZtyBkTauICQieCAgSAoKEgCAhIEgICJKYgLJuQciaVlEQ0NP9zfx/dBHzdxtzArW0WxCypu2WFFBLuwUha9o+YQHBzdXj3XXJP3z78KL89axbEOZMW/LFZeoJlHULQta0Zyk7gZp8CB1k/T+HcdNWvbfN+5nod2xb+VTWtFukvoTBRGVAfEfxUgo3WXwC0ZCudoe8hEFSHxCHkKJ8e/UBNYMthHLYm0VAzWMXWUw25hJQs9lIBJ9dGQXUnPbizGpLXgE1s+0YctuPXUDNb0c+DDfjGFCz3FQ5z51Ufhq/xUU+sU/nmc6B6Ql05Ly7Ocw34H4CnVrqNDLv5igpoIPdZ5SSzkFeQKd2E1NWNKeyA0I59y+iYY6AICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICJK/CM1jsI0eV7gAAAAASUVORK5CYII=" />
+    <link rel="apple-touch-icon" sizes="512x512" href="data:image/png;base64,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" />
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAER0lEQVR4nO3cQU7cQBCFYRNlD8tIUbacBU7MWWCLImXJEbKwhKwwb9Jue6pedf/fMiGiKX63zTCdu9en+wW45Fv2AuCLOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARByTigEQckIgDEnFAIg5IxAGJOCARB6Tv2QvY7fHlI3sJ/d6eH7KXsMNdif8wrnQQin8o7nEMmcWWcyK+cQyfxZZnIo5xTJXFllsidj+tTFvG4ve1e8XhNp14VhNwua1YDcWBwy3GYuegjK8cZpIfh8MUPKVPJj8O2EqOI/3iMJc7n8w4KKNF4pTS4qCMdlmz4pkDUk4cbBt7pUys3vs5lmX59fPH1z98//0nfiWK/wpbJLxCeuQiuDj0rfRvwE1XGPyyaaVnjv/OvfFjbsd/hbtE7xx920bHQIO3kLAVRm4elXYOBCsQR98+HLl7+6+wj3scRyYYM33/FXYLjYOXN46LnKH1znH8wrr1pem/wiOs40Au4oBEHJCIAxJxQCIOSNZxHP/9yK1/w+K/wiOs40Au9ziOXFgxF6X/Cru5x7H0TjBy7v4r7FMgDmSp8R7S9SJr/DVEyhXpv8IOlXaOlpnmzt1/hbvU2Dk+XblATYbuv8J2xeJY+U/Zf4UtKt1WEIw4IBEHpJLPHKcb4/nxdLPHceWVifWvZk5k6tvKYKcXTzfpzrHrWz7tFjL1zoHrZoxj1NOLp5sujoFPL55uujjQbq44xj69eLq54sAuxAGJOCARByTigEQckOaKY+zTi6ebKw7sMl0cA59ePN10cSzjnl483YxxoNGkb/YZ8vTi6abeOQY7vXi6SXeOTyOdXjzd7HGs6OCiqW8ruI44IBEHpJLPHP7Pj/4rbFEsDv/Ti/4rbFfptuJ/etF/hbvU2Dn8Ty/6r7BDpZ0DwQrE4X960X+Ffdzj8D+96L/Cbu5xIJF1HP6nF/1XeIR1HMhFHJCIAxJxQCIOSMQByToO/9OL/is8IjSOt+eHyE83pMgZWu8cS4XTi/4r7OYex1Lh9KL/CvsUiANZ7l6f7oM/5ePLR98/9D+9eOsVBj+0Vdo5/E8v+q9wl4SdYzmweaz839t9ixXG/6xX4z2k/7Dq4CL/FbbIua3wgsdeKROr9MyBYGlxsHm0y5pV5s5BHy0Sp5R8W6GP63LnwzMHpPw42DyU9Mnkx7EYTMGQw0xyXiFVDr5yOgaHLFYWO8cnn7lksZqAVxyL2XSCuX3tXreVraluMW5ZrHzjWA2fiGcWK/c4VkMm4pzFqkYcW6VD8Q9iq14cCGP30wp8EAck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQck4oBEHJCIAxJxQCIOSMQBiTggEQekv0QNWfaxD133AAAAAElFTkSuQmCC" />
+    <link rel="icon" type="image/png" sizes="192x192" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEgklEQVR4nO3cS05bQRRF0SJKH5qRonQZC4yYsUAXRUqTIaRhZJlPyHMdV91zXu3VzEe5ut4uY0zq6vHuugG9vlUPgGwEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECTfqweQ3D68VI9wGU/3N9UjdLqKu+Z3N9H8S1ZMSQHtPp1TKRkFBLRUNx+Zl+T+RfTi9TT7DfieQOaLm8/zKDI9gajnI8+dOAbkuSkHhpuxC8hwR1bc9uMVkNt2PFltySggq72Y89mVS0A+G0lhsjGLgEx2Ecdhb/UBOWwhV/n26gNCtOKAyp9AO1C7w8qAqOdSCjfJSxgk2T+R2Fr79fPHx198/v1n/iRbZE27Rdmn8fqp++mDccrqgZkwbcnH9akvYf99PDb+mTmypj1LzQmkHD8diy48iiZPO/8QSj2BYCIsoL5zvurVIWvaPkkBKZud/6hkTdutICC+fzjO/N3GnED6k3Lm0zprWkVMQPBEQJAQECQEBAkBQUJAkMQEpH+eNfMTsaxpFTEBwVNSQMqTcv4TOmvabkkBtd7NVj0eWdP2CQsIbvJ+JvrwBN34UVH5szlr2g6pJ9CWXfs8HlnTniXvBDr64slt+GBkTbtdcEAHWdvPmnaL1JcwmCAgSAgIEgKChIAgiX8XNsj+3m8PQkDvffFd48NvkdEpXsLe2PEtCINwAr06KwuOoiNOIEgIqLU1bkEYhIBWuQVhEAKCZPWA1rkFYZDVA4KIgCAhIEgICBICgoSAIFk9oHVuQRhk9YAgIqBVbkEYhIBaW+MWhEEICBJ+oOzV7m9BGIQT6I0d34IwCCfQe3u9BWEQAvocrWzESxgkBAQJAUFCQJAQECTx78Ky3m9nTbtFcEBZtyBkTbtd6ktY1i0IWdOeJe8EyroFIWvaDqknEEyEBZR1C0LWtH2SAsq6BSFr2m5JAcFQTEBZtyBkTauICQieCAgSAoKEgCAhIEgICJKYgLJuQciaVlEQ0NP9zfx/dBHzdxtzArW0WxCypu2WFFBLuwUha9o+YQHBzdXj3XXJP3z78KL89axbEOZMW/LFZeoJlHULQta0Zyk7gZp8CB1k/T+HcdNWvbfN+5nod2xb+VTWtFukvoTBRGVAfEfxUgo3WXwC0ZCudoe8hEFSHxCHkKJ8e/UBNYMthHLYm0VAzWMXWUw25hJQs9lIBJ9dGQXUnPbizGpLXgE1s+0YctuPXUDNb0c+DDfjGFCz3FQ5z51Ufhq/xUU+sU/nmc6B6Ql05Ly7Ocw34H4CnVrqNDLv5igpoIPdZ5SSzkFeQKd2E1NWNKeyA0I59y+iYY6AICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICJK/CM1jsI0eV7gAAAAASUVORK5CYII=" />
+    <link rel="icon" type="image/png" sizes="512x512" href="data:image/png;base64,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" />
+    <link rel="shortcut icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADACAIAAADdvvtQAAAEgklEQVR4nO3cS05bQRRF0SJKH5qRonQZC4yYsUAXRUqTIaRhZJlPyHMdV91zXu3VzEe5ut4uY0zq6vHuugG9vlUPgGwEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECQEBAkBQUJAkBAQJAQECQFBQkCQEBAkBAQJAUFCQJAQECTfqweQ3D68VI9wGU/3N9UjdLqKu+Z3N9H8S1ZMSQHtPp1TKRkFBLRUNx+Zl+T+RfTi9TT7DfieQOaLm8/zKDI9gajnI8+dOAbkuSkHhpuxC8hwR1bc9uMVkNt2PFltySggq72Y89mVS0A+G0lhsjGLgEx2Ecdhb/UBOWwhV/n26gNCtOKAyp9AO1C7w8qAqOdSCjfJSxgk2T+R2Fr79fPHx198/v1n/iRbZE27Rdmn8fqp++mDccrqgZkwbcnH9akvYf99PDb+mTmypj1LzQmkHD8diy48iiZPO/8QSj2BYCIsoL5zvurVIWvaPkkBKZud/6hkTdutICC+fzjO/N3GnED6k3Lm0zprWkVMQPBEQJAQECQEBAkBQUJAkMQEpH+eNfMTsaxpFTEBwVNSQMqTcv4TOmvabkkBtd7NVj0eWdP2CQsIbvJ+JvrwBN34UVH5szlr2g6pJ9CWXfs8HlnTniXvBDr64slt+GBkTbtdcEAHWdvPmnaL1JcwmCAgSAgIEgKChIAgiX8XNsj+3m8PQkDvffFd48NvkdEpXsLe2PEtCINwAr06KwuOoiNOIEgIqLU1bkEYhIBWuQVhEAKCZPWA1rkFYZDVA4KIgCAhIEgICBICgoSAIFk9oHVuQRhk9YAgIqBVbkEYhIBaW+MWhEEICBJ+oOzV7m9BGIQT6I0d34IwCCfQe3u9BWEQAvocrWzESxgkBAQJAUFCQJAQECTx78Ky3m9nTbtFcEBZtyBkTbtd6ktY1i0IWdOeJe8EyroFIWvaDqknEEyEBZR1C0LWtH2SAsq6BSFr2m5JAcFQTEBZtyBkTauICQieCAgSAoKEgCAhIEgICJKYgLJuQciaVlEQ0NP9zfx/dBHzdxtzArW0WxCypu2WFFBLuwUha9o+YQHBzdXj3XXJP3z78KL89axbEOZMW/LFZeoJlHULQta0Zyk7gZp8CB1k/T+HcdNWvbfN+5nod2xb+VTWtFukvoTBRGVAfEfxUgo3WXwC0ZCudoe8hEFSHxCHkKJ8e/UBNYMthHLYm0VAzWMXWUw25hJQs9lIBJ9dGQXUnPbizGpLXgE1s+0YctuPXUDNb0c+DDfjGFCz3FQ5z51Ufhq/xUU+sU/nmc6B6Ql05Ly7Ocw34H4CnVrqNDLv5igpoIPdZ5SSzkFeQKd2E1NWNKeyA0I59y+iYY6AICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICBICgoSAICEgSAgIEgKChIAgISBICAgSAoKEgCAhIEgICJK/CM1jsI0eV7gAAAAASUVORK5CYII=" />
+    <link rel="manifest" href="data:application/octet-stream;base64,eyJiYWNrZ3JvdW5kX2NvbG9yIjoiI2Y0ZjRmMiIsImRlc2NyaXB0aW9uIjoiUGljayBhIGNhdGVnb3J5LCBnZXQgb25lIHJhbmRvbSB0aGluZy4gT25lIHRvdWNoIGFuZCB5b3UncmUgb2ZmIHNvbWV3aGVyZSBuZXcuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJkaXNwbGF5X292ZXJyaWRlIjpbInN0YW5kYWxvbmUiLCJtaW5pbWFsLXVpIiwiYnJvd3NlciJdLCJpY29ucyI6W3sicHVycG9zZSI6ImFueSIsInNpemVzIjoiMTgweDE4MCIsInNyYyI6Imljb24tMTgwLnBuZyIsInR5cGUiOiJpbWFnZS9wbmcifSx7InB1cnBvc2UiOiJhbnkiLCJzaXplcyI6IjE5MngxOTIiLCJzcmMiOiJpY29uLTE5Mi5wbmciLCJ0eXBlIjoiaW1hZ2UvcG5nIn0seyJwdXJwb3NlIjoiYW55Iiwic2l6ZXMiOiI1MTJ4NTEyIiwic3JjIjoiaWNvbi01MTIucG5nIiwidHlwZSI6ImltYWdlL3BuZyJ9LHsicHVycG9zZSI6Im1hc2thYmxlIiwic2l6ZXMiOiI1MTJ4NTEyIiwic3JjIjoiaWNvbi01MTIucG5nIiwidHlwZSI6ImltYWdlL3BuZyJ9XSwiaWQiOiIuLi9pbmRleC5odG1sIiwibmFtZSI6IlJhbmRvbSBUb3VjaGVzIiwic2NvcGUiOiIuLi8iLCJzaG9ydF9uYW1lIjoiUmFuZG9tIFRvdWNoZXMiLCJzdGFydF91cmwiOiIuLi9pbmRleC5odG1sIiwidGhlbWVfY29sb3IiOiIjZDk0ODBmIn0=" />
+    <title>Random Touches</title>
+    <script>
+      // This page is its own web app ("Random Touches"). If a host wrapper
+      // has injected a different site's manifest (e.g. the hosting app's
+      // own PWA manifest) into this document, remove it so Add to Home
+      // Screen uses the Random Touches manifest, name, and dice icon.
+      (function () {
+        function keepOwnManifest() {
+          var links = document.querySelectorAll('link[rel="manifest"]');
+          for (var i = links.length - 1; i >= 0; i--) {
+            var href = links[i].getAttribute("href") || "";
+            if (href.indexOf("manifest.webmanifest") === -1 && links[i].parentNode) {
+              links[i].parentNode.removeChild(links[i]);
+            }
+          }
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", keepOwnManifest);
+        } else {
+          keepOwnManifest();
+        }
+      })();
+    </script>
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f4f4f2;
+        --surface: #ffffff;
+        --surface-2: #ececea;
+        --ink: #1c1a17;
+        --ink-soft: #57534b;
+        --line: #ddd9d2;
+        --accent: #d9480f;
+        --accent-ink: #ffffff;
+        --accent-soft: #fdeee6;
+        --shadow: 0 10px 30px rgba(28, 26, 23, 0.14);
+        --radius: 14px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #14120f;
+          --surface: #201d19;
+          --surface-2: #2a2621;
+          --ink: #f3efe9;
+          --ink-soft: #b3aa9d;
+          --line: #38332c;
+          --accent: #ff7a33;
+          --accent-ink: #1c1005;
+          --accent-soft: #3a2317;
+          --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+      }
+      * { box-sizing: border-box; }
+      html, body { margin: 0; padding: 0; }
+      body {
+        background: var(--bg);
+        color: var(--ink);
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        line-height: 1.45;
+      }
+      button, a.btn { min-height: 44px; }
+      .wrap {
+        max-width: 640px;
+        margin: 0 auto;
+        padding: 20px 16px 48px;
+      }
+      header { padding: 8px 2px 4px; }
+      h1 {
+        font-size: 1.9rem;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        margin: 0 0 8px;
+        font-weight: 800;
+      }
+      .lede {
+        margin: 0;
+        color: var(--ink-soft);
+        font-size: 1.02rem;
+        max-width: 36ch;
+      }
+      .lede strong { color: var(--ink); }
+
+      /* Big randomizer */
+      .big-random {
+        margin-top: 20px;
+        width: 100%;
+        border: 0;
+        border-radius: 18px;
+        background: var(--accent);
+        color: var(--accent-ink);
+        padding: 18px 20px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-align: left;
+        cursor: pointer;
+        box-shadow: var(--shadow);
+        font: inherit;
+      }
+      .big-random:active { transform: scale(0.985); }
+      .big-random .dice {
+        flex: 0 0 auto;
+        width: 52px; height: 52px;
+        display: grid; place-items: center;
+        background: rgba(255,255,255,0.22);
+        border-radius: 12px;
+      }
+      @media (prefers-color-scheme: dark) {
+        .big-random .dice { background: rgba(0,0,0,0.18); }
+      }
+      .big-random .t1 { display: block; font-size: 1.25rem; font-weight: 800; line-height: 1.15; }
+      .big-random .t2 { display: block; font-size: 0.9rem; opacity: 0.88; margin-top: 2px; }
+      .big-random .arrow { margin-left: auto; flex: 0 0 auto; opacity: 0.9; }
+
+      /* Mode toggle */
+      .mode-row { margin-top: 16px; padding: 0 2px; }
+      .mode-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .mode-label { font-size: 0.92rem; font-weight: 700; }
+      .seg {
+        display: inline-flex;
+        background: var(--surface-2);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 3px;
+        gap: 2px;
+      }
+      .seg-btn {
+        border: 0;
+        background: transparent;
+        color: var(--ink-soft);
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 700;
+        padding: 8px 14px;
+        border-radius: 999px;
+        cursor: pointer;
+        min-height: 40px;
+      }
+      .seg-btn.active {
+        background: var(--accent);
+        color: var(--accent-ink);
+      }
+      .mode-hint { margin: 8px 0 0; font-size: 0.88rem; color: var(--ink-soft); }
+      .sound-row { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 2px 10px; margin-top: 6px; }
+      .sound-btn {
+        display: inline-flex; align-items: center; gap: 7px;
+        background: transparent;
+        border: 0;
+        color: var(--ink-soft);
+        font: inherit; font-size: 0.85rem; font-weight: 600;
+        padding: 8px 6px;
+        border-radius: 8px;
+        cursor: pointer;
+        min-height: 40px;
+      }
+      .sound-btn.off svg { opacity: 0.35; }
+
+      .section-label {
+        margin: 26px 2px 10px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+      }
+
+      /* Category list */
+      .cats { display: grid; gap: 10px; }
+      @media (min-width: 560px) { .cats { grid-template-columns: 1fr 1fr; } }
+      .cat {
+        display: flex;
+        align-items: center;
+        gap: 13px;
+        width: 100%;
+        text-align: left;
+        background: var(--surface);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 13px 14px;
+        cursor: pointer;
+        font: inherit;
+      }
+      .cat:active { transform: scale(0.985); background: var(--surface-2); }
+      .cat:focus-visible, .big-random:focus-visible, .go-btn:focus-visible, .ghost-btn:focus-visible, .seg-btn:focus-visible, .sound-btn:focus-visible, .last-share:focus-visible {
+        outline: 3px solid var(--accent);
+        outline-offset: 2px;
+      }
+      .chip {
+        flex: 0 0 auto;
+        width: 46px; height: 46px;
+        border-radius: 10px;
+        display: grid; place-items: center;
+        color: #fff;
+      }
+      .chip svg { width: 24px; height: 24px; }
+      .cat .name { display: block; font-weight: 700; font-size: 1.02rem; line-height: 1.2; }
+      .cat .sub { display: block; color: var(--ink-soft); font-size: 0.85rem; margin-top: 1px; }
+      .cat .chev { margin-left: auto; color: var(--ink-soft); flex: 0 0 auto; }
+
+      /* Stats + recents */
+      .meta-row {
+        margin-top: 22px;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 2px;
+      }
+      .meta-row .count { font-size: 0.9rem; color: var(--ink-soft); }
+      .meta-row .count b { color: var(--ink); font-size: 1rem; }
+      .recents { margin-top: 10px; display: grid; gap: 8px; }
+      .recent {
+        display: flex; align-items: center; gap: 10px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 10px 12px;
+        text-decoration: none;
+        color: var(--ink);
+        min-height: 44px;
+      }
+      .recent .r-cat { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--accent); flex: 0 0 auto; }
+      .recent .r-title { font-size: 0.92rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .recent svg { margin-left: auto; flex: 0 0 auto; color: var(--ink-soft); }
+      .last-share {
+        display: inline-flex; align-items: center; gap: 7px;
+        background: var(--surface);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        font: inherit; font-size: 0.88rem; font-weight: 700;
+        padding: 8px 14px;
+        cursor: pointer;
+        min-height: 40px;
+        flex: 0 0 auto;
+      }
+      .last-share[hidden] { display: none; }
+      .last-share svg { color: var(--accent); flex: 0 0 auto; }
+      .empty-note { color: var(--ink-soft); font-size: 0.9rem; padding: 0 2px; }
+
+      /* Install / home screen */
+      .install {
+        margin-top: 30px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        padding: 16px 16px 6px;
+      }
+      .install h2 {
+        margin: 0 0 4px;
+        font-size: 1.12rem;
+        font-weight: 800;
+        display: flex; align-items: center; gap: 9px;
+      }
+      .install h2 svg { color: var(--accent); flex: 0 0 auto; }
+      .install .intro { margin: 0 0 6px; color: var(--ink-soft); font-size: 0.94rem; }
+      .install-cols { display: grid; gap: 4px; }
+      @media (min-width: 560px) { .install-cols { grid-template-columns: 1fr 1fr; gap: 16px; } }
+      .install h3 { margin: 12px 0 4px; font-size: 0.95rem; font-weight: 700; }
+      .install ol { margin: 0 0 12px; padding-left: 20px; color: var(--ink-soft); font-size: 0.92rem; }
+      .install ol li { margin-bottom: 3px; }
+      .install ol strong { color: var(--ink); }
+
+      footer {
+        margin-top: 30px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        color: var(--ink-soft);
+        font-size: 0.85rem;
+      }
+      footer a { color: var(--accent); font-weight: 600; text-decoration: none; padding: 6px 0; display: inline-block; }
+
+      /* Toast */
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: calc(18px + env(safe-area-inset-bottom));
+        transform: translate(-50%, 16px);
+        width: max-content;
+        max-width: calc(100% - 32px);
+        background: var(--ink);
+        color: var(--bg);
+        font-size: 0.92rem;
+        font-weight: 600;
+        padding: 11px 16px;
+        border-radius: 999px;
+        box-shadow: var(--shadow);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.18s ease, transform 0.18s ease;
+        z-index: 60;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+      /* Result sheet */
+      .scrim {
+        position: fixed; inset: 0;
+        background: rgba(10, 8, 6, 0.55);
+        opacity: 0; pointer-events: none;
+        transition: opacity 0.18s ease;
+        z-index: 40;
+      }
+      .scrim.open { opacity: 1; pointer-events: auto; }
+      .sheet {
+        position: fixed;
+        left: 50%;
+        bottom: 0;
+        transform: translate(-50%, 105%);
+        transition: transform 0.22s ease;
+        width: min(640px, 100%);
+        background: var(--surface);
+        border-radius: 20px 20px 0 0;
+        box-shadow: var(--shadow);
+        z-index: 50;
+        padding: 10px 20px calc(20px + env(safe-area-inset-bottom));
+      }
+      .sheet.open { transform: translate(-50%, 0); }
+      @media (prefers-reduced-motion: reduce) {
+        .sheet, .scrim, .toast { transition: none; }
+        .big-random:active, .cat:active { transform: none; }
+      }
+      .grab { width: 44px; height: 5px; border-radius: 99px; background: var(--line); margin: 4px auto 14px; }
+      .sheet .kicker {
+        font-size: 0.75rem; font-weight: 800; letter-spacing: 0.09em; text-transform: uppercase;
+        color: var(--accent);
+        display: flex; align-items: center; gap: 8px;
+      }
+      .sheet h2 {
+        margin: 8px 0 6px;
+        font-size: 1.55rem;
+        line-height: 1.15;
+        letter-spacing: -0.01em;
+        min-height: 2.3em;
+        font-weight: 800;
+      }
+      .sheet h2.rolling { opacity: 0.55; }
+      .sheet .blurb { margin: 0 0 4px; color: var(--ink-soft); font-size: 0.98rem; min-height: 1.45em; }
+      .sheet .domain { font-size: 0.82rem; color: var(--ink-soft); margin: 0 0 18px; }
+      .go-btn {
+        display: flex; align-items: center; justify-content: center; gap: 9px;
+        width: 100%;
+        background: var(--accent); color: var(--accent-ink);
+        font-weight: 800; font-size: 1.08rem;
+        border-radius: 12px;
+        padding: 15px 18px;
+        text-decoration: none;
+        min-height: 54px;
+      }
+      .share-row { margin-top: 10px; }
+      .share-row .ghost-btn { width: 100%; }
+      .ghost-btn:disabled { opacity: 0.45; cursor: default; }
+      .sheet-actions { display: flex; gap: 10px; margin-top: 10px; }
+      .ghost-btn {
+        flex: 1;
+        background: var(--surface-2);
+        color: var(--ink);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        font: inherit; font-weight: 700; font-size: 0.98rem;
+        padding: 12px 10px;
+        cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 7px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <h1>Bored? Let&rsquo;s go somewhere.</h1>
+        <p class="lede">One touch, one random place to land &mdash; <strong><span id="linkTotal">&infin;</span> links picked literally at random</strong>. We don&rsquo;t care where you land. You don&rsquo;t know, we don&rsquo;t know &mdash; that&rsquo;s the fun. No feed, no endless scroll. Hit it and you&rsquo;re gone.</p>
+      </header>
+
+      <button class="big-random" id="surpriseBtn" type="button">
+        <span class="dice" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="8.2" cy="8.2" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.8" cy="15.8" r="1.3" fill="currentColor" stroke="none"/><circle cx="15.8" cy="8.2" r="1.3" fill="currentColor" stroke="none"/><circle cx="8.2" cy="15.8" r="1.3" fill="currentColor" stroke="none"/></svg>
+        </span>
+        <span>
+          <span class="t1">Surprise Me</span>
+          <span class="t2">Any category, any link &mdash; total random</span>
+        </span>
+        <span class="arrow" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+        </span>
+      </button>
+
+      <div class="mode-row">
+        <div class="mode-top">
+          <span class="mode-label" id="modeLabel">How a touch lands</span>
+          <div class="seg" role="group" aria-labelledby="modeLabel">
+            <button type="button" class="seg-btn active" id="modeInstant" aria-pressed="true">Instant go</button>
+            <button type="button" class="seg-btn" id="modePreview" aria-pressed="false">Preview first</button>
+          </div>
+        </div>
+        <p class="mode-hint" id="modeHint">Tap a category and the pick opens right away &mdash; no extra tap, no waiting around.</p>
+        <div class="sound-row">
+          <button type="button" class="sound-btn" id="soundBtn" aria-pressed="true">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M18.5 5.5a9.4 9.4 0 0 1 0 13"/></svg>
+            <span id="soundBtnLabel">Dice on</span>
+          </button>
+          <button type="button" class="sound-btn" id="catSoundBtn" aria-pressed="true">
+            <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            <span id="catSoundBtnLabel">Category sound on</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="section-label" id="catsLabel">Pick a category</p>
+      <div class="cats" id="cats" role="group" aria-labelledby="catsLabel"></div>
+
+      <div class="meta-row">
+        <span class="count">Touches this session: <b id="touchCount">0</b></span>
+        <button type="button" class="last-share" id="lastShareBtn" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+          Share last pick
+        </button>
+      </div>
+      <p class="section-label" id="recentLabel" hidden>Your last few touches</p>
+      <div class="recents" id="recents"></div>
+      <p class="empty-note" id="emptyNote">Nothing yet &mdash; tap a category above and see where you land.</p>
+
+      <section class="install" aria-labelledby="installTitle">
+        <h2 id="installTitle">
+          <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="7" y="2" width="10" height="20" rx="2.5"/><path d="M11 18.5h2"/></svg>
+          Put it on your phone like an app
+        </h2>
+        <p class="intro">No app store needed. Add Random Touches to your home screen and it gets its own dice icon and opens full-screen, just like a real app.</p>
+        <div class="install-cols">
+          <div>
+            <h3>iPhone (Safari)</h3>
+            <ol>
+              <li>Open this page in <strong>Safari</strong>.</li>
+              <li>Tap the <strong>Share</strong> button (square with an arrow pointing up).</li>
+              <li>Scroll down and tap <strong>Add to Home Screen</strong>.</li>
+              <li>Check the name reads <strong>Random Touches</strong> and the icon is the orange dice &mdash; if it shows anything else, tap the name and type <strong>Random Touches</strong>.</li>
+              <li>Tap <strong>Add</strong> &mdash; done.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Android (Chrome)</h3>
+            <ol>
+              <li>Open this page in <strong>Chrome</strong>.</li>
+              <li>Tap the <strong>&#8942; menu</strong> in the top corner.</li>
+              <li>Tap <strong>Add to Home screen</strong> (or <strong>Install app</strong>).</li>
+              <li>Tap <strong>Add</strong> &mdash; done.</li>
+            </ol>
+          </div>
+        </div>
+      </section>
+
+      <footer>
+        <p>Random Touches &mdash; created by AJ and Guy. Everything in here is picked literally at random: no plan, no promises, you just never know. One rule: keep it simple, keep it fast.</p>
+        <p><a href="https://github.com/AJinDallas/random-touches" target="_blank" rel="noopener">See the original code on GitHub &rarr;</a></p>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <div class="scrim" id="scrim"></div>
+    <section class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="resultTitle" hidden>
+      <div class="grab" aria-hidden="true"></div>
+      <p class="kicker" id="resultKicker"></p>
+      <h2 id="resultTitle">Rolling&hellip;</h2>
+      <p class="blurb" id="resultBlurb"></p>
+      <p class="domain" id="resultDomain"></p>
+      <a class="go-btn" id="goBtn" href="#" target="_blank" rel="noopener">
+        Take me there
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>
+      </a>
+      <div class="share-row">
+        <button class="ghost-btn" id="shareBtn" type="button">
+          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 15V4"/><path d="m7 8 5-5 5 5"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+          Share this
+        </button>
+      </div>
+      <div class="sheet-actions">
+        <button class="ghost-btn" id="againBtn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg>
+          Another one
+        </button>
+        <button class="ghost-btn" id="closeBtn" type="button">Close</button>
+      </div>
+    </section>
+
+    <script>
+      (function () {
+        "use strict";
+
+        function yt(q) {
+          return "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+        }
+        function item(title, url, blurb) { return { title: title, url: url, blurb: blurb }; }
+
+        var CATEGORIES = [
+          {
+            id: "trailers",
+            name: "Movie Trailers",
+            sub: "New, old, and everything between",
+            color: "#c2255c",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20"/><path d="M7 4v5"/><path d="M17 4v5"/><path d="m10 13 5 3-5 3z" fill="currentColor" stroke="none"/></svg>',
+            links: [
+              item("The Matrix (1999)", yt("The Matrix 1999 official trailer"), "The trailer that made everybody ask what the Matrix is."),
+              item("Back to the Future (1985)", yt("Back to the Future 1985 official trailer"), "Great Scott — the original teaser for a time-travel classic."),
+              item("Jurassic Park (1993)", yt("Jurassic Park 1993 official trailer"), "Life finds a way. Spielberg's dinosaurs, first time on screen."),
+              item("The Dark Knight (2008)", yt("The Dark Knight official trailer"), "Heath Ledger's Joker, introduced to the world."),
+              item("Inception (2010)", yt("Inception official trailer"), "A dream within a trailer within a trailer."),
+              item("Mad Max: Fury Road (2015)", yt("Mad Max Fury Road official trailer"), "Two minutes of pure gasoline and thunder."),
+              item("Spider-Man: Across the Spider-Verse (2023)", yt("Spider-Man Across the Spider-Verse official trailer"), "Every frame looks like a comic book come alive."),
+              item("Dune: Part Two (2024)", yt("Dune Part Two official trailer"), "Sandworms, spice, and a whole lot of desert power."),
+              item("The Princess Bride (1987)", yt("The Princess Bride 1987 trailer"), "Fencing, fighting, torture, revenge — as you wish."),
+              item("Ghostbusters (1984)", yt("Ghostbusters 1984 original trailer"), "Who you gonna call? The one that started it all."),
+              item("Top Gun: Maverick (2022)", yt("Top Gun Maverick official trailer"), "The need for speed, thirty-six years later."),
+              item("Everything Everywhere All at Once (2022)", yt("Everything Everywhere All at Once official trailer"), "Hot dog fingers and a multiverse of chaos.")
+            ]
+          },
+          {
+            id: "music",
+            name: "Music",
+            sub: "A song or performance you forgot you loved",
+            color: "#1971c2",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
+            links: [
+              item("Johnny Cash — “Hurt”", yt("Johnny Cash Hurt official video"), "One old man, one piano, a whole life in four minutes."),
+              item("Queen — “Bohemian Rhapsody”", yt("Queen Bohemian Rhapsody official video"), "The video that basically invented music videos."),
+              item("Nirvana — “Smells Like Teen Spirit”", yt("Nirvana Smells Like Teen Spirit official video"), "The anthem of a generation, pep rally and all."),
+              item("Dolly Parton — “Jolene” (Live)", yt("Dolly Parton Jolene live performance"), "Dolly begging Jolene, live and flawless."),
+              item("Fleetwood Mac — “The Chain” (Live)", yt("Fleetwood Mac The Chain live"), "That bass line hits and the whole room leans in."),
+              item("Aretha Franklin — “Respect”", yt("Aretha Franklin Respect official"), "R-E-S-P-E-C-T from the Queen of Soul herself."),
+              item("Prince — “Purple Rain” (Live)", yt("Prince Purple Rain live performance"), "Guitar solos do not get more legendary than this."),
+              item("David Bowie — “Heroes”", yt("David Bowie Heroes official video"), "We can be heroes, just for one day."),
+              item("The Beatles — “Come Together”", yt("The Beatles Come Together official"), "Shoot me — the Abbey Road opener."),
+              item("Radiohead — “Creep”", yt("Radiohead Creep official video"), "For every outsider who ever felt like a weirdo.")
+            ]
+          },
+          {
+            id: "funny",
+            name: "Funny & Weird",
+            sub: "The wonderfully pointless corners of the web",
+            color: "#e67700",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2.5 4 2.5 4-2.5 4-2.5"/><circle cx="9" cy="9" r="0.6" fill="currentColor"/><circle cx="15" cy="9" r="0.6" fill="currentColor"/></svg>',
+            links: [
+              item("The Useless Web", "https://theuselessweb.com/", "Press the button, land on a wonderfully useless site."),
+              item("Pointer Pointer", "https://pointerpointer.com/", "Wherever your cursor stops, someone points at it."),
+              item("Find the Invisible Cow", "https://findtheinvisiblecow.com/", "Follow the yelling. The cow is close. COW! COW!"),
+              item("Eel Slap", "https://eelslap.com/", "Move your mouse. Slap the man. With an eel."),
+              item("Hacker Typer", "https://hackertyper.net/", "Mash the keyboard, look like a movie hacker."),
+              item("This Is Sand", "https://thisissand.com/", "Pour colored sand into quiet little landscapes."),
+              item("Zoomquilt", "https://zoomquilt.org/", "One painting that zooms forever into the next."),
+              item("Patatap", "https://www.patatap.com/", "Tap keys, make beats and shapes. Instant toy."),
+              item("Cat Bounce", "https://cat-bounce.com/", "Cats. Bouncing. That is the entire website."),
+              item("Koalas to the Max", "https://www.koalastothemax.com/", "Split the circles. Keep going. Trust the process.")
+            ]
+          },
+          {
+            id: "places",
+            name: "Go Somewhere",
+            sub: "Windows, streets, and radio from around the world",
+            color: "#2b8a3e",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>',
+            links: [
+              item("WindowSwap", "https://www.window-swap.com/", "Open a window somewhere else on Earth, live."),
+              item("MapCrunch", "https://www.mapcrunch.com/", "Get dropped on a random street, anywhere on the planet."),
+              item("Radio Garden", "https://radio.garden/", "Spin the globe and listen to live radio from that spot."),
+              item("Google Earth", "https://earth.google.com/web/", "The whole planet, zoomable down to your street."),
+              item("AirPano", "https://www.airpano.com/", "Aerial 360° views of the most beautiful places on Earth."),
+              item("Instant Street View", "https://www.instantstreetview.com/", "Type nothing — just wander streets worldwide."),
+              item("360Cities", "https://www.360cities.net/", "Stand inside panoramas shot all over the world."),
+              item("Stellarium Web", "https://stellarium-web.org/", "A real planetarium in your pocket. Find tonight's stars."),
+              item("Spot the Station — ISS Tracker", "https://spotthestation.nasa.gov/tracking_map.cfm", "NASA's live map of the Space Station passing overhead."),
+              item("Drive & Listen", "https://driveandlisten.com/", "Ride through a random city with its local radio playing.")
+            ]
+          },
+          {
+            id: "learn",
+            name: "Learn Something",
+            sub: "Walk away knowing one new thing",
+            color: "#6741d9",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.8.7 1 1.5 1 2.5h6c0-1 .2-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg>',
+            links: [
+              item("A Random Wikipedia Article", "https://en.wikipedia.org/wiki/Special:Random", "Whatever the encyclopedia throws at you today."),
+              item("NASA Picture of the Day", "https://apod.nasa.gov/apod/astropix.html", "A new corner of the universe, explained by astronomers."),
+              item("A Random xkcd Comic", "https://c.xkcd.com/random/comic/", "Stick figures, deep thoughts, occasional dinosaurs."),
+              item("TED Talks", "https://www.ted.com/talks", "Ideas worth spreading — pick one and press play."),
+              item("Atlas Obscura", "https://www.atlasobscura.com/", "The world's hidden wonders and strangest places."),
+              item("The Kid Should See This", "https://thekidshouldseethis.com/", "Smart, beautiful videos — not just for kids."),
+              item("Wait But Why", "https://waitbutwhy.com/", "Long, funny, stick-figure deep dives into big questions."),
+              item("HowStuffWorks", "https://www.howstuffworks.com/", "How basically everything works, explained plain."),
+              item("Smithsonian Magazine", "https://www.smithsonianmag.com/", "History, science, and stories from the museum's pages."),
+              item("Futility Closet", "https://www.futilitycloset.com/", "Puzzles, curiosities, and forgotten history gems.")
+            ]
+          },
+          {
+            id: "read",
+            name: "Read Something",
+            sub: "Essays, poems, letters, and free classics",
+            color: "#0b7285",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4h6a4 4 0 0 1 4 4v12a3 3 0 0 0-3-3H2z"/><path d="M22 4h-6a4 4 0 0 0-4 4v12a3 3 0 0 1 3-3h7z"/></svg>',
+            links: [
+              item("Project Gutenberg", "https://www.gutenberg.org/", "Over 70,000 free classic books. Pick one, it's yours."),
+              item("Longreads", "https://longreads.com/", "The best long-form stories on the internet, gathered daily."),
+              item("Poem of the Day", "https://www.poetryfoundation.org/poems/poem-of-the-day", "One poem, chosen fresh every day."),
+              item("Letters of Note", "https://lettersofnote.com/", "Fascinating letters written by famous and ordinary people."),
+              item("The Public Domain Review", "https://publicdomainreview.org/", "Strange and wonderful treasures from copyright-free history."),
+              item("Aeon Essays", "https://aeon.co/", "Big ideas about science, philosophy, and being human."),
+              item("McSweeney's", "https://www.mcsweeneys.net/", "Short, sharp, very funny writing."),
+              item("The Onion", "https://www.theonion.com/", "America's finest fake news since 1988."),
+              item("Open Library", "https://openlibrary.org/", "Borrow and browse millions of books, free."),
+              item("Nautilus", "https://nautil.us/", "Science writing with a storyteller's heart.")
+            ]
+          },
+          {
+            id: "play",
+            name: "Play Something",
+            sub: "Quick games — no downloads, no sign-ups",
+            color: "#a61e4d",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 12h4"/><path d="M8 10v4"/><circle cx="15.5" cy="10.5" r="0.6" fill="currentColor"/><circle cx="18" cy="13.5" r="0.6" fill="currentColor"/><path d="M17.3 5.1 21 8.8a3 3 0 0 1 0 4.2l-1.9 1.9a3 3 0 0 1-4.2 0L13 13H8a3 3 0 0 1-2.6-1.2L3 9.2A3 3 0 0 1 3.4 5L5 3.9a3 3 0 0 1 3.3.2L10 5.5h4.1a3 3 0 0 1 3.2-.4z" transform="scale(0.94) translate(0.7,0.7)"/></svg>',
+            links: [
+              item("2048", "https://play2048.co/", "Slide the tiles, chase the impossible 2048 square."),
+              item("Quick, Draw!", "https://quickdraw.withgoogle.com/", "You doodle for 20 seconds; Google's AI guesses what it is."),
+              item("Little Alchemy 2", "https://littlealchemy2.com/", "Mix earth, air, fire, and water into everything else."),
+              item("Tetr.io", "https://tetr.io/", "Modern Tetris in the browser, against the world."),
+              item("Slither.io", "https://slither.io/", "Be a snake. Eat the glow. Don't bump heads."),
+              item("Agar.io", "https://agar.io/", "Be a cell. Eat smaller cells. Avoid bigger ones."),
+              item("Chess vs. the Computer", "https://www.chess.com/play/computer", "A quick game against a bot at your level."),
+              item("Sporcle Quizzes", "https://www.sporcle.com/", "Name every country, every state, every Beatle. Go."),
+              item("skribbl.io", "https://skribbl.io/", "Draw badly, guess worse, laugh with strangers."),
+              item("GeoGuessr", "https://www.geoguessr.com/", "Dropped somewhere on Earth — figure out where.")
+            ]
+          },
+          {
+            id: "make",
+            name: "Make Something",
+            sub: "Draw, compose, and build — right in the browser",
+            color: "#e03131",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/><path d="m15 5 4 4"/></svg>',
+            links: [
+              item("WeaveSilk", "https://weavesilk.com/", "Draw flowing, glowing silk art with your finger or mouse."),
+              item("BeepBox", "https://www.beepbox.co/", "Make a chiptune loop in about thirty seconds."),
+              item("Chrome Music Lab", "https://musiclab.chromeexperiments.com/", "Google's playful lab for making music out of anything."),
+              item("Bomomo", "https://bomomo.com/", "Paint with brushes that move on their own. Happy accidents guaranteed."),
+              item("JS Paint", "https://jspaint.app/", "The classic MS Paint, alive again in your browser."),
+              item("Excalidraw", "https://excalidraw.com/", "Sketch ideas on an endless whiteboard that feels hand-drawn."),
+              item("Piskel", "https://www.piskelapp.com/", "Make your own pixel art and tiny animations."),
+              item("Incredibox", "https://www.incredibox.com/", "Drag beatboxers onto a stage and build a groove.")
+            ]
+          },
+          {
+            id: "past",
+            name: "Blast from the Past",
+            sub: "The old web, preserved and still weird",
+            color: "#b07d2b",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 3"/></svg>',
+            links: [
+              item("The Internet Archive", "https://archive.org/", "Millions of free books, movies, music, and old software."),
+              item("The Wayback Machine", "https://web.archive.org/", "See what any website looked like, years ago."),
+              item("Space Jam — The 1996 Site", "https://www.spacejam.com/1996/", "The original 1996 movie site, still standing in all its glory."),
+              item("My 90s TV", "https://my90stv.com/", "Flip channels on a 90s TV — cartoons, commercials, and all."),
+              item("Cameron's World", "https://www.cameronsworld.net/", "A loving collage of the GeoCities web that was."),
+              item("Winamp Skin Museum", "https://skins.webamp.org/", "Thousands of Winamp skins. It really whips."),
+              item("Textfiles.com", "https://www.textfiles.com/", "Text files from the BBS days, before the web existed."),
+              item("Windows 93", "https://www.windows93.net/", "A joke operating system that never was, packed with toys.")
+            ]
+          },
+          {
+            id: "calm",
+            name: "Slow Down",
+            sub: "Two quiet minutes instead of a noisy feed",
+            color: "#5f3dc4",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21c-4-3.5-8-6.6-8-10.5A4.5 4.5 0 0 1 12 7a4.5 4.5 0 0 1 8 3.5C20 14.4 16 17.5 12 21z" transform="rotate(90 12 12) scale(0.001)"/><path d="M12 22V10"/><path d="M12 10C12 6 9 3 5 3c0 4 3 7 7 7z"/><path d="M12 14c0-4 3-7 7-7 0 4-3 7-7 7z"/></svg>',
+            links: [
+              item("WindowSwap — Quiet Mode", "https://www.window-swap.com/", "Just sit and look out someone else's window for a bit."),
+              item("NASA Picture of the Day", "https://apod.nasa.gov/apod/astropix.html", "The universe is big. Your worries are smaller out here."),
+              item("Stellarium Web", "https://stellarium-web.org/", "Lie back and scroll the night sky instead."),
+              item("This Is Sand", "https://thisissand.com/", "Slow handfuls of colored sand. No score, no rush."),
+              item("Radio Garden — Chilled", "https://radio.garden/", "Find a small-town station on the far side of the world."),
+              item("Poem of the Day", "https://www.poetryfoundation.org/poems/poem-of-the-day", "One short poem. Read it twice. That's the whole task."),
+              item("Zoomquilt", "https://zoomquilt.org/", "Drift slowly into an endless painting."),
+              item("AirPano", "https://www.airpano.com/", "Float over somewhere beautiful, in silence.")
+            ]
+          },
+          {
+            id: "fun-facts",
+            name: "Fun Facts",
+            sub: "Things you will immediately tell somebody else",
+            color: "#d97706",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2v3"/><path d="M12 19v3"/><path d="M2 12h3"/><path d="M19 12h3"/><path d="M4.9 4.9l2.1 2.1"/><path d="M17 17l2.1 2.1"/><path d="M19.1 4.9 17 7"/><path d="M7 17l-2.1 2.1"/></svg>',
+            links: [
+              item("Mental Floss — Amazing Fact Generator", "https://www.mentalfloss.com/amazingfactgenerator", "One tap, one fact nobody asked for but everybody loves."),
+              item("The Fact Site", "https://www.thefactsite.com/", "Hundreds of bite-size facts, from space to sea slugs."),
+              item("Things You Thought Were True (But Aren’t)", "https://en.wikipedia.org/wiki/List_of_common_misconceptions", "Half the stuff everybody swears is true? It isn’t."),
+              item("Fun Facts That Will Blow Your Mind", yt("fun facts that will blow your mind"), "The kind of facts that win trivia night."),
+              item("Octopuses Have Three Hearts", yt("octopus three hearts fun facts"), "Start here, then try to stop watching animal facts."),
+              item("Honey Never Spoils", yt("honey never spoils 3000 year old honey fact"), "3,000-year-old honey was found — and it is still good."),
+              item("Bananas Are (A Little) Radioactive", yt("bananas are radioactive fun fact explained"), "True, harmless, and perfect for ruining a quiet lunch."),
+              item("The Eiffel Tower Grows in Summer", yt("Eiffel Tower taller in summer fun fact"), "Heat makes it taller. Science is showing off again."),
+              item("Wombat Poop Is Cube-Shaped", yt("wombat poop is cube shaped why"), "Yes, really. No, nobody asked for cubes. Nature did it anyway."),
+              item("Your Body Is Wilder Than You Think", yt("amazing human body fun facts"), "DNA, bones, and brain facts that sound made up.")
+            ]
+          },
+          {
+            id: "animals",
+            name: "Animals",
+            sub: "Everybody loves animals — funny, cute, and wild",
+            color: "#16a34a",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="5.5" cy="10.5" r="1.6"/><circle cx="9" cy="6.8" r="1.6"/><circle cx="13.5" cy="6.8" r="1.6"/><circle cx="17.5" cy="10.5" r="1.6"/><path d="M11.3 11.8c-2.9 0-5.6 2.3-5.6 5 0 1.7 1.3 2.8 3 2.5.9-.2 1.7-.4 2.6-.4s1.7.2 2.6.4c1.7.3 3-.8 3-2.5 0-2.7-2.7-5-5.6-5z"/></svg>',
+            links: [
+              item("Funniest Dogs Compilation", yt("funniest dogs compilation try not to laugh"), "Dogs being absolute goofballs for several perfect minutes."),
+              item("Cats Knocking Things Off Tables", yt("cats knocking things off tables compilation"), "Eye contact. Slow paw. Zero remorse."),
+              item("Baby Pandas Being Clumsy", yt("baby pandas being clumsy funny"), "They fall over, roll around, and steal the whole show."),
+              item("Otters Holding Hands", yt("otters holding hands cute video"), "They hold hands so they don’t drift away. Come on."),
+              item("Goats Yelling Like Humans", yt("goats screaming like humans compilation"), "It should not be this funny. It absolutely is."),
+              item("Baby Elephants’ First Steps", yt("baby elephant first steps cute"), "Wobbly legs, big ears, instant smile."),
+              item("Parrots Saying Funny Things", yt("parrots talking funny compilation"), "They heard it, they learned it, they will repeat it at the worst time."),
+              item("BBC Earth — Funny Animal Moments", yt("BBC Earth funny animals moments"), "Nature documentary footage, but make it comedy."),
+              item("Dogs Reacting to Magic Tricks", yt("dogs reacting to magic tricks funny"), "The treat vanished and their faces say everything."),
+              item("Corgi Sploot Compilation", yt("corgi sploot compilation cute dogs"), "Back legs out, belly down — the official corgi power pose.")
+            ]
+          },
+          {
+            id: "food",
+            name: "Food",
+            sub: "Food is entertainment — big, weird, and delicious",
+            color: "#ea580c",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 19c4.5-1.8 11.5-1.8 16 0L12 3z"/><circle cx="12" cy="10" r="1.3" fill="currentColor" stroke="none"/><circle cx="10.2" cy="14.8" r="1.1" fill="currentColor" stroke="none"/><circle cx="14.5" cy="15.5" r="1" fill="currentColor" stroke="none"/></svg>',
+            links: [
+              item("Hot Ones — Celebrities vs. Hot Wings", yt("Hot Ones celebrity interview hot wings funniest"), "Famous people, hotter wings, worse decisions by the minute."),
+              item("Epic Meal Time", yt("Epic Meal Time biggest meals ever"), "Regular food, taken to a completely unreasonable size."),
+              item("World’s Biggest Foods", yt("world largest pizza biggest food ever made"), "The biggest pizza, the biggest burger — everything supersized."),
+              item("Street Food Around the World", yt("best street food around the world tour"), "Night markets, sizzling grills, and food you can almost smell."),
+              item("Gordon Ramsay’s Funniest Moments", yt("Gordon Ramsay funniest moments"), "It’s raw! The shouting, the insults, the comedy gold."),
+              item("Kids Trying Weird Foods", yt("kids try weird foods from around the world funny reactions"), "First bite faces that say it all before they say a word."),
+              item("Oddly Satisfying Cake Videos", yt("most satisfying cake decorating videos"), "Smooth frosting, perfect slices, weirdly relaxing to watch."),
+              item("Japan’s Wild Vending Machine Food", yt("Japan vending machine food tour funny"), "Hot meals, mystery cans, and machines that sell everything."),
+              item("TasteAtlas — Every Famous Dish, Mapped", "https://www.tasteatlas.com/", "Where every famous dish comes from, and what to try next."),
+              item("Weird Food Combos That Actually Work", yt("weird food combinations that actually taste good"), "Pickles and ice cream? Somebody swears by it — watch them prove it.")
+            ]
+          },
+          {
+            id: "jokes",
+            name: "Jokes",
+            sub: "Dad jokes, stand-up, and try-not-to-laugh gold",
+            color: "#9333ea",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="11" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 19v3"/></svg>',
+            links: [
+              item("I Can Haz Dad Joke", "https://icanhazdadjoke.com/", "One dad joke per tap. Groaning is mandatory."),
+              item("Reader’s Digest Jokes", "https://www.rd.com/jokes/", "Clean classics, one-liners, and jokes that have lasted decades."),
+              item("Dad Joke Battle", yt("dad joke battle try not to laugh"), "Two people, terrible puns, first one to laugh loses."),
+              item("Best Stand-Up One-Liners", yt("best stand up comedy one liners"), "Setup, punchline, next — rapid-fire funny."),
+              item("Clean Stand-Up That Actually Lands", yt("clean stand up comedy funny full set"), "No cringe, just a comic on a roll."),
+              item("Worst Puns Ever Told", yt("worst puns ever compilation funny"), "So bad they loop right back around to brilliant."),
+              item("Kids Telling Jokes", yt("kids telling jokes funny cute"), "Half the joke is them laughing before the punchline."),
+              item("Try Not To Laugh — Joke Edition", yt("try not to laugh jokes challenge"), "You will fail. Everybody fails. That’s the point."),
+              item("Funniest Knock-Knock Jokes", yt("funniest knock knock jokes compilation"), "Knock knock. Who’s there? A surprisingly good time."),
+              item("Funny Hashtag Wars", yt("Tonight Show hashtags funny answers jokes"), "Regular people out-funnying the professionals.")
+            ]
+          },
+          {
+            id: "world-records",
+            name: "World Records",
+            sub: "The funniest, weirdest records humans ever set",
+            color: "#0891b2",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10v5a5 5 0 0 1-10 0V4z"/><path d="M7 5H4.5A1.5 1.5 0 0 0 3 6.5C3 8.4 4.6 10 7 10"/><path d="M17 5h2.5A1.5 1.5 0 0 1 21 6.5C21 8.4 19.4 10 17 10"/><path d="M12 14v3"/><path d="M8.5 21h7"/><path d="M12 17c-1 0-1.5 1-1.5 4h3c0-3-.5-4-1.5-4z"/></svg>',
+            links: [
+              item("Guinness World Records", "https://www.guinnessworldrecords.com/", "The official home of the biggest, fastest, and strangest bests."),
+              item("Funniest World Records Ever", yt("funniest world records ever Guinness World Records"), "Records nobody needed — set with total commitment."),
+              item("Most People Dressed as Smurfs", yt("most people dressed as Smurfs world record"), "Hundreds of blue people in one place, for the record books."),
+              item("Longest Fingernails in the World", yt("longest fingernails in the world Guinness World Records"), "Years in the making. You have to see them to believe them."),
+              item("Fastest Time to Eat a Pizza", yt("fastest time to eat a pizza world record"), "Blink and the pizza is already gone."),
+              item("Largest Rubber Duck Collection", yt("largest rubber duck collection world record"), "Thousands of ducks. One very dedicated collector."),
+              item("Most Socks on One Foot in 30 Seconds", yt("most socks put on one foot in 30 seconds world record"), "A real record. A real race. A very full foot."),
+              item("Tallest Dog in the World", yt("tallest dog in the world Guinness World Records"), "Standing up, this good boy is taller than most people."),
+              item("Weirdest Record Attempts", yt("weirdest Guinness World Records attempts funny"), "Balancing, bouncing, and breaking records you never imagined."),
+              item("Funny Record Breakers", yt("funny world record attempts wins and fails"), "Some break the record. Some break everything else first.")
+            ]
+          },
+          {
+            id: "funny-faces",
+            name: "Funny Faces",
+            sub: "Just a whole bunch of funny faces — tap and laugh",
+            color: "#db2777",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M7.5 14.5h9"/><path d="M10 14.5v2.2a2 2 0 0 0 4 0v-2.2"/><path d="M6.8 9.2c.6-.8 1.6-.8 2.2 0"/><circle cx="15.5" cy="9.5" r="0.7" fill="currentColor" stroke="none"/></svg>',
+            links: [
+              item("People Making Funny Faces", yt("people making funny faces compilation try not to laugh"), "Cross-eyed, tongue out, full goofy — you never know whose face is next."),
+              item("Babies Making Funny Faces", yt("babies making funny faces compilation"), "New humans, brand-new expressions, every one a masterpiece."),
+              item("Dogs Pulling Funny Faces", yt("dogs making funny faces compilation"), "Caught mid-sneeze, mid-bark, mid-derp."),
+              item("Cats With the Funniest Faces", yt("cats funny faces expressions compilation"), "Judging you, surprised by you, and asleep with their eyes open."),
+              item("The Funny Face Challenge", yt("funny face challenge try not to laugh"), "Hold a straight face while everybody else loses it. Good luck."),
+              item("Celebrities Caught Making Funny Faces", yt("celebrities making funny faces caught on camera"), "Red carpet one second, meme face the next."),
+              item("Kids’ Funny Faces in Slow Motion", yt("kids funny faces slow motion compilation"), "Every wobble and scrunch, stretched out for maximum funny."),
+              item("Funny Face Filter Fails", yt("funny face filter fails compilation"), "Warped, stretched, and swapped — filters gone completely wrong."),
+              item("Animals That Look Like They’re Judging You", yt("animals making human faces funny expressions"), "That owl has opinions and the face to prove it."),
+              item("Ultimate Funny Faces Compilation", yt("ultimate funny faces compilation funny people"), "Back-to-back faces. Try to make it through without cracking up.")
+            ]
+          },
+          {
+            id: "babies",
+            name: "Babies",
+            sub: "Laughing, dancing, first tastes — pure joy",
+            color: "#0284c7",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="8"/><path d="M12 5a2.2 2.2 0 0 1 2.2-2.2c.6 0 1 .2 1.3.5"/><circle cx="9.3" cy="12.5" r="0.7" fill="currentColor" stroke="none"/><circle cx="14.7" cy="12.5" r="0.7" fill="currentColor" stroke="none"/><path d="M9 16c.8 1 1.8 1.5 3 1.5s2.2-.5 3-1.5"/></svg>',
+            links: [
+              item("Babies Laughing Hysterically", yt("babies laughing hysterically compilation"), "Contagious doesn’t even cover it. You will laugh too."),
+              item("Baby Tastes Lemon for the First Time", yt("baby tasting lemon first time funny reaction"), "The face. The shudder. The immediate regret."),
+              item("Twin Babies Talking to Each Other", yt("twin babies talking to each other viral video"), "A full conversation in a language only they understand."),
+              item("Babies Dancing to Music", yt("babies dancing to music funny cute compilation"), "The beat drops and the diaper dance begins."),
+              item("Babies Meeting Pets for the First Time", yt("babies meeting dogs and cats first time cute"), "Big eyes, gentle paws, instant best friends."),
+              item("Baby’s First Words on Camera", yt("baby first words caught on camera cute moments"), "Mama, dada, and a few surprise words nobody expected."),
+              item("Babies With the Funniest Reactions", yt("babies funny reactions hiccups sneezes compilation"), "Hiccups, sneezes, and shadows — everything is brand new and hilarious."),
+              item("Babies Playing Peekaboo", yt("babies playing peekaboo laughing compilation"), "Gone! Back! Funniest trick in the world, every single time."),
+              item("Babies Fighting Sleep", yt("babies fighting sleep funny cute"), "Eyelids losing the battle in the cutest way possible."),
+              item("Funniest Baby Videos of All Time", yt("funniest baby videos of all time compilation"), "The greatest hits — giggles, tumbles, and pure baby chaos.")
+            ]
+          },
+          {
+            id: "dont-tell-dad",
+            name: "Don’t Tell Dad",
+            sub: "He still thinks it was the dog — anonymous, always",
+            color: "#44403c",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="9" cy="9.5" r="0.7" fill="currentColor" stroke="none"/><circle cx="15" cy="9.5" r="0.7" fill="currentColor" stroke="none"/><path d="M12 12.5v5"/></svg>',
+            links: [
+              item("Dad Still Thinks It Was the Dog", yt("dad still thinks it was the dog confession funny stories"), "Twenty years later, the dog is still in trouble for it. The real culprit finally confessed — anonymously, of course."),
+              item("The Dent in Dad’s Car", yt("hid dent in dads car confession story"), "Parked it at an angle for six months so he would never see it. He never did."),
+              item("Things I’ll Never Tell My Dad", yt("things I will never tell my dad confessions reddit stories"), "Jaw-dropping, anonymous, and staying that way forever."),
+              item("What Dad Never Found Out", yt("AskReddit what did your dad never find out about confessions"), "Thousands of grown adults finally telling the truth — just not to him."),
+              item("Dad’s “Missing” Tools Mystery", yt("borrowed dads tools broke them confession funny"), "Borrowed without asking, broke them, buried the evidence. A classic."),
+              item("The Party While Dad Was Away", yt("threw party while parents were away dad never knew confession"), "The house looked perfect by morning. Almost perfect."),
+              item("Sons Confess to Dad, Years Later", yt("sons confess secrets to dad years later reaction"), "The reveal, decades late — and dad’s face says everything."),
+              item("Dad’s Card, One “Small” Purchase", yt("used dads credit card without asking confession story"), "It started small. It did not stay small."),
+              item("I Broke It and Blamed My Brother", yt("broke it and blamed my brother confession funny stories"), "Brother took the punishment. The guilt took twenty years to confess."),
+              item("r/confession — Pray Dad Never Reads This", "https://www.reddit.com/r/confession/", "Real anonymous confessions from people praying dad never discovers Reddit.")
+            ]
+          },
+          {
+            id: "dont-tell-mom",
+            name: "Don’t Tell Mom",
+            sub: "She knows something’s up — she just doesn’t know what",
+            color: "#9f1239",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="9" cy="9.5" r="0.7" fill="currentColor" stroke="none"/><circle cx="15" cy="9.5" r="0.7" fill="currentColor" stroke="none"/><path d="M8 15.5h8"/><path d="M9.7 15.5v-1.6"/><path d="M12 15.5v-1.6"/><path d="M14.3 15.5v-1.6"/></svg>',
+            links: [
+              item("Mom Still Believes That Story", yt("mom still believes my lie confession funny stories"), "She retells it at family dinners. Nobody has the heart — or the nerve — to correct her."),
+              item("The Vase Mom Loved", yt("broke moms favorite vase hid it confession story"), "Glued, turned to the wall, and never spoken of again. Until this anonymous confession."),
+              item("Things I’ll Never Tell My Mom", yt("things I will never tell my mom confessions reddit stories"), "You cringe, you laugh, you think “she would kill me” — and you keep reading."),
+              item("What Mom Never Found Out", yt("AskReddit what did your mom never find out about confessions"), "The internet’s grown kids, finally honest — at a safe, anonymous distance."),
+              item("Snuck Out. Mom Never Knew.", yt("snuck out of house mom never knew confession stories"), "Out the window, back before dawn, heart pounding the whole way."),
+              item("The Report Card I Hid From Mom", yt("hid bad report card from mom confession funny"), "Signed it myself. Badly. She framed the “improved” one."),
+              item("I Ruined Mom’s Recipe and Replaced It", yt("ruined family recipe replaced it confession funny story"), "Swapped in a store-bought version and took the compliment. The guilt is forever."),
+              item("Moms Confess Too", yt("moms confess secrets they kept from their kids funny"), "Plot twist: mom has a whole list of things she never told you either."),
+              item("Ate the Last Piece. Denied It for Years.", yt("ate the last piece denied it confession funny family stories"), "A household mystery, unsolved for a decade, solved here anonymously."),
+              item("r/TrueOffMyChest — Mom Edition", "https://www.reddit.com/r/TrueOffMyChest/", "People getting the thing they could never say at home off their chest — nameless, faceless, honest.")
+            ]
+          },
+          {
+            id: "dark-confessions",
+            name: "Confessions",
+            sub: "Anonymous, messed up, can’t look away — you still go in",
+            color: "#18181b",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13.6A8.5 8.5 0 1 1 10.4 4a6.9 6.9 0 0 0 9.6 9.6z"/></svg>',
+            links: [
+              item("r/confession — The Real Thing", "https://www.reddit.com/r/confession/", "The original anonymous confession box of the internet. Nobody signs their name. For good reason."),
+              item("Dark Confessions People Posted at 3 A.M.", yt("darkest confessions reddit stories anonymous"), "The posts people type in the middle of the night and hope nobody they know ever finds."),
+              item("“I Did Something I Can Never Undo”", yt("anonymous dark confessions I can never tell anyone stories"), "Heavy, real, and told by somebody you will never be able to name."),
+              item("Secrets People Will Take to the Grave", yt("secrets people will take to the grave AskReddit confessions"), "Asked anonymously, answered honestly — the thread you cringe at and cannot stop reading."),
+              item("Confessions That Make You Cringe", yt("cringe confessions people regret anonymous stories"), "Secondhand embarrassment so strong you feel it in your teeth. You still click the next one."),
+              item("Anonymous Confessions, Read Aloud", yt("anonymous confession stories read aloud dark confessions"), "Strangers’ worst stories, read out loud. Somebody really did that."),
+              item("r/TrueOffMyChest", "https://www.reddit.com/r/TrueOffMyChest/", "No advice wanted, no judgment asked for — just the truth, finally out."),
+              item("The Darkest Confessions on the Internet", yt("darkest anonymous confessions on the internet history"), "Years of nameless confessions, and the worst ones still float to the top."),
+              item("r/offmychest — Just Had to Say It", "https://www.reddit.com/r/offmychest/", "The place people go when keeping it in is worse than saying it out loud."),
+              item("Somebody Really Did That?!", yt("most shocking anonymous confessions ever told stories"), "Every single one ends the same way: holy — somebody really did that.")
+            ]
+          },
+          {
+            id: "ask-guy",
+            name: "Ask Guy anything",
+            sub: "Tap it, get Muse, ask it anything — code EK4AOI",
+            color: "#0f766e",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8z"/><path d="M9.8 9.3a2.3 2.3 0 1 1 3.2 2.1c-.7.3-1 .8-1 1.7"/><circle cx="12" cy="16.4" r="0.6" fill="currentColor" stroke="none"/></svg>',
+            links: [
+              item("Get Muse — ask it anything", "https://muse.ai/join", "Tap it, get Muse — your own AI — and ask it anything. Redeem code EK4AOI in Settings within 48 hours of joining and you both get 1 billion Muse tokens.")
+            ]
+          },
+          {
+            id: "live",
+            name: "Live",
+            sub: "Live feeds from around the world, right now",
+            color: "#dc2626",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1.8" fill="currentColor" stroke="none"/><path d="M7.5 7.5a6.4 6.4 0 0 0 0 9"/><path d="M16.5 7.5a6.4 6.4 0 0 1 0 9"/><path d="M4.8 4.8a10.2 10.2 0 0 0 0 14.4"/><path d="M19.2 4.8a10.2 10.2 0 0 1 0 14.4"/></svg>',
+            links: [
+              item("Times Square Live (EarthCam)", "https://www.earthcam.com/usa/newyork/timessquare/?cam=tsstreet", "Times Square, right now — the lights, the crowds, the crosswalks, live."),
+              item("Earth from the Space Station (NASA ISS live)", "https://www.youtube.com/watch?v=awQzjn72bI0", "Look down at Earth from the Space Station as it rolls by underneath, live."),
+              item("Monterey Bay Aquarium Live Cams", "https://www.montereybayaquarium.org/cams-videos/live-cams", "Sharks, sea otters, penguins, and jellies — live from Monterey Bay."),
+              item("Africam Live Safari", "https://africam.com/wildlife/live-african-wildlife-safari-streams", "A watering hole in Africa, live — you never know what walks up next."),
+              item("Smithsonian Panda Cam", "https://nationalzoo.si.edu/webcams", "The giant pandas at the Smithsonian's National Zoo, live."),
+              item("Northern Lights Live, Churchill (explore.org)", "https://explore.org/livecams/aurora-borealis-northern-lights/northern-lights-cam", "The aurora over Churchill, Manitoba — watch the sky dance, live."),
+              item("Shibuya Scramble Crossing Live, Tokyo", "https://www.youtube.com/watch?v=dfVK7ld38Ys", "The world's busiest crossing in Tokyo, live — thousands crossing at once."),
+              item("Iceland Volcano Live, Grindavík", "https://www.youtube.com/watch?v=R98Zzr-H2FA", "A live look at Iceland's volcanic country near Grindavík."),
+              item("NASA Live", "https://www.nasa.gov/live/", "NASA's own live channel — launches, spacewalks, and missions as they happen."),
+              item("Waikiki Beach Live (EarthCam)", "https://www.earthcam.com/usa/hawaii/waikiki/beach/", "Waikiki Beach in Hawaii, live — surf, sand, and sunset whenever you land.")
+            ]
+          },
+          {
+            id: "scare",
+            name: "Scare",
+            sub: "Spooky stories, creepy legends, jump scares — fun scary, not gory",
+            color: "#7c3aed",
+            icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 10h.01"/><path d="M15 10h.01"/><path d="M12 2a8 8 0 0 0-8 8v12l3-3 2.5 2.5L12 19l2.5 2.5L17 19l3 3V10a8 8 0 0 0-8-8z"/></svg>',
+            links: [
+              item("Creepypasta — Best Scary Stories", "https://www.creepypasta.com/category/creepypasta-stories/", "The internet's classic scary-story vault, ranked by readers."),
+              item("Ghost Stories", "https://www.creepypasta.com/category/creepypasta-stories/ghosts-and-spirits/", "Ghosts, hauntings, footsteps on the stairs after lights-out."),
+              item("Best NoSleep Stories", "https://rehnwriter.com/books-and-media/nosleep/nosleep-stories/", "The best scary stories from Reddit's NoSleep, curated in one list."),
+              item("Best NoSleep Series", "https://rehnwriter.com/books-and-media/nosleep/nosleep-series/", "Long-form NoSleep series to fall down a rabbit hole with."),
+              item("85 Best Creepypastas", "https://rehnwriter.com/books-and-media/creepypasta/best-creepypasta/", "From Candle Cove to the Backrooms — the creepypasta hall of fame."),
+              item("SCP Foundation — Start Here", "https://scp-wiki.wikidot.com/guide-for-newcomers", "A secret organization that locks up the weird stuff. Secure. Contain. Protect."),
+              item("The Backrooms", "https://en.wikipedia.org/wiki/The_Backrooms", "An endless maze of empty yellow rooms. Don't noclip out of reality."),
+              item("Scary Maze Game", "https://zapgames.io/scary-maze", "Guide the dot through the maze. Don't touch the walls. You know what's coming."),
+              item("NoSleep Horror Stories — Read Aloud", "https://www.youtube.com/watch?v=pAdVAQ6qu74", "Two hours of NoSleep stories read aloud. Lights off, volume up."),
+              item("Scare Cam Pranks", "https://www.youtube.com/watch?v=Fmw9LRAVJns", "Jump-scare pranks and the priceless reactions — funny-scary.")
+            ]
+          }
+        ];
+
+        var catsEl = document.getElementById("cats");
+        var sheet = document.getElementById("sheet");
+        var scrim = document.getElementById("scrim");
+        var kickerEl = document.getElementById("resultKicker");
+        var titleEl = document.getElementById("resultTitle");
+        var blurbEl = document.getElementById("resultBlurb");
+        var domainEl = document.getElementById("resultDomain");
+        var goBtn = document.getElementById("goBtn");
+        var againBtn = document.getElementById("againBtn");
+        var closeBtn = document.getElementById("closeBtn");
+        var shareBtn = document.getElementById("shareBtn");
+        var lastShareBtn = document.getElementById("lastShareBtn");
+        var countEl = document.getElementById("touchCount");
+        var recentsEl = document.getElementById("recents");
+        var recentLabel = document.getElementById("recentLabel");
+        var emptyNote = document.getElementById("emptyNote");
+        var toastEl = document.getElementById("toast");
+        var modeInstantBtn = document.getElementById("modeInstant");
+        var modePreviewBtn = document.getElementById("modePreview");
+        var modeHint = document.getElementById("modeHint");
+
+        var touches = 0;
+        var recents = [];
+        var currentCat = null;
+        var currentItem = null;
+        // True while the sheet is showing Surprise Me picks: their
+        // "Another one" re-rolls pool every category, not just the
+        // category the last pick happened to land in.
+        var currentFromSurprise = false;
+        var lastPickByCat = {};
+        var rollTimer = null;
+        var toastTimer = null;
+        var instantMode = true;
+        var reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        // Dice-roll sound: a tiny synthesized clatter — a few short noise
+        // "clacks" that bunch up as the dice settle, plus a soft final
+        // thud. No audio file needed. The context is created lazily on
+        // the first tap, because browsers only allow audio after a user
+        // gesture — and every tap that plays it IS that gesture.
+        var soundOn = true;
+        var catSoundOn = true;
+        var audioCtx = null;
+        var noiseBuf = null;
+
+        function getAudioCtx() {
+          if (!audioCtx) {
+            var AC = window.AudioContext || window.webkitAudioContext;
+            if (!AC) return null;
+            try { audioCtx = new AC(); } catch (e) { return null; }
+          }
+          if (audioCtx.state === "suspended") { audioCtx.resume(); }
+          return audioCtx;
+        }
+
+        function diceClack(when, freq, peak) {
+          var src = audioCtx.createBufferSource();
+          src.buffer = noiseBuf;
+          var filter = audioCtx.createBiquadFilter();
+          filter.type = "bandpass";
+          filter.frequency.value = freq;
+          filter.Q.value = 1.1;
+          var g = audioCtx.createGain();
+          g.gain.setValueAtTime(peak, when);
+          g.gain.exponentialRampToValueAtTime(0.001, when + 0.045);
+          src.connect(filter);
+          filter.connect(g);
+          g.connect(audioCtx.destination);
+          src.start(when);
+          src.stop(when + 0.06);
+        }
+
+        function ensureNoiseBuf() {
+          if (noiseBuf || !audioCtx) return;
+          noiseBuf = audioCtx.createBuffer(1, Math.floor(audioCtx.sampleRate * 0.1), audioCtx.sampleRate);
+          var data = noiseBuf.getChannelData(0);
+          for (var i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+        }
+
+        function playDiceRoll() {
+          if (!soundOn) return;
+          var ctx = getAudioCtx();
+          if (!ctx) return;
+          ensureNoiseBuf();
+          var t = ctx.currentTime + 0.01;
+          var hits = [0, 0.08, 0.19, 0.33, 0.5];
+          for (var i = 0; i < hits.length; i++) {
+            diceClack(t + hits[i] + Math.random() * 0.02, 1600 + Math.random() * 1600, 0.1 + Math.random() * 0.06);
+          }
+          // Soft thud as the dice come to rest.
+          var osc = ctx.createOscillator();
+          osc.type = "sine";
+          osc.frequency.setValueAtTime(170, t + 0.52);
+          osc.frequency.exponentialRampToValueAtTime(70, t + 0.62);
+          var og = ctx.createGain();
+          og.gain.setValueAtTime(0.12, t + 0.52);
+          og.gain.exponentialRampToValueAtTime(0.001, t + 0.63);
+          osc.connect(og);
+          og.connect(ctx.destination);
+          osc.start(t + 0.52);
+          osc.stop(t + 0.64);
+        }
+
+        // Category sounds: a tiny synthesized one-shot when a category
+        // button is tapped — and that is the ONLY sound on a category
+        // tap. The dice roll plays only when a pick is actually rolled:
+        // the Surprise Me button, or the "Another one" re-roll button.
+        // Same Web Audio approach as the dice — no audio files. Every
+        // sound is well under a second. Most categories below get
+        // several variants and one is picked at random on each tap, so
+        // it never sounds the same twice. Categories not listed here
+        // get no category sound — tapping them plays just the dice
+        // roll, like before. The two toggles are independent: the Dice
+        // toggle gates only playDiceRoll, and the Category sound
+        // toggle gates only these sounds.
+        // All category sounds play through one shared bus with a
+        // gentle compressor, and every variant's level is set in the
+        // same neighborhood (main peaks around 0.12-0.18), so no
+        // category is whisper-quiet and none jumps out painfully
+        // louder than the rest. The dice roll keeps its own path.
+        var catBus = null;
+        function catOut() {
+          if (!catBus) {
+            var comp = audioCtx.createDynamicsCompressor();
+            comp.threshold.value = -16;
+            comp.knee.value = 18;
+            comp.ratio.value = 5;
+            comp.attack.value = 0.003;
+            comp.release.value = 0.18;
+            catBus = audioCtx.createGain();
+            catBus.gain.value = 1;
+            catBus.connect(comp);
+            comp.connect(audioCtx.destination);
+          }
+          return catBus;
+        }
+
+        function tone(when, type, f0, f1, dur, peak, vibRate, vibDepth) {
+          var o = audioCtx.createOscillator();
+          o.type = type;
+          o.frequency.setValueAtTime(f0, when);
+          if (f1 !== f0) o.frequency.exponentialRampToValueAtTime(Math.max(20, f1), when + dur);
+          var g = audioCtx.createGain();
+          g.gain.setValueAtTime(0.0001, when);
+          g.gain.exponentialRampToValueAtTime(peak, when + 0.015);
+          g.gain.exponentialRampToValueAtTime(0.001, when + dur);
+          o.connect(g);
+          g.connect(catOut());
+          if (vibRate) {
+            var lfo = audioCtx.createOscillator();
+            lfo.frequency.value = vibRate;
+            var lg = audioCtx.createGain();
+            lg.gain.value = vibDepth || 25;
+            lfo.connect(lg);
+            lg.connect(o.frequency);
+            lfo.start(when);
+            lfo.stop(when + dur + 0.02);
+          }
+          o.start(when);
+          o.stop(when + dur + 0.02);
+        }
+
+        function snapBurst(when, freq, peak, dur) {
+          var src = audioCtx.createBufferSource();
+          src.buffer = noiseBuf;
+          var filter = audioCtx.createBiquadFilter();
+          filter.type = "bandpass";
+          filter.frequency.value = freq;
+          filter.Q.value = 6;
+          var g = audioCtx.createGain();
+          g.gain.setValueAtTime(peak, when);
+          g.gain.exponentialRampToValueAtTime(0.001, when + dur);
+          src.connect(filter);
+          filter.connect(g);
+          g.connect(catOut());
+          src.start(when);
+          src.stop(when + dur + 0.01);
+        }
+
+        // A filtered noise swell — scrapes, sizzles, whirs, bubbling.
+        function noiseSwell(when, type, f0, f1, peak, dur) {
+          var src = audioCtx.createBufferSource();
+          src.buffer = noiseBuf;
+          src.loop = true;
+          var filter = audioCtx.createBiquadFilter();
+          filter.type = type;
+          filter.frequency.setValueAtTime(f0, when);
+          if (f1 !== f0) filter.frequency.exponentialRampToValueAtTime(Math.max(30, f1), when + dur);
+          var g = audioCtx.createGain();
+          g.gain.setValueAtTime(0.0001, when);
+          g.gain.exponentialRampToValueAtTime(peak, when + 0.03);
+          g.gain.exponentialRampToValueAtTime(0.001, when + dur);
+          src.connect(filter);
+          filter.connect(g);
+          g.connect(catOut());
+          src.start(when);
+          src.stop(when + dur + 0.05);
+        }
+
+        // Animals gets a different critter every tap — guess what it was.
+        // Plenty of dolphins in the mix: click trains, whistles,
+        // burst-pulses, and squeaks, all synthesized (no audio files).
+        var ANIMAL_SOUNDS = [
+          function birdChirp(t) {
+            tone(t, "sine", 2300, 3100, 0.07, 0.14);
+            tone(t + 0.1, "sine", 2500, 3350, 0.07, 0.14);
+            tone(t + 0.2, "sine", 2200, 3000, 0.09, 0.14);
+          },
+          function dolphinClicks(t) {
+            for (var i = 0; i < 6; i++) snapBurst(t + i * 0.04, 5600, 0.17, 0.02);
+          },
+          function dolphinClickTrain(t) {
+            for (var i = 0; i < 8; i++) snapBurst(t + i * 0.032, 5000 + Math.random() * 1400, 0.17, 0.016);
+          },
+          function dolphinWhistle(t) {
+            tone(t, "sine", 6200, 9400, 0.22, 0.12, 30, 260);
+            tone(t + 0.22, "sine", 9400, 6800, 0.18, 0.12, 30, 260);
+          },
+          function dolphinWhistleDown(t) {
+            tone(t, "sine", 9800, 5400, 0.35, 0.12, 26, 300);
+          },
+          function dolphinBurstPulse(t) {
+            for (var i = 0; i < 9; i++) snapBurst(t + i * 0.045, 2900, 0.17, 0.03);
+            tone(t, "sawtooth", 210, 140, 0.42, 0.07);
+          },
+          function dolphinSqueaks(t) {
+            tone(t, "sine", 4800, 7600, 0.08, 0.12, 24, 200);
+            tone(t + 0.11, "sine", 5400, 8200, 0.08, 0.12, 24, 200);
+            tone(t + 0.22, "sine", 4400, 7000, 0.11, 0.12, 24, 200);
+          },
+          function dolphinClicksAndWhistle(t) {
+            for (var i = 0; i < 5; i++) snapBurst(t + i * 0.04, 5600, 0.16, 0.018);
+            tone(t + 0.24, "sine", 7000, 10200, 0.2, 0.12, 28, 240);
+          },
+          function lowRoar(t) {
+            tone(t, "sawtooth", 115, 65, 0.5, 0.16, 11, 14);
+            tone(t, "square", 57, 40, 0.5, 0.08);
+          },
+          function wolfHowl(t) {
+            tone(t, "sine", 520, 880, 0.28, 0.15, 6, 12);
+            tone(t + 0.28, "sine", 880, 460, 0.3, 0.15, 6, 12);
+          },
+          function catMeow(t) {
+            tone(t, "sawtooth", 780, 1150, 0.14, 0.12, 9, 28);
+            tone(t + 0.14, "sawtooth", 1150, 600, 0.22, 0.12, 9, 28);
+          },
+          function frogCroak(t) {
+            tone(t, "square", 140, 90, 0.12, 0.13, 22, 18);
+            tone(t + 0.17, "square", 130, 85, 0.15, 0.13, 22, 18);
+          },
+          function owlHoot(t) {
+            tone(t, "sine", 420, 380, 0.16, 0.14);
+            tone(t + 0.24, "sine", 400, 340, 0.26, 0.14);
+          },
+          function monkeyChatter(t) {
+            for (var i = 0; i < 5; i++) {
+              var f = 1300 + Math.random() * 500;
+              tone(t + i * 0.09, "sawtooth", f, f * 0.6, 0.07, 0.1, 14, 60);
+            }
+          }
+        ];
+
+        // A laugh, parameterized: base pitch, spacing between "ha"s,
+        // how many, and how loud — different settings, different people.
+        function laugh(t, base, step, count, peak) {
+          for (var i = 0; i < count; i++) {
+            tone(t + i * step, "sawtooth", base + Math.random() * 40, base * 0.55, step * 0.82, peak, 9, base * 0.05);
+          }
+        }
+
+        // Each category maps to a list of variants; one is picked at
+        // random per tap. Don't Tell Mom is handled separately in
+        // playCatSound — it's a spoken line, not a synthesized tone.
+        var CAT_SOUNDS = {
+          scare: [
+            function scream(t) {
+              // A tiny scream: a descending tone with fast vibrato.
+              tone(t, "sawtooth", 1150, 380, 0.45, 0.15, 28, 70);
+              tone(t, "sawtooth", 1725, 570, 0.45, 0.05, 28, 90);
+            },
+            function boo(t) {
+              // A ghostly "booo": a slow, wobbly glide down.
+              tone(t, "sine", 300, 110, 0.55, 0.15, 7, 10);
+              tone(t, "triangle", 452, 168, 0.55, 0.08, 7, 14);
+            },
+            function chains(t) {
+              // Chains rattling: a clatter of little metallic clinks.
+              for (var i = 0; i < 8; i++) {
+                snapBurst(t + Math.random() * 0.42, 3400 + Math.random() * 3800, 0.13, 0.022);
+              }
+              tone(t + 0.06, "sine", 3100, 3100, 0.07, 0.06);
+              tone(t + 0.27, "sine", 4600, 4600, 0.07, 0.06);
+            },
+            function ironDrag(t) {
+              // A big cast-iron thing dragging on the ground: a low
+              // grinding scrape with a deep rumble underneath.
+              noiseSwell(t, "lowpass", 800, 220, 0.17, 0.6);
+              noiseSwell(t + 0.16, "lowpass", 500, 300, 0.12, 0.16);
+              noiseSwell(t + 0.38, "lowpass", 450, 260, 0.11, 0.15);
+              tone(t, "sine", 58, 44, 0.6, 0.12);
+            }
+          ],
+          jokes: [
+            function classicLaugh(t) { laugh(t, 620, 0.13, 3, 0.13); },
+            function heartyLaugh(t) { laugh(t, 300, 0.19, 4, 0.14); },
+            function gigglyLaugh(t) { laugh(t, 780, 0.11, 6, 0.12); },
+            function bellyLaugh(t) { laugh(t, 215, 0.24, 4, 0.14); },
+            function chuckle(t) { laugh(t, 430, 0.15, 2, 0.13); },
+            function snicker(t) { laugh(t, 560, 0.09, 5, 0.11); }
+          ],
+          music: [
+            function guitarE(t) {
+              // One guitar chord (E major), strings struck in quick order.
+              var notes = [164.81, 246.94, 329.63, 415.3];
+              for (var i = 0; i < notes.length; i++) {
+                tone(t + i * 0.015, "triangle", notes[i], notes[i], 0.55, 0.11);
+              }
+            },
+            function guitarG(t) {
+              // A G major strum, slightly slower off the top string.
+              var notes = [196, 246.94, 293.66, 392, 493.88];
+              for (var i = 0; i < notes.length; i++) {
+                tone(t + i * 0.02, "triangle", notes[i], notes[i], 0.5, 0.1);
+              }
+            },
+            function pianoKey(t) {
+              // A single piano key: warm fundamental plus bright overtones.
+              tone(t, "triangle", 523.25, 523.25, 0.5, 0.14);
+              tone(t, "sine", 1046.5, 1046.5, 0.3, 0.05);
+              tone(t, "sine", 1568, 1568, 0.18, 0.03);
+            },
+            function pianoTwo(t) {
+              // Two piano keys, one after the other.
+              tone(t, "triangle", 392, 392, 0.42, 0.13);
+              tone(t, "sine", 784, 784, 0.25, 0.045);
+              tone(t + 0.22, "triangle", 659.25, 659.25, 0.45, 0.13);
+              tone(t + 0.22, "sine", 1318.5, 1318.5, 0.25, 0.045);
+            },
+            function harmonica(t) {
+              // A harmonica note: reedy tone, gentle vibrato.
+              tone(t, "sawtooth", 392, 392, 0.45, 0.12, 5.5, 6);
+              tone(t, "square", 784, 784, 0.45, 0.03, 5.5, 10);
+            },
+            function harmonicaBend(t) {
+              // A harmonica bend, sliding up into the note.
+              tone(t, "sawtooth", 466.16, 587.33, 0.42, 0.12, 6, 7);
+              tone(t, "square", 932.33, 1174.66, 0.42, 0.03, 6, 12);
+            }
+          ],
+          food: [
+            function silverware(t) {
+              // Silverware clinking on plates: short high pings.
+              tone(t, "sine", 3400, 3400, 0.09, 0.12);
+              snapBurst(t, 6200, 0.1, 0.03);
+              tone(t + 0.12, "sine", 4250, 4250, 0.09, 0.12);
+              snapBurst(t + 0.12, 6800, 0.1, 0.03);
+              tone(t + 0.24, "sine", 2950, 2950, 0.11, 0.11);
+            },
+            function boiling(t) {
+              // Boiling water: a cluster of little bubbles popping.
+              for (var i = 0; i < 12; i++) {
+                tone(t + Math.random() * 0.42, "sine", 150 + Math.random() * 280, 260 + Math.random() * 260, 0.05, 0.07);
+              }
+              noiseSwell(t, "lowpass", 420, 380, 0.09, 0.5);
+            },
+            function restaurant(t) {
+              // Restaurant murmur: soft chatter-bursts at speech
+              // pitches, with a distant clink at the end.
+              for (var i = 0; i < 6; i++) {
+                var f = 170 + Math.random() * 260;
+                tone(t + i * 0.09 + Math.random() * 0.02, "sawtooth", f, f * (0.8 + Math.random() * 0.4), 0.07, 0.07, 8, 12);
+              }
+              tone(t + 0.58, "sine", 3900, 3900, 0.08, 0.1);
+            },
+            function sizzle(t) {
+              // Something frying: a bright, crackly hiss.
+              noiseSwell(t, "highpass", 4200, 5200, 0.11, 0.55);
+              snapBurst(t + 0.14, 6000, 0.09, 0.02);
+              snapBurst(t + 0.33, 6600, 0.09, 0.02);
+            }
+          ],
+          babies: [
+            function pacifier(t) {
+              // Pacifier suckling — unmistakable this time. Every
+              // cycle is a clear SUCK, then a clear POP: a wet pull
+              // of air sweeping down through a band of noise, with a
+              // low body tone under it, then the seal breaks with a
+              // crisp bubble-pop chirp and a smack. Suck-POP,
+              // suck-POP, suck-POP, suck-POP, at a baby's pace.
+              for (var i = 0; i < 4; i++) {
+                var s = t + i * 0.3;
+                noiseSwell(s, "bandpass", 980, 430, 0.17, 0.15);
+                tone(s, "sine", 305, 175, 0.15, 0.11);
+                snapBurst(s + 0.01, 520, 0.1, 0.03);
+                var p = 1080 + Math.random() * 260;
+                tone(s + 0.17, "sine", p * 0.42, p, 0.055, 0.2);
+                snapBurst(s + 0.17, 1550, 0.15, 0.03);
+                tone(s + 0.17, "sine", 210, 120, 0.05, 0.08);
+              }
+            },
+            function pacifierSlow(t) {
+              // Slower, sleepier suckling: three lazy suck-pops.
+              // Same unmistakable pattern, a touch softer — a baby
+              // drifting off, but you can still tell exactly what
+              // it is on the first listen.
+              for (var i = 0; i < 3; i++) {
+                var s = t + i * 0.44;
+                noiseSwell(s, "bandpass", 900, 390, 0.15, 0.19);
+                tone(s, "sine", 285, 160, 0.19, 0.1);
+                snapBurst(s + 0.01, 480, 0.09, 0.03);
+                var p = 980 + Math.random() * 220;
+                tone(s + 0.22, "sine", p * 0.42, p, 0.06, 0.18);
+                snapBurst(s + 0.22, 1450, 0.13, 0.03);
+                tone(s + 0.22, "sine", 195, 115, 0.055, 0.07);
+              }
+            },
+            function coo(t) {
+              // A soft coo: two gentle, round little "oo"s.
+              tone(t, "sine", 360, 540, 0.26, 0.12);
+              tone(t + 0.3, "sine", 320, 470, 0.3, 0.12);
+            },
+            function babble(t) {
+              // Babbling: a run of bouncy "ba-ba-ba" bursts.
+              for (var i = 0; i < 5; i++) {
+                var f = 480 + Math.random() * 260;
+                tone(t + i * 0.11, "sawtooth", f, f * 0.7, 0.08, 0.1, 12, 30);
+              }
+            },
+            function squeal(t) {
+              // A happy squeal, up and back down.
+              tone(t, "sine", 700, 1400, 0.18, 0.13, 16, 50);
+              tone(t + 0.18, "sine", 1400, 950, 0.16, 0.125, 16, 50);
+            }
+          ],
+          trailers: [
+            function clapper(t) {
+              // A clapperboard snap: one sharp crack plus a woody thock.
+              snapBurst(t, 2600, 0.18, 0.04);
+              tone(t, "sine", 320, 130, 0.06, 0.12);
+            },
+            function reelSpin(t) {
+              // A film reel spinning up: clicks that come faster and
+              // faster over a soft projector whir.
+              var when = 0;
+              for (var i = 0; i < 10; i++) {
+                snapBurst(t + when, 1700, 0.13, 0.02);
+                when += 0.11 - i * 0.008;
+              }
+              noiseSwell(t, "bandpass", 900, 1500, 0.06, 0.6);
+            },
+            function actionCue(t) {
+              // The "Action!" cue: a slate crack, then a sharp,
+              // decisive cue tone — the set goes quiet, cameras roll.
+              snapBurst(t, 2600, 0.18, 0.04);
+              tone(t, "sine", 320, 130, 0.06, 0.11);
+              tone(t + 0.1, "square", 880, 660, 0.09, 0.1);
+            },
+            function leaderBeeps(t) {
+              // Old film-leader countdown beeps: three short, one long.
+              tone(t, "sine", 1000, 1000, 0.07, 0.12);
+              tone(t + 0.17, "sine", 1000, 1000, 0.07, 0.12);
+              tone(t + 0.34, "sine", 1000, 1000, 0.07, 0.12);
+              tone(t + 0.51, "sine", 1000, 1000, 0.2, 0.12);
+            }
+          ],
+          animals: ANIMAL_SOUNDS
+        };
+
+        // Don't Tell Mom's one experiment: a woman's voice saying
+        // "don't tell Dad", via the browser's built-in speech voice.
+        // No audio file, nothing loaded. If speech isn't available,
+        // it quietly does nothing and the tap just rolls as usual.
+        function speakDontTellDad() {
+          try {
+            var synth = window.speechSynthesis;
+            if (!synth) return false;
+            synth.cancel();
+            var u = new SpeechSynthesisUtterance("Don't tell Dad.");
+            var voices = synth.getVoices() || [];
+            var pick = null;
+            for (var i = 0; i < voices.length; i++) {
+              var n = (voices[i].name || "").toLowerCase();
+              if (/^en/.test(voices[i].lang || "") &&
+                  /female|samantha|zira|jenny|aria|karen|moira|fiona|victoria|catherine|susan|linda/.test(n)) {
+                pick = voices[i];
+                break;
+              }
+            }
+            if (pick) u.voice = pick;
+            u.pitch = 1.15;
+            u.rate = 0.95;
+            synth.speak(u);
+            return true;
+          } catch (e) { return false; }
+        }
+
+        // Returns true when a category sound played. Gated ONLY by the
+        // Category sound toggle — the Dice toggle never silences these.
+        function playCatSound(cat) {
+          if (!catSoundOn) return false;
+          if (cat.id === "dont-tell-mom") return speakDontTellDad();
+          var variants = CAT_SOUNDS[cat.id];
+          if (!variants) return false;
+          var ctx = getAudioCtx();
+          if (!ctx) return false;
+          ensureNoiseBuf();
+          variants[Math.floor(Math.random() * variants.length)](ctx.currentTime + 0.01);
+          return true;
+        }
+
+        // Lede shows the infinity symbol — endless touches.
+        document.getElementById("linkTotal").textContent = "\u221E";
+
+        function chevSvg() {
+          return '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>';
+        }
+        function extSvg() {
+          return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg>';
+        }
+
+        CATEGORIES.forEach(function (cat) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "cat";
+          btn.innerHTML =
+            '<span class="chip" style="background:' + cat.color + '" aria-hidden="true">' + cat.icon + "</span>" +
+            "<span><span class=\"name\">" + cat.name + "</span>" +
+            "<span class=\"sub\">" + cat.sub + "</span></span>" +
+            '<span class="chev" aria-hidden="true">' + chevSvg() + "</span>";
+          btn.addEventListener("click", function () { touch(cat); });
+          catsEl.appendChild(btn);
+        });
+
+        function pickFrom(cat) {
+          if (cat.links.length === 1) return cat.links[0];
+          var idx, guard = 0;
+          do {
+            idx = Math.floor(Math.random() * cat.links.length);
+            guard++;
+          } while (idx === lastPickByCat[cat.id] && guard < 10);
+          lastPickByCat[cat.id] = idx;
+          return cat.links[idx];
+        }
+
+        function pickAny() {
+          var all = [];
+          CATEGORIES.forEach(function (c) {
+            c.links.forEach(function (l) { all.push({ cat: c, link: l }); });
+          });
+          var choice = all[Math.floor(Math.random() * all.length)];
+          // Remember the pick so it never immediately repeats.
+          lastPickByCat[choice.cat.id] = choice.cat.links.indexOf(choice.link);
+          return choice;
+        }
+
+        function domainOf(url) {
+          try { return new URL(url).hostname.replace(/^www\./, ""); }
+          catch (e) { return url; }
+        }
+
+        function recordTouch(cat, chosen) {
+          currentCat = cat;
+          currentItem = chosen;
+          touches++;
+          countEl.textContent = touches;
+          // Keep the last pick shareable even after an Instant Go jump.
+          lastShareBtn.hidden = false;
+          lastShareBtn.setAttribute("aria-label", "Share last pick: " + chosen.title);
+          recents.unshift({ cat: cat.name, title: chosen.title, url: chosen.url });
+          if (recents.length > 5) recents.length = 5;
+          renderRecents();
+        }
+
+        function showToast(text) {
+          toastEl.textContent = text;
+          toastEl.classList.add("show");
+          if (toastTimer) clearTimeout(toastTimer);
+          toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 2600);
+        }
+
+        // Share the exact pick: the phone's built-in share sheet when
+        // available, otherwise copy the link so it can be pasted anywhere.
+        var SHARE_TEXT = "Look what I landed on with Random Touches";
+        function sharePick(chosen) {
+          if (!chosen) return;
+          if (navigator.share) {
+            try {
+              var p = navigator.share({ text: SHARE_TEXT, url: chosen.url });
+              if (p && p.catch) p.catch(function () { /* user closed the sheet */ });
+            } catch (e) { copyLink(chosen.url); }
+          } else {
+            copyLink(chosen.url);
+          }
+        }
+        function copyLink(url) {
+          function done() { showToast("Link copied — paste it anywhere to share"); }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(url).then(done, function () { legacyCopy(url, done); });
+          } else {
+            legacyCopy(url, done);
+          }
+        }
+        function legacyCopy(url, done) {
+          var ta = document.createElement("textarea");
+          ta.value = url;
+          ta.setAttribute("readonly", "");
+          ta.style.position = "fixed";
+          ta.style.opacity = "0";
+          document.body.appendChild(ta);
+          ta.select();
+          try { if (document.execCommand("copy")) done(); else showToast(url); }
+          catch (e) { showToast(url); }
+          document.body.removeChild(ta);
+        }
+
+        // Instant go: open the pick right away. If the browser blocks the
+        // new tab, fall back to the preview sheet so the tap still lands.
+        function instantGo(cat, chosen) {
+          recordTouch(cat, chosen);
+          var win = null;
+          try { win = window.open(chosen.url, "_blank", "noopener"); } catch (e) { win = null; }
+          if (win) {
+            showToast("You're off to: " + chosen.title);
+          } else {
+            fillSheet(cat, chosen);
+            openSheet();
+          }
+        }
+
+        function touch(cat) {
+          // A category tap starts a category run: its "Another one"
+          // re-rolls stay inside this category.
+          currentFromSurprise = false;
+          // A category tap plays ONLY its category sound — no dice
+          // roll stacked after it. Categories without a sound of their
+          // own get just the dice roll for the pick, like before.
+          if (!playCatSound(cat)) {
+            playDiceRoll();
+          }
+          if (instantMode) {
+            instantGo(cat, pickFrom(cat));
+          } else {
+            rollPreview(cat);
+          }
+        }
+
+        function fillSheet(cat, chosen) {
+          currentCat = cat;
+          currentItem = chosen;
+          kickerEl.textContent = cat.name;
+          titleEl.textContent = chosen.title;
+          titleEl.classList.remove("rolling");
+          blurbEl.textContent = chosen.blurb;
+          domainEl.textContent = domainOf(chosen.url);
+          goBtn.href = chosen.url;
+          shareBtn.disabled = false;
+        }
+
+        function openSheet() {
+          sheet.hidden = false;
+          // Force layout so the transition runs.
+          void sheet.offsetWidth;
+          sheet.classList.add("open");
+          scrim.classList.add("open");
+        }
+        function closeSheet() {
+          sheet.classList.remove("open");
+          scrim.classList.remove("open");
+          if (rollTimer) { clearInterval(rollTimer); rollTimer = null; }
+          setTimeout(function () { sheet.hidden = true; }, reduceMotion ? 0 : 230);
+        }
+
+        // Roll the preview sheet. With a category, the roll stays
+        // inside that category. With null, the roll pools EVERY link
+        // from EVERY category (Surprise Me): the rolling titles and
+        // the final pick all come from the one big pool, so a Surprise
+        // Me pick — and every "Another one" re-roll after it — never
+        // sticks to a single category.
+        function rollPreview(cat) {
+          openSheet();
+          kickerEl.textContent = cat ? cat.name : "Surprise Me";
+          blurbEl.textContent = "";
+          domainEl.textContent = "";
+          goBtn.removeAttribute("href");
+          shareBtn.disabled = true;
+
+          if (reduceMotion) {
+            if (cat) {
+              var only = pickFrom(cat);
+              fillSheet(cat, only);
+              recordTouch(cat, only);
+            } else {
+              var anyOnly = pickAny();
+              fillSheet(anyOnly.cat, anyOnly.link);
+              recordTouch(anyOnly.cat, anyOnly.link);
+            }
+            return;
+          }
+          titleEl.classList.add("rolling");
+          var ticks = 0;
+          var pool = [];
+          if (cat) {
+            cat.links.forEach(function (l) { pool.push(l.title); });
+          } else {
+            CATEGORIES.forEach(function (c) {
+              c.links.forEach(function (l) { pool.push(l.title); });
+            });
+          }
+          if (rollTimer) clearInterval(rollTimer);
+          rollTimer = setInterval(function () {
+            titleEl.textContent = pool[Math.floor(Math.random() * pool.length)];
+            ticks++;
+            if (ticks >= 9) {
+              clearInterval(rollTimer);
+              rollTimer = null;
+              if (cat) {
+                var chosen = pickFrom(cat);
+                fillSheet(cat, chosen);
+                recordTouch(cat, chosen);
+              } else {
+                var anyChosen = pickAny();
+                fillSheet(anyChosen.cat, anyChosen.link);
+                recordTouch(anyChosen.cat, anyChosen.link);
+              }
+            }
+          }, 65);
+        }
+
+        function surprise() {
+          playDiceRoll();
+          // Surprise Me pools EVERY category on every pick — no
+          // category stickiness, including on its re-rolls.
+          currentFromSurprise = true;
+          if (instantMode) {
+            var choice = pickAny();
+            instantGo(choice.cat, choice.link);
+          } else {
+            rollPreview(null);
+          }
+        }
+
+        function renderRecents() {
+          recentsEl.innerHTML = "";
+          if (!recents.length) {
+            recentLabel.hidden = true;
+            emptyNote.style.display = "";
+            return;
+          }
+          recentLabel.hidden = false;
+          emptyNote.style.display = "none";
+          recents.forEach(function (r) {
+            var a = document.createElement("a");
+            a.className = "recent";
+            a.href = r.url;
+            a.target = "_blank";
+            a.rel = "noopener";
+            a.innerHTML =
+              '<span class="r-cat">' + r.cat + "</span>" +
+              '<span class="r-title">' + r.title + "</span>" + extSvg();
+            recentsEl.appendChild(a);
+          });
+        }
+
+        function setMode(instant) {
+          instantMode = instant;
+          modeInstantBtn.classList.toggle("active", instant);
+          modePreviewBtn.classList.toggle("active", !instant);
+          modeInstantBtn.setAttribute("aria-pressed", instant ? "true" : "false");
+          modePreviewBtn.setAttribute("aria-pressed", instant ? "false" : "true");
+          modeHint.textContent = instant
+            ? "Tap a category and the pick opens right away — no extra tap, no waiting around."
+            : "Tap a category, watch it roll, peek at the pick — then tap \u201CTake me there\u201D when you're ready.";
+        }
+
+        modeInstantBtn.addEventListener("click", function () { setMode(true); });
+        modePreviewBtn.addEventListener("click", function () { setMode(false); });
+        document.getElementById("surpriseBtn").addEventListener("click", surprise);
+        againBtn.addEventListener("click", function () {
+          // A Surprise Me pick re-rolls across ALL categories; a
+          // category pick re-rolls inside its own category.
+          if (currentFromSurprise) { playDiceRoll(); rollPreview(null); }
+          else if (currentCat) { playDiceRoll(); rollPreview(currentCat); }
+        });
+        shareBtn.addEventListener("click", function () { sharePick(currentItem); });
+        lastShareBtn.addEventListener("click", function () { sharePick(currentItem); });
+
+        var soundBtn = document.getElementById("soundBtn");
+        var soundBtnLabel = document.getElementById("soundBtnLabel");
+        soundBtn.addEventListener("click", function () {
+          soundOn = !soundOn;
+          soundBtn.setAttribute("aria-pressed", soundOn ? "true" : "false");
+          soundBtn.classList.toggle("off", !soundOn);
+          soundBtnLabel.textContent = soundOn ? "Dice on" : "Dice off";
+          if (soundOn) playDiceRoll();
+        });
+        // The Category sound toggle is fully independent of the Dice
+        // toggle: each one gates only its own sound.
+        var catSoundBtn = document.getElementById("catSoundBtn");
+        var catSoundBtnLabel = document.getElementById("catSoundBtnLabel");
+        catSoundBtn.addEventListener("click", function () {
+          catSoundOn = !catSoundOn;
+          catSoundBtn.setAttribute("aria-pressed", catSoundOn ? "true" : "false");
+          catSoundBtn.classList.toggle("off", !catSoundOn);
+          catSoundBtnLabel.textContent = catSoundOn ? "Category sound on" : "Category sound off";
+          if (catSoundOn) playCatSound({ id: "jokes" });
+        });
+        closeBtn.addEventListener("click", closeSheet);
+        scrim.addEventListener("click", closeSheet);
+        document.addEventListener("keydown", function (e) {
+          if (e.key === "Escape" && !sheet.hidden) closeSheet();
+        });
+      })();
+    </script>
+  </body>
+</html>
