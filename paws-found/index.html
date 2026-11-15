@@ -186,8 +186,6 @@
       .shutter{width:76px;height:76px;border-radius:50%;background:var(--surface);border:5px solid var(--coral);display:grid;place-items:center;padding:0}
       .shutter i{width:56px;height:56px;border-radius:50%;background:var(--coral);display:block}
       .shutter:active i{background:var(--coral-deep)}
-      .cam-wrap .shutter{position:absolute;right:14px;bottom:14px;z-index:4}
-      @media (pointer:fine){.cam-wrap .shutter{display:none}}
       .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:5}
       .flash.go{animation:flashA .45s ease-out}
       @keyframes flashA{0%{opacity:.95}100%{opacity:0}}
@@ -626,7 +624,6 @@
                     <span class="hud-chip mono" id="hud-elapsed" title="Time since you tapped the paw">0.0s</span>
                   </div>
                 </div>
-                <button class="shutter" id="shutterCorner" aria-label="Quick snap — take the photo"><i></i></button>
               </div>
               <p class="cam-hint">Camera opened <strong>instantly</strong> — GPS is locking in the background and the clock is already stamping. <strong>You can snap right now</strong>; don't wait on anything.</p>
               <div class="mode-seg" role="group" aria-label="Photo mode">
@@ -1651,8 +1648,6 @@
         setTimeout(step, g ? 170 : 100);
       })();
     }
-    var cornerBtn = $("shutterCorner");
-    if (cornerBtn){ cornerBtn.addEventListener("click", function(){ $("shutterBtn").click(); }); }
     $("shutterBtn").addEventListener("click", function(){
       stopJitter(); stopElapsed();
       var secs = state.tapTime ? (Date.now() - state.tapTime)/1000 : 0;
