@@ -186,6 +186,7 @@
       .shutter{width:76px;height:76px;border-radius:50%;background:var(--surface);border:5px solid var(--coral);display:grid;place-items:center;padding:0}
       .shutter i{width:56px;height:56px;border-radius:50%;background:var(--coral);display:block}
       .shutter:active i{background:var(--coral-deep)}
+      .cam-wrap .shutter{position:absolute;right:14px;bottom:14px;z-index:4}
       .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:5}
       .flash.go{animation:flashA .45s ease-out}
       @keyframes flashA{0%{opacity:.95}100%{opacity:0}}
@@ -609,15 +610,13 @@
                 <div class="hud-frame"></div>
                 <div class="cam-hud">
                   <div class="hud-top">
-                    <span class="hud-chip rec"><i></i>CAM LIVE</span>
+                    <span class="hud-loc mono"><span id="hud-coords">Locating…</span><span id="hud-place">—</span></span>
                     <span class="hud-chip mono" id="hud-clock">--</span>
                     <span class="hud-chip" id="hud-acc">GPS locking…</span>
                     <span class="hud-chip mono" id="hud-elapsed" title="Time since you tapped the paw">0.0s</span>
                   </div>
-                  <div class="hud-bottom">
-                    <div class="hud-loc mono"><span id="hud-coords">Locating…</span><span id="hud-place">—</span></div>
-                  </div>
                 </div>
+                <button class="shutter" id="shutterBtn" aria-label="Take the photo"><i></i></button>
               </div>
               <p class="cam-hint">Camera opened <strong>instantly</strong> — GPS is locking in the background and the clock is already stamping. <strong>You can snap right now</strong>; don't wait on anything.</p>
               <div class="mode-seg" role="group" aria-label="Photo mode">
@@ -627,7 +626,6 @@
               <div class="cam-safety" style="padding:10px 18px 0"><div class="safety-strip"><span aria-hidden="true">🚦</span><p><strong>Kind heads-up:</strong> <span>don't cross traffic for a photo — one from right here helps plenty. 💛</span></p></div></div>
               <div class="cam-controls">
                 <button class="side-btn" id="camCancel" aria-label="Cancel and go back">✕</button>
-                <button class="shutter" id="shutterBtn" aria-label="Take the photo"><i></i></button>
                 <button class="side-btn" id="camFlip" aria-label="Switch camera (mock)">🔄</button>
               </div>
               <!-- CAMERA BLOCKED — picker fallback -->
