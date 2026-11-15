@@ -1732,8 +1732,17 @@
     });
     $("shNative").addEventListener("click", function(){
       var txt = reportText();
-      if (navigator.share){ navigator.share({ title:"Wayward Paws — found animal", text: txt }).catch(function(){}); }
-      else { toast("Your share sheet would open here in the app"); }
+      if (!navigator.share){ toast("Your share sheet would open here in the app"); return; }
+      var c = state.captured;
+      var fr = c && c.frames && c.frames[c.primary];
+      var src = (fr && fr.src) || (c && c.imgSrc) || "";
+      var shareTxt = { title:"Wayward Paws — found animal", text: txt };
+      if (!src || src.indexOf("data:image/") !== 0 || !navigator.canShare){ navigator.share(shareTxt).catch(function(){}); return; }
+      fetch(src).then(function(r){ return r.blob(); }).then(function(b){
+        var f = new File([b], "wayward-paws-" + (c.id || "found") + ".jpg", {type:"image/jpeg"});
+        if (navigator.canShare({files:[f]})){ navigator.share({ title:shareTxt.title, text: txt, files:[f] }).catch(function(){}); }
+        else { navigator.share(shareTxt).catch(function(){}); }
+      }).catch(function(){ navigator.share(shareTxt).catch(function(){}); });
     });
 
     /* ---------- terms agreement ---------- */
