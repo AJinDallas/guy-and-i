@@ -1,0 +1,23 @@
+{
+  "name": "Wayward Paws",
+  "short_name": "Wayward Paws",
+  "description": "Help lost animals get home fast. One tap runs the camera and saves the photo with GPS and time.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#050208",
+  "theme_color": "#050208",
+  "icons": [
+    {
+      "src": "paw-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "paw-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
