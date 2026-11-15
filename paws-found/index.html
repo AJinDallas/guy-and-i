@@ -217,6 +217,15 @@
       .fthumb.primary{border-color:var(--amber)}
       .fthumb.primary .fkept{background:var(--amber);border-color:var(--amber);color:#231a00}
       .fthumb .fsharp{position:absolute;top:-7px;right:-5px;background:var(--amber);color:#231a00;font-size:.6rem;font-weight:800;padding:3px 6px;border-radius:999px}
+      .share-pick{margin:14px 0 4px}
+      .share-pick .sec-label{margin-bottom:8px}
+      .share-count{margin-top:8px;font-size:.8rem;color:var(--ink2);text-align:center}
+      .sthumb{position:relative;flex:1;border:3px solid transparent;border-radius:13px;padding:0;background:none;overflow:visible;min-height:0}
+      .sthumb img{width:100%;height:64px;object-fit:cover;border-radius:10px;display:block}
+      .sthumb .fno{position:absolute;top:-7px;left:-5px;background:var(--ink);color:var(--bg);font-size:.64rem;font-weight:800;width:19px;height:19px;border-radius:50%;display:grid;place-items:center}
+      .sthumb.sel{border-color:var(--teal)}
+      .sthumb .scheck{position:absolute;top:-8px;right:-5px;background:var(--teal);color:#fff;font-size:.68rem;font-weight:800;width:20px;height:20px;border-radius:50%;display:none;place-items:center}
+      .sthumb.sel .scheck{display:grid}
 
       /* captured */
       .shot{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
@@ -748,6 +757,11 @@
                   <p style="margin:4px 0 0;color:var(--ink2);font-size:.9rem">Sharing only runs when you tap it — and it always carries the photo, the time, and the exact pin, so nobody has to guess where to look.</p>
                 </div>
                 <div class="report-preview mono" id="reportPreview">—</div>
+                <div class="share-pick" id="sharePick">
+                  <div class="sec-label">📸 Choose photos to share — tap to pick, 1 to 5</div>
+                  <div class="filmstrip" id="shareStrip"></div>
+                  <div class="share-count mono" id="shareCount"></div>
+                </div>
                 <div class="share-grid">
                   <a class="share-btn" id="shFb" href="#" target="_blank" rel="noopener"><span class="sic" style="background:#1877F2">f</span>Facebook</a>
                   <a class="share-btn" id="shX" href="#" target="_blank" rel="noopener"><span class="sic" style="background:#000">𝕏</span>X / Twitter</a>
@@ -1786,6 +1800,45 @@
         "Map: " + mapsUrl("search", pin) + "\n" +
         "Please share — help get this animal home. 💛";
     }
+    /* Pick which burst frames go out when you share — 1 to 5, favorite pre-picked. */
+    function renderShareStrip(){
+      var c = state.captured;
+      var pick = $("sharePick");
+      if (!c || !c.frames || c.frames.length < 2){ if (pick) pick.style.display = "none"; return; }
+      if (pick) pick.style.display = "";
+      if (!state.shareSel || !state.shareSel.length){ state.shareSel = [c.primary]; }
+      state.shareSel = state.shareSel.filter(function(i){ return i >= 0 && i < c.frames.length; });
+      if (!state.shareSel.length){ state.shareSel = [c.primary]; }
+      var strip = $("shareStrip"); strip.innerHTML = "";
+      c.frames.forEach(function(fr, i){
+        var sel = state.shareSel.indexOf(i) !== -1;
+        var b = document.createElement("button");
+        b.className = "sthumb" + (sel ? " sel" : "");
+        b.setAttribute("aria-pressed", sel ? "true" : "false");
+        b.setAttribute("aria-label", "Frame " + (i+1) + (sel ? ", selected to share" : "") + ". Tap to " + (sel ? "remove it from" : "add it to") + " the photos you share.");
+        var im = document.createElement("img");
+        im.src = fr.src || c.imgSrc; im.alt = "";
+        im.style.objectPosition = fr.pos; im.style.transform = "scale(" + fr.scale + ")";
+        im.style.filter = fr.blur ? "blur(" + fr.blur + "px)" : "none";
+        b.appendChild(im);
+        var no = document.createElement("span"); no.className = "fno"; no.textContent = i+1; b.appendChild(no);
+        var ck = document.createElement("span"); ck.className = "scheck"; ck.textContent = "✓"; b.appendChild(ck);
+        b.addEventListener("click", function(){
+          var at = state.shareSel.indexOf(i);
+          if (at !== -1){
+            if (state.shareSel.length <= 1){ toast("Keep at least one photo — that's the one that goes out"); return; }
+            state.shareSel.splice(at, 1);
+          } else {
+            state.shareSel.push(i);
+            state.shareSel.sort(function(a, b){ return a - b; });
+          }
+          renderShareStrip();
+        });
+        strip.appendChild(b);
+      });
+      var n = state.shareSel.length;
+      $("shareCount").textContent = "Sharing " + n + " photo" + (n > 1 ? "s" : "") + " of " + c.frames.length + " — the favorite is picked for you, tap to add or remove";
+    }
     function buildShare(){
       var txt = reportText();
       $("reportPreview").textContent = txt;
@@ -1796,6 +1849,8 @@
       $("shX").href = "https://twitter.com/intent/tweet?text=" + enc;
       $("shWa").href = "https://wa.me/?text=" + enc;
       $("shSms").href = "sms:?&body=" + enc;
+      state.shareSel = null;
+      renderShareStrip();
     }
     $("goReturned").addEventListener("click", function(){ showView("returned"); });
     $("goMap").addEventListener("click", function(){ showView("map"); });
@@ -1811,13 +1866,24 @@
       var txt = reportText();
       if (!navigator.share){ toast("Your share sheet would open here in the app"); return; }
       var c = state.captured;
-      var fr = c && c.frames && c.frames[c.primary];
-      var src = (fr && fr.src) || (c && c.imgSrc) || "";
       var shareTxt = { title:"Wayward Paws — found animal", text: txt };
-      if (!src || src.indexOf("data:image/") !== 0 || !navigator.canShare){ navigator.share(shareTxt).catch(function(){}); return; }
-      fetch(src).then(function(r){ return r.blob(); }).then(function(b){
-        var f = new File([b], "wayward-paws-" + (c.id || "found") + ".jpg", {type:"image/jpeg"});
-        if (navigator.canShare({files:[f]})){ navigator.share({ title:shareTxt.title, text: txt, files:[f] }).catch(function(){}); }
+      var idxs = (state.shareSel && state.shareSel.length) ? state.shareSel.slice() : (c ? [c.primary] : []);
+      var srcs = [];
+      if (c && c.frames){
+        idxs.forEach(function(i){
+          var fr = c.frames[i];
+          var src = (fr && fr.src) || c.imgSrc || "";
+          if (src && src.indexOf("data:image/") === 0) srcs.push({ src: src, n: i+1 });
+        });
+      }
+      if (!srcs.length || !navigator.canShare){ navigator.share(shareTxt).catch(function(){}); return; }
+      Promise.all(srcs.map(function(s){
+        return fetch(s.src).then(function(r){ return r.blob(); }).then(function(b){
+          return new File([b], "wayward-paws-" + (c.id || "found") + "-frame" + s.n + ".jpg", {type:"image/jpeg"});
+        });
+      })).then(function(files){
+        if (navigator.canShare({files: files})){ navigator.share({ title:shareTxt.title, text: txt, files: files }).catch(function(){}); }
+        else if (files.length && navigator.canShare({files:[files[0]]})){ navigator.share({ title:shareTxt.title, text: txt, files:[files[0]] }).catch(function(){}); }
         else { navigator.share(shareTxt).catch(function(){}); }
       }).catch(function(){ navigator.share(shareTxt).catch(function(){}); });
     });
