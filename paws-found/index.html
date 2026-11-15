@@ -311,7 +311,7 @@
       .react.on{border-color:var(--coral);background:var(--coral-soft)}
 
       /* bottom nav */
-      .tabbar{display:grid;grid-template-columns:repeat(7,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 6px calc(12px + env(safe-area-inset-bottom,0px));flex:none}
+      .tabbar{display:grid;grid-template-columns:repeat(8,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 6px calc(12px + env(safe-area-inset-bottom,0px));flex:none}
       .tabbar button{background:none;border:none;color:var(--ink3);font-size:.64rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 1px;border-radius:10px;min-height:52px;white-space:nowrap}
       .tabbar button .tic{font-size:1.2rem;line-height:1}
       .tabbar button.on{color:var(--coral)}
@@ -796,6 +796,39 @@
               </div>
             </section>
 
+            <!-- RECORDS -->
+            <section class="view" id="view-records" aria-label="Records">
+              <div class="view-pad">
+                <div>
+                  <h2 style="font-size:1.3rem">Records 🏆</h2>
+                  <p style="margin:4px 0 0;color:var(--ink2);font-size:.9rem">Nobody wants to break these — but when a reunion sets one, it lands here. Proof the paw works.</p>
+                </div>
+                <div class="safety-strip"><span aria-hidden="true">🏆</span><p><strong>The kind of thing that lands here:</strong> <span>a dog found 2,000 miles away three months later — or a cat missing in the morning, home within the hour.</span></p></div>
+                <article class="story-card">
+                  <div class="sb">
+                    <h3>⚡ Fastest recovery</h3>
+                    <p>From spotted to home, quickest of all. Every minute counts when an animal is out there alone.</p>
+                    <div class="meta">No record yet — the first reunion sets it</div>
+                  </div>
+                </article>
+                <article class="story-card">
+                  <div class="sb">
+                    <h3>🗺️ Longest distance</h3>
+                    <p>Furthest an animal traveled to get home. Miles don’t matter when the pin is right.</p>
+                    <div class="meta">No record yet — the first reunion sets it</div>
+                  </div>
+                </article>
+                <article class="story-card">
+                  <div class="sb">
+                    <h3>⏱️ Longest time missing</h3>
+                    <p>Longest an animal was missing before getting home. Never too late to look.</p>
+                    <div class="meta">No record yet — the first reunion sets it</div>
+                  </div>
+                </article>
+                <p class="demo-note" style="color:var(--ink3);margin:0">No records yet — the real ones are waiting to happen.</p>
+              </div>
+            </section>
+
             <!-- RETURNED -->
             <section class="view" id="view-returned" aria-label="Returned home">
               <div class="view-pad">
@@ -938,6 +971,7 @@
               <button data-tab="shelters"><span class="tic">🏠</span>Shelters</button>
               <button data-tab="returned"><span class="tic">🎉</span>Returned</button>
               <button data-tab="stories"><span class="tic">💛</span>Stories</button>
+              <button data-tab="records"><span class="tic">🏆</span>Records</button>
             </nav>
           </div>
         </div>
@@ -1136,8 +1170,8 @@
       facing: "environment"
     };
     var $ = function(id){ return document.getElementById(id); };
-    var views = ["terms","home","camera","captured","map","shelters","share","stories","returned","feed"];
-    var tabFor = { terms:"home", home:"home", camera:"report", captured:"report", share:"report", map:"map", shelters:"shelters", stories:"stories", returned:"returned", feed:"feed" };
+    var views = ["terms","home","camera","captured","map","shelters","share","stories","records","returned","feed"];
+    var tabFor = { terms:"home", home:"home", camera:"report", captured:"report", share:"report", map:"map", shelters:"shelters", stories:"stories", records:"records", returned:"returned", feed:"feed" };
 
     /* ---------- terms of service: agree once, remembered ---------- */
     var TOS_KEY = "waywardpaws.tosAgreed.v1";
