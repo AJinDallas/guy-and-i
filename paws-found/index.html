@@ -95,10 +95,10 @@
          auto / minmax(0,1fr) / auto pin the scroll area exactly
          between the two bars on every engine. */
       #view-terms.on{display:grid;grid-template-rows:auto minmax(0,1fr) auto}
-      .tos-head{padding:18px 18px 12px;border-bottom:1px solid var(--line);background:var(--bg);position:relative;z-index:2}
+      .tos-head{padding:12px 18px 10px;border-bottom:1px solid var(--line);background:var(--bg);position:relative;z-index:2}
       .tos-head .tos-tag{display:inline-flex;align-items:center;gap:7px;background:var(--amber-soft);border:1px solid var(--amber);color:var(--ink);font-weight:700;font-size:.76rem;padding:6px 11px;border-radius:999px}
-      .tos-head h2{font-size:1.55rem;font-weight:800;margin:11px 0 6px}
-      .tos-head p{margin:0;color:var(--ink2);font-size:.93rem}
+      .tos-head h2{font-size:1.3rem;font-weight:800;margin:8px 0 4px}
+      .tos-intro{margin:0;color:var(--ink2);font-size:.93rem}
       .tos-scroll{min-height:0;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:16px 18px 18px;display:flex;flex-direction:column;gap:16px}
       .tos-sec h3{font-size:1.02rem;margin:0 0 5px;display:flex;gap:8px;align-items:center}
       .tos-sec p{margin:0;color:var(--ink2);font-size:.92rem}
@@ -109,10 +109,10 @@
       .tos-sec ul li .li-ic{flex:none}
       .tos-quote{background:var(--coral-soft);border:1.5px solid var(--coral);border-radius:14px;padding:13px 15px}
       .tos-quote p{margin:0;font-family:"Bricolage Grotesque",sans-serif;font-weight:700;font-size:1.02rem;line-height:1.35;color:var(--ink)}
-      .tos-foot{border-top:1px solid var(--line);background:var(--surface);padding:14px 18px calc(18px + env(safe-area-inset-bottom,0px));position:relative;z-index:2}
-      .tos-agree{width:100%;background:var(--coral);border:1.5px solid var(--coral);color:#fff;border-radius:14px;padding:15px 16px;font-weight:800;font-family:"Bricolage Grotesque",sans-serif;font-size:1.18rem;min-height:56px}
+      .tos-foot{border-top:1px solid var(--line);background:var(--surface);padding:10px 18px calc(12px + env(safe-area-inset-bottom,0px));position:relative;z-index:2}
+      .tos-agree{width:100%;background:var(--coral);border:1.5px solid var(--coral);color:#fff;border-radius:14px;padding:12px 16px;font-weight:800;font-family:"Bricolage Grotesque",sans-serif;font-size:1.1rem;min-height:48px}
       .tos-agree:active{background:var(--coral-deep)}
-      .tos-foot .tos-remember{margin:9px 0 0;text-align:center;color:var(--ink3);font-size:.8rem;line-height:1.45}
+      .tos-foot .tos-remember{margin:7px 0 0;text-align:center;color:var(--ink3);font-size:.76rem;line-height:1.35}
       .tos-note-card{background:var(--amber-soft);border:1.5px solid var(--amber);border-radius:16px;padding:16px 18px}
       .tos-note-card h3{font-size:1.05rem;margin:0 0 5px}
       .tos-note-card p{margin:0;color:var(--ink2);font-size:.93rem}
@@ -502,9 +502,9 @@
               <div class="tos-head">
                 <span class="tos-tag">📜 TERMS OF SERVICE</span>
                 <h2>The whole agreement,<br />in plain talk.</h2>
-                <p>No legalese, no tiny print hiding underneath. This is just how Wayward Paws works, what we do, and what we ask you not to do — read it through, then tap <strong style="color:var(--ink)">I agree</strong> at the bottom to come on in.</p>
               </div>
               <div class="tos-scroll" id="tosScroll">
+                <p class="tos-intro">No legalese, no tiny print hiding underneath. This is just how Wayward Paws works, what we do, and what we ask you not to do — read it through, then tap <strong style="color:var(--ink)">I agree</strong> at the bottom to come on in.</p>
                 <div class="tos-sec">
                   <h3>👋 Welcome in</h3>
                   <p>Wayward Paws is free, forever, for every animal. See one that's lost, stranded, or wandering alone? This app helps you get word — and an exact location — to the people who can bring that animal home.</p>
