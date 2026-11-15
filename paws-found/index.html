@@ -172,6 +172,7 @@
       .cam-wrap video.mirrored{transform:scaleX(-1)}
       #view-camera.cam-live .cam-wrap video{display:block}
       #view-camera.cam-live .cam-wrap img{display:none}
+      #view-camera.cam-opening .cam-wrap img{display:none}
       @keyframes drift{from{transform:scale(1.02)}to{transform:scale(1.13) translate(-1.5%,1%)}}
       .cam-hud{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:14px;color:#fff;z-index:2}
       .hud-top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
@@ -1345,6 +1346,7 @@
     function startLiveCamera(){
       var md = navigator.mediaDevices;
       if (!md || typeof md.getUserMedia !== "function"){ setCamBlocked(true); return; }
+      $("view-camera").classList.add("cam-opening");
       md.getUserMedia({ video: { facingMode: state.facing || "environment" }, audio: false }).then(function(stream){
         /* The camera was closed while permission was being asked — don't
            leave a stream running behind the app's back. */
@@ -1358,9 +1360,11 @@
         v.classList.toggle("mirrored", state.facing === "user");
         var p = v.play(); if (p && p.catch) p.catch(function(){});
         $("view-camera").classList.add("cam-live");
+        $("view-camera").classList.remove("cam-opening");
         setCamBlocked(false);
         $("perm-cam").textContent = "Live"; $("perm-cam").classList.add("ok");
       }).catch(function(){
+        $("view-camera").classList.remove("cam-opening");
         if (state.camOpen) setCamBlocked(true);
       });
     }
@@ -1371,6 +1375,7 @@
       }
       var v = $("camVideo");
       if (v){ try { v.pause(); } catch(e){} v.srcObject = null; }
+      $("view-camera").classList.add("cam-opening");
       $("view-camera").classList.remove("cam-live");
     }
     /* Grab the frame the live feed is showing right now.
