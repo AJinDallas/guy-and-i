@@ -302,6 +302,14 @@
       .reunited{background:var(--good);color:#fff;font-size:.68rem;font-weight:800;padding:4px 9px;border-radius:999px;letter-spacing:.03em}
       .story-card p{margin:6px 0 0;font-size:.88rem;color:var(--ink2)}
       .story-card .meta{font-size:.76rem;color:var(--ink3);font-weight:600;margin-top:8px}
+      /* record holder (avatar + time + when) */
+      .rec-holder{display:flex;align-items:center;gap:10px;margin-top:10px}
+      .rec-avatar{position:relative;width:44px;height:44px;border-radius:50%;background:var(--surface2);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:1.5rem;flex:0 0 auto}
+      .rec-badge{position:absolute;right:-3px;bottom:-3px;font-size:.85rem;line-height:1;background:#2a2140;border-radius:50%;padding:2px}
+      .rec-who{display:flex;flex-direction:column;line-height:1.35}
+      .rec-name{font-weight:800;font-size:.95rem}
+      .rec-time{font-weight:800;font-size:.95rem}
+      .rec-when{font-size:.76rem;color:var(--ink3);font-weight:600}
 
       /* returned cards */
       .ret-card{display:block;width:100%;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden;padding:0;color:var(--ink);cursor:pointer}
@@ -830,6 +838,20 @@
                 <div class="safety-strip"><span aria-hidden="true">🏆</span><p><strong>The kind of thing that lands here:</strong> <span>a dog found 2,000 miles away three months later — or a cat missing in the morning, home within the hour.</span></p></div>
                 <article class="story-card">
                   <div class="sb">
+                    <h3>⚡ Fastest Capture</h3>
+                    <p>Quickest from hitting the Nebula Paw to the photo saved. 3.000 seconds or less earns the lightning bolt on your avatar.</p>
+                    <div class="rec-holder">
+                      <span class="rec-avatar" aria-hidden="true">🐵<span class="rec-badge" aria-hidden="true">⚡</span></span>
+                      <span class="rec-who">
+                        <span class="rec-name">AJ</span>
+                        <span class="rec-time">⚡ 2.7 seconds</span>
+                        <span class="rec-when">Set Mon, Nov 16, 2026 · 12:14:51 AM</span>
+                      </span>
+                    </div>
+                  </div>
+                </article>
+                <article class="story-card">
+                  <div class="sb">
                     <h3>⚡ Fastest recovery</h3>
                     <p>From spotted to home, quickest of all. Every minute counts when an animal is out there alone.</p>
                     <div class="meta">No record yet — the first reunion sets it</div>
@@ -849,7 +871,7 @@
                     <div class="meta">No record yet — the first reunion sets it</div>
                   </div>
                 </article>
-                <p class="demo-note" style="color:var(--ink3);margin:0">No records yet — the real ones are waiting to happen.</p>
+                <p class="demo-note" style="color:var(--ink3);margin:0">Fastest Capture is set — the reunion records are still waiting to happen.</p>
               </div>
             </section>
 
