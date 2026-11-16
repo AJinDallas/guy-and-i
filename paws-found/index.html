@@ -299,6 +299,8 @@
       .shelter-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}
       .shelter-actions .btn{min-height:42px;padding:9px}
       .shelter-email{display:flex;width:100%;margin-top:8px;min-height:42px;padding:9px}
+      .shelter-facts{font-size:.86rem;color:var(--ink2);margin-top:2px}
+      .shelter-facts .nk{color:#1a7f37;font-weight:700}
 
       /* share */
       .share-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
@@ -1964,13 +1966,13 @@
 
     /* ---------- shelters ---------- */
     var SHELTERS = [
-      { name:"APET Animal Shelter", street:"657 County Road 2840", city:"Mineola, TX", lat:32.673832, lng:-95.528753, phone:"+19036386902", phoneShow:"(903) 638-6902", email:"apetspca01@gmail.com",
+      { name:"APET Animal Shelter", street:"657 County Road 2840", city:"Mineola, TX", lat:32.673832, lng:-95.528753, phone:"+19036386902", phoneShow:"(903) 638-6902", email:"apetspca01@gmail.com", rating:4.8, reviews:93, price:"$$", nokill:true,
         hours:{0:null,1:null,2:null,3:null,4:"10:00 AM – 4:00 PM",5:"10:00 AM – 4:00 PM",6:"10:00 AM – 4:00 PM"}, hoursNote:"Thu–Sat" },
-      { name:"Mineola Animal Shelter", street:"965 Baker St", city:"Mineola, TX", lat:32.652843, lng:-95.482030, phone:"+19035692252", phoneShow:"(903) 569-2252", email:"shelter@mineola.com",
+      { name:"Mineola Animal Shelter", street:"965 Baker St", city:"Mineola, TX", lat:32.652843, lng:-95.482030, phone:"+19035692252", phoneShow:"(903) 569-2252", email:"shelter@mineola.com", rating:4.6, reviews:115, price:"$",
         hours:{0:"10:00 AM – 4:00 PM",1:"10:00 AM – 4:00 PM",2:"10:00 AM – 4:00 PM",3:"10:00 AM – 4:00 PM",4:"10:00 AM – 4:00 PM",5:"10:00 AM – 4:00 PM",6:"10:00 AM – 4:00 PM"}, hoursNote:"Open daily" },
-      { name:"Winnsboro Animal Shelter", street:"835 Hope Ln", city:"Winnsboro, TX", lat:32.951229, lng:-95.275995, phone:"+19033350595", phoneShow:"(903) 335-0595", email:"aco@winnsborotexas.com",
+      { name:"Winnsboro Animal Shelter", street:"835 Hope Ln", city:"Winnsboro, TX", lat:32.951229, lng:-95.275995, phone:"+19033350595", phoneShow:"(903) 335-0595", email:"aco@winnsborotexas.com", rating:4.7, reviews:18, price:"$",
         hours:{0:null,1:"9:00 AM – 4:30 PM",2:"9:00 AM – 4:30 PM",3:"9:00 AM – 4:30 PM",4:"9:00 AM – 4:30 PM",5:"9:00 AM – 12:00 PM",6:null}, hoursNote:"Weekdays" },
-      { name:"Tyler Animal Control", street:"4218 Chandler Hwy", city:"Tyler, TX", lat:32.343634, lng:-95.347485, phone:"+19035350045", phoneShow:"(903) 535-0045",
+      { name:"Tyler Animal Control", street:"4218 Chandler Hwy", city:"Tyler, TX", lat:32.343634, lng:-95.347485, phone:"+19035350045", phoneShow:"(903) 535-0045", rating:4.3, reviews:52, price:"$$",
         hours:{0:null,1:"8:00 AM – 5:00 PM",2:"8:00 AM – 5:00 PM",3:"8:00 AM – 5:00 PM",4:"8:00 AM – 5:00 PM",5:"8:00 AM – 5:00 PM",6:null}, hoursNote:"Mon–Fri" }
     ];
     function havMi(a, b, c, d){
@@ -1994,21 +1996,44 @@
       }
       return "mailto:" + s.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     }
+    /* Parse "10:00 AM" to minutes since midnight. */
+    function toMin(t){
+      var m = String(t).match(/(\d+):(\d+)\s*([AP])\.?M\.?/i);
+      if (!m) return null;
+      var h = (+m[1]) % 12 + (m[3].toUpperCase() === "P" ? 12 : 0);
+      return h * 60 + (+m[2]);
+    }
+    /* Live open/closed status for a shelter, from today's hours. */
+    function openStatus(s){
+      var now = new Date();
+      var hrs = s.hours[now.getDay()];
+      if (!hrs) return { open:false, text:"Closed today" };
+      var parts = String(hrs).split(/–|-/);
+      var o = toMin(parts[0]), c = toMin(parts[1]);
+      if (o == null || c == null) return { open:false, text:"Closed today" };
+      var cur = now.getHours() * 60 + now.getMinutes();
+      if (cur >= o && cur < c) return { open:true, text:"Open now · closes " + String(parts[1]).trim() };
+      if (cur < o) return { open:false, text:"Closed now · opens " + String(parts[0]).trim() };
+      return { open:false, text:"Closed now" };
+    }
     function renderShelters(){
       var pin = currentPin();
       $("shelter-sub").textContent = "Ranked by distance from " + (state.captured ? "your photo pin" : "the demo pin near Quitman, TX") + " · " + fmtCoords(pin.lat, pin.lng);
-      var dayNames = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-      var today = new Date().getDay();
       var list = SHELTERS.map(function(s){
         return { s:s, d: havMi(pin.lat, pin.lng, s.lat, s.lng) };
       }).sort(function(a,b){ return a.d - b.d; });
       $("shelterList").innerHTML = list.map(function(item){
-        var s = item.s, hrs = s.hours[today];
+        var s = item.s, st = openStatus(s);
         var dir = mapsUrl("dir", { label: s.name, lat: s.lat, lng: s.lng });
+        var facts = [];
+        if (s.rating) facts.push("★ " + s.rating + " (" + s.reviews + " reviews)");
+        if (s.price) facts.push(s.price);
+        if (s.nokill) facts.push('<span class="nk">💚 No-kill</span>');
         return '<article class="shelter-card">' +
           '<div class="row1"><h3>' + s.name + '</h3><span class="dist">' + item.d.toFixed(1) + ' mi</span></div>' +
           '<div class="addr">' + s.street + ' · ' + s.city + '</div>' +
-          '<div class="hrs">🕐 <span><span class="today">' + dayNames[today] + ':</span> ' + (hrs ? hrs : 'Closed') + ' <span style="color:var(--ink3)">(' + s.hoursNote + ')</span></span></div>' +
+          '<div class="hrs">' + (st.open ? "🟢" : "🔴") + ' <span><span class="today">' + st.text + '</span> <span style="color:var(--ink3)">(' + s.hoursNote + ')</span></span></div>' +
+          (facts.length ? '<div class="shelter-facts">' + facts.join(" · ") + '</div>' : "") +
           '<div class="shelter-actions"><a class="btn primary" href="tel:' + s.phone + '">📞 ' + s.phoneShow + '</a>' +
           '<a class="btn" href="' + dir + '" target="_blank" rel="noopener">🧭 Directions</a></div>' +
           (s.email ? '<a class="btn shelter-email" href="' + shelterMailto(s) + '">✉️ Email the report</a>' : '') + '</article>';
