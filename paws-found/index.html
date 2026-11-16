@@ -298,6 +298,7 @@
       .shelter-card .hrs .today{font-weight:700}
       .shelter-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}
       .shelter-actions .btn{min-height:42px;padding:9px}
+      .shelter-email{display:flex;width:100%;margin-top:8px;min-height:42px;padding:9px}
 
       /* share */
       .share-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
@@ -1963,11 +1964,11 @@
 
     /* ---------- shelters ---------- */
     var SHELTERS = [
-      { name:"APET Animal Shelter", street:"657 County Road 2840", city:"Mineola, TX", lat:32.673832, lng:-95.528753, phone:"+19036386902", phoneShow:"(903) 638-6902",
+      { name:"APET Animal Shelter", street:"657 County Road 2840", city:"Mineola, TX", lat:32.673832, lng:-95.528753, phone:"+19036386902", phoneShow:"(903) 638-6902", email:"apetspca01@gmail.com",
         hours:{0:null,1:null,2:null,3:null,4:"10:00 AM – 4:00 PM",5:"10:00 AM – 4:00 PM",6:"10:00 AM – 4:00 PM"}, hoursNote:"Thu–Sat" },
-      { name:"Mineola Animal Shelter", street:"965 Baker St", city:"Mineola, TX", lat:32.652843, lng:-95.482030, phone:"+19035692252", phoneShow:"(903) 569-2252",
+      { name:"Mineola Animal Shelter", street:"965 Baker St", city:"Mineola, TX", lat:32.652843, lng:-95.482030, phone:"+19035692252", phoneShow:"(903) 569-2252", email:"shelter@mineola.com",
         hours:{0:"10:00 AM – 4:00 PM",1:"10:00 AM – 4:00 PM",2:"10:00 AM – 4:00 PM",3:"10:00 AM – 4:00 PM",4:"10:00 AM – 4:00 PM",5:"10:00 AM – 4:00 PM",6:"10:00 AM – 4:00 PM"}, hoursNote:"Open daily" },
-      { name:"Winnsboro Animal Shelter", street:"835 Hope Ln", city:"Winnsboro, TX", lat:32.951229, lng:-95.275995, phone:"+19033350595", phoneShow:"(903) 335-0595",
+      { name:"Winnsboro Animal Shelter", street:"835 Hope Ln", city:"Winnsboro, TX", lat:32.951229, lng:-95.275995, phone:"+19033350595", phoneShow:"(903) 335-0595", email:"aco@winnsborotexas.com",
         hours:{0:null,1:"9:00 AM – 4:30 PM",2:"9:00 AM – 4:30 PM",3:"9:00 AM – 4:30 PM",4:"9:00 AM – 4:30 PM",5:"9:00 AM – 12:00 PM",6:null}, hoursNote:"Weekdays" },
       { name:"Tyler Animal Control", street:"4218 Chandler Hwy", city:"Tyler, TX", lat:32.343634, lng:-95.347485, phone:"+19035350045", phoneShow:"(903) 535-0045",
         hours:{0:null,1:"8:00 AM – 5:00 PM",2:"8:00 AM – 5:00 PM",3:"8:00 AM – 5:00 PM",4:"8:00 AM – 5:00 PM",5:"8:00 AM – 5:00 PM",6:null}, hoursNote:"Mon–Fri" }
@@ -1977,6 +1978,21 @@
       var x = Math.sin((c-a)*p/2), y = Math.sin((d-b)*p/2);
       var h = x*x + Math.cos(a*p)*Math.cos(c*p)*y*y;
       return 2*R*Math.asin(Math.sqrt(h));
+    }
+    /* Email a shelter the found-animal report. A mailto: link can't attach
+       photos, so the body carries the full report text — which links to the
+       report page with the photos — and the finder can attach photos from
+       the mail app. Only shown where we have a real email for the shelter. */
+    function shelterMailto(s){
+      var subject = "Found animal — Wayward Paws report";
+      var body;
+      var txt = reportText();
+      if (txt){
+        body = txt + "\n\nThe photos are on the report page above — or I can attach them here.";
+      } else {
+        body = "Hi " + s.name + ",\n\nI found an animal nearby and wanted to let you know. I'll attach photos and the exact location.\n\n— Sent from Wayward Paws";
+      }
+      return "mailto:" + s.email + "?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
     }
     function renderShelters(){
       var pin = currentPin();
@@ -1994,7 +2010,8 @@
           '<div class="addr">' + s.street + ' · ' + s.city + '</div>' +
           '<div class="hrs">🕐 <span><span class="today">' + dayNames[today] + ':</span> ' + (hrs ? hrs : 'Closed') + ' <span style="color:var(--ink3)">(' + s.hoursNote + ')</span></span></div>' +
           '<div class="shelter-actions"><a class="btn primary" href="tel:' + s.phone + '">📞 ' + s.phoneShow + '</a>' +
-          '<a class="btn" href="' + dir + '" target="_blank" rel="noopener">🧭 Directions</a></div></article>';
+          '<a class="btn" href="' + dir + '" target="_blank" rel="noopener">🧭 Directions</a></div>' +
+          (s.email ? '<a class="btn shelter-email" href="' + shelterMailto(s) + '">✉️ Email the report</a>' : '') + '</article>';
       }).join("");
     }
 
