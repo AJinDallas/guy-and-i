@@ -290,6 +290,7 @@
       .share-btn{display:flex;align-items:center;gap:11px;border:1.5px solid var(--line2);background:var(--surface);color:var(--ink);border-radius:14px;padding:12px 14px;font-weight:700;font-size:.93rem;text-decoration:none;min-height:52px}
       .share-btn .sic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:#fff;font-weight:800;flex:none;font-size:.9rem}
       .report-preview{background:var(--surface2);border:1.5px dashed var(--line2);border-radius:14px;padding:13px 15px;font-size:.86rem;color:var(--ink2);white-space:pre-line}
+      .report-preview .preview-logo{width:22px;height:22px;vertical-align:-4px;border-radius:6px}
 
       /* stories */
       .story-card{background:var(--surface);border:1px solid var(--line);border-radius:16px;overflow:hidden}
@@ -1893,7 +1894,7 @@
         "Spotted " + plainDate(dateShort) + " at " + plainDate(timeShort) + "\n" +
         "Where: " + where + " — See on Maps here " + mapsUrl("search", pin) + "\n" +
         "Details: " + identifierText() + "\n" +
-        "Be a hero today — get this animal home 💛";
+        "Be our hero today — get this animal home 💛";
     }
     /* Pick which burst frames go out when you share — 1 to 5, favorite first.
        Same picker as the shot page: tap a photo to make it your favorite,
@@ -1930,7 +1931,12 @@
     }
     function buildShare(){
       var txt = reportText();
-      $("reportPreview").textContent = txt;
+      /* The app shows the real Nebula Paw logo at the front of the header;
+         the text message itself keeps the paw emoji (plain text can't
+         carry an image). */
+      var html = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
+        .replace(/^🐾 /, '<img class="preview-logo" src="paw-icon-512.png" alt="The Nebula Paw"> ');
+      $("reportPreview").innerHTML = html;
       var enc = encodeURIComponent(txt);
       var pin = currentPin();
       var url = encodeURIComponent(mapsUrl("search", pin));
