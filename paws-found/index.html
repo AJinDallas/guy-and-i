@@ -163,8 +163,7 @@
       .act-item.done .st{color:#7CF2B2}
 
       /* camera */
-      .cam-wrap{position:relative;flex:1;background:#000;min-height:230px;overflow:hidden}
-      #view-camera{overflow-y:hidden}
+      .cam-wrap{position:relative;flex:1 1 auto;background:#000;min-height:200px;max-height:46vh;overflow:hidden}
       .cam-wrap img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;animation:drift 14s ease-in-out infinite alternate}
       /* live camera feed — shown only while a real stream is running;
          the demo photo underneath is the fallback when there is none */
@@ -182,9 +181,10 @@
       .hud-frame{position:absolute;inset:64px 34px;border:2px dashed rgba(255,255,255,.4);border-radius:18px;pointer-events:none}
       .hud-bottom{display:flex;flex-direction:column;gap:10px}
       .hud-loc{background:rgba(0,0,0,.58);border-radius:10px;padding:8px 12px;font-size:.78rem;display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
-      .cam-controls{display:flex;align-items:center;justify-content:space-between;padding:14px 26px calc(20px + env(safe-area-inset-bottom,0px));background:var(--bg)}
+      .cam-controls{display:flex;align-items:center;justify-content:space-between;padding:10px 26px calc(12px + env(safe-area-inset-bottom,0px));background:var(--bg)}
       .cam-controls .side-btn{width:48px;height:48px;border-radius:50%;border:1.5px solid var(--line2);background:var(--surface);color:var(--ink);font-size:1.05rem;display:grid;place-items:center}
       .shutter{width:76px;height:76px;border-radius:50%;background:var(--surface);border:5px solid var(--coral);display:grid;place-items:center;padding:0}
+      button{touch-action:manipulation}
       .shutter i{width:56px;height:56px;border-radius:50%;background:var(--coral);display:block}
       .shutter:active i{background:var(--coral-deep)}
       .flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none;z-index:5}
@@ -1231,6 +1231,7 @@
     function showView(name){
       /* Leaving the camera view any way at all releases the live feed. */
       if (name !== "camera" && state.liveStream) stopLiveCamera();
+      clearTimeout(state.camIdleTimer);
       views.forEach(function(v){ $("view-"+v).classList.toggle("on", v===name); });
       var screenEl = document.querySelector(".screen");
       if (screenEl) screenEl.classList.toggle("tos-locked", name === "terms" && !state.tosAgreed);
@@ -1317,6 +1318,10 @@
       showView("camera");
       startLiveCamera();
       startElapsed(); paintHud();
+      clearTimeout(state.camIdleTimer);
+      state.camIdleTimer = setTimeout(function(){
+        if (state.camOpen && state.liveStream){ stopLiveCamera(); stopElapsed(); toast("Camera paused — tap the paw to reopen"); }
+      }, 180000);
       $("hud-acc").textContent = "GPS locking…";
       setTimeout(function(){
         if (!state.real){ state.lat = DEMO.lat; state.lng = DEMO.lng; state.acc = 6; $("perm-loc").textContent = "Demo pin set"; }
@@ -1378,6 +1383,12 @@
       $("view-camera").classList.add("cam-opening");
       $("view-camera").classList.remove("cam-live");
     }
+    /* If the phone locks, the screen turns off, or the app goes to the
+       background, stop the camera — it must never sit live in a pocket. */
+    document.addEventListener("visibilitychange", function(){
+      if (document.hidden){ stopLiveCamera(); stopElapsed(); }
+    });
+    window.addEventListener("pagehide", function(){ stopLiveCamera(); stopElapsed(); });
     /* Grab the frame the live feed is showing right now.
        iOS notes: a <video> whose metadata hasn't landed yet reports
        videoWidth 0 and draws a blank canvas, and encoding five
@@ -1589,6 +1600,7 @@
     }
     function finishCapture(frames, secs, imgSrc, viaPicker, opts){
       state.camOpen = false;
+      clearTimeout(state.camIdleTimer);
       stopLiveCamera(); /* the photo is saved — the camera stops, as promised */
       var liveShot = !!(frames[0] && frames[0].src);
       var now = new Date();
