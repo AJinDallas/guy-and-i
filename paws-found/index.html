@@ -162,6 +162,19 @@
       .act-item .st{margin-left:auto;font-size:.8rem}
       .act-item.done .st{color:#7CF2B2}
 
+      /* welcome pop-up: first run, right after agreeing to Terms */
+      #welcomeOverlay .wel-box{width:100%;max-width:320px;text-align:center;background:#160B2B;border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:24px 20px 20px;box-shadow:var(--shadow)}
+      #welcomeOverlay h3{color:#fff;font-size:1.3rem;line-height:1.3;margin:0 0 6px}
+      #welcomeOverlay .wel-sub{color:#B9A9DE;font-size:.9rem;line-height:1.5;margin:0 0 16px}
+      .wel-pick{font-weight:700;font-size:.95rem;margin:0 0 10px;color:#fff}
+      .wel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+      .wel-av{font-size:1.7rem;line-height:1;background:rgba(255,255,255,.06);border:2px solid transparent;border-radius:14px;padding:9px 0;cursor:pointer;font-family:inherit}
+      .wel-av.sel{border-color:var(--amber);background:rgba(255,196,0,.14)}
+      .wel-name{width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:12px;padding:11px 13px;font-size:1rem;font-family:inherit;margin-bottom:12px;text-align:center}
+      .wel-name::placeholder{color:#8E7FB8}
+      .wel-go{width:100%;background:var(--coral);color:#fff;border:none;border-radius:999px;padding:13px;font-size:1.02rem;font-weight:800;cursor:pointer;font-family:inherit}
+      .wel-skip{background:none;border:none;color:#8E7FB8;font-size:.82rem;margin-top:10px;cursor:pointer;font-family:inherit;text-decoration:underline}
+
       /* camera */
       .cam-wrap{position:relative;flex:1 1 auto;background:#000;min-height:200px;max-height:42vh;overflow:hidden}
       .cam-wrap img{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;animation:drift 14s ease-in-out infinite alternate}
@@ -1034,6 +1047,19 @@
               </div>
             </div>
 
+            <!-- WELCOME: first run, right after agreeing to Terms -->
+            <div class="overlay" id="welcomeOverlay" aria-live="polite" role="dialog" aria-label="Welcome to Wayward Paws">
+              <div class="wel-box">
+                <h3>Alright, alright —<br />you're one of us now.</h3>
+                <p class="wel-sub">This is your corner of Wayward Paws. Pick an animal, give yourself a name, and you're in.</p>
+                <p class="wel-pick">Choose your paw 🐾</p>
+                <div class="wel-grid" id="welGrid"></div>
+                <input class="wel-name" id="welName" type="text" maxlength="24" placeholder="Your name" autocomplete="off" />
+                <button class="wel-go" id="welGo" type="button">Let's go</button>
+                <button class="wel-skip" id="welSkip" type="button">I'll do this later</button>
+              </div>
+            </div>
+
             <div class="toast" id="toast" role="status"></div>
 
             <!-- TAB BAR -->
@@ -1260,6 +1286,66 @@
       showView("terms");
       var sc = $("tosScroll"); if (sc) sc.scrollTop = 0;
     }
+
+    /* ---------- welcome pop-up: first run, pick an animal + a name ----------
+       Shows once, right after agreeing to Terms for the first time.
+       The pick is the user's profile — an animal avatar (paw animals
+       only) and a name — saved on this device. */
+    var PROFILE_KEY = "waywardpaws.profile.v1";
+    var AVATARS = ["🐶","🐱","🐵","🐻","🐼","🦊","🦁","🐯","🦝","🐨","🦦","🐰","🐾"];
+    var welAvatar = "🐾";
+    var welDest = "home";
+    function loadProfile(){
+      try {
+        var raw = localStorage.getItem(PROFILE_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch(e){ return null; }
+    }
+    function saveProfile(p){
+      try { localStorage.setItem(PROFILE_KEY, JSON.stringify(p)); } catch(e){ /* in-memory only */ }
+      state.profile = p;
+    }
+    state.profile = loadProfile();
+    function buildWelGrid(){
+      var g = $("welGrid"); if (!g || g.children.length) return;
+      AVATARS.forEach(function(a){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "wel-av"; b.textContent = a;
+        b.setAttribute("aria-label", "Avatar " + a);
+        b.addEventListener("click", function(){
+          welAvatar = a;
+          Array.prototype.forEach.call(g.children, function(c){ c.classList.toggle("sel", c === b); });
+        });
+        g.appendChild(b);
+      });
+    }
+    function showWelcome(dest){
+      welDest = dest || "home";
+      buildWelGrid();
+      var nm = $("welName"); if (nm) nm.value = (state.profile && state.profile.name) || "";
+      $("welcomeOverlay").classList.add("on");
+      if (nm) setTimeout(function(){ nm.focus(); }, 350);
+    }
+    function closeWelcome(){
+      $("welcomeOverlay").classList.remove("on");
+    }
+    function goAfterWelcome(){
+      if (welDest === "camera"){ openCamera(); }
+      else { showView("home"); }
+    }
+    function finishWelcome(){
+      var nm = ($("welName").value || "").trim();
+      saveProfile({ avatar: welAvatar, name: nm });
+      closeWelcome();
+      goAfterWelcome();
+      toast(nm ? "Welcome, " + nm + " " + welAvatar + " 💛" : "Welcome to Wayward Paws " + welAvatar + " 💛");
+    }
+    $("welGo").addEventListener("click", finishWelcome);
+    $("welSkip").addEventListener("click", function(){
+      closeWelcome();
+      goAfterWelcome();
+      toast("Welcome to Wayward Paws 💛");
+    });
 
     /* Deep link for the lock-screen Shortcut: opening the app with ?camera
        (or ?snap) in the address jumps straight into the camera, so the
@@ -2040,6 +2126,12 @@
     $("agreeBtn").addEventListener("click", function(){
       var firstTime = !state.tosAgreed;
       rememberAgreement();
+      /* First time through: welcome pop-up — pick an animal, give a
+         name — then on to where they were headed (camera or home). */
+      if (firstTime && !loadProfile()){
+        showWelcome(deepLinkWantsCamera() ? "camera" : "home");
+        return;
+      }
       if (deepLinkWantsCamera()){ openCamera(); } else { showView("home"); }
       toast(firstTime ? "Thanks for reading — welcome to Wayward Paws 💛" : "Got it — back to the app 💛");
     });
