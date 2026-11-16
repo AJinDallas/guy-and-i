@@ -1893,8 +1893,8 @@
       var timeShort = String(c.timeStr).replace(/:\d{2}( [AP]M)$/, "$1");
       return "🐾 Wayward Paws — FOUND ANIMAL\n" +
         "Full report and photos here ajindallas.github.io/guy-and-i/paws-found/\n" +
-        "Spotted " + plainDate(dateShort) + " at " + plainDate(timeShort) + "\n" +
-        "Where: " + where + " — See on Maps here " + mapsUrl("search", pin).replace(/^https:\/\//, "") + "\n" +
+        plainDate(dateShort) + " at " + plainDate(timeShort) + "\n" +
+        "Where: " + where + " — Map: " + mapsUrl("search", pin).replace(/^https:\/\//, "") + "\n" +
         "Details: " + identifierText() + "\n" +
         "Be our hero today — get this animal home 💛";
     }
