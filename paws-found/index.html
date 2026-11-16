@@ -1211,7 +1211,7 @@
     "use strict";
     var DEMO = { lat: 32.7968, lng: -95.4444, label: "Quitman, TX (demo pin)" };
     var state = {
-      lat: DEMO.lat, lng: DEMO.lng, acc: 14, real: false,
+      lat: DEMO.lat, lng: DEMO.lng, acc: 14, real: false, city: "", cityFor: "",
       captured: null, // {id, dateStr, timeStr, lat, lng, acc, real}
       mapMountedFor: null,
       jitterTimer: null,
@@ -1303,7 +1303,32 @@
         state.acc = Math.max(3, Math.round(pos.coords.accuracy || 10)); state.real = true;
         $("perm-loc").textContent = "Locked · live"; $("perm-loc").classList.add("ok");
         paintHud();
+        fetchCity(state.lat, state.lng);
       }, function(){ /* keep demo pin */ }, { enableHighAccuracy:true, timeout:6000, maximumAge:15000 });
+    }
+    /* Turn the GPS pin into a city name (BigDataCloud, free, no key) so the
+       shared report can say "Quitman, TX" next to the coordinates — most
+       people can't read lat/long, but they know their city. Runs in the
+       background; if it fails or hasn't finished, the report just shows
+       the coordinates like before. */
+    function fetchCity(lat, lng){
+      if (!window.fetch) return;
+      var key = lat.toFixed(3) + "," + lng.toFixed(3);
+      if (state.cityFor === key && state.city) return;
+      state.cityFor = key;
+      fetch("https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=" + lat + "&longitude=" + lng + "&localityLanguage=en")
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          if (!d) return;
+          var place = d.city || d.locality || "";
+          if (!place) return;
+          var st = "";
+          if (d.principalSubdivisionCode){ var parts = String(d.principalSubdivisionCode).split("-"); st = parts[parts.length - 1] || ""; }
+          if (!st) st = d.principalSubdivision || "";
+          state.city = st ? place + ", " + st : place;
+          if ($("view-share") && $("view-share").classList.contains("on")) buildShare();
+        })
+        .catch(function(){ /* no city — the report falls back to coordinates */ });
     }
     function startElapsed(){
       stopElapsed();
@@ -1332,7 +1357,7 @@
       }, 180000);
       $("hud-acc").textContent = "GPS locking…";
       setTimeout(function(){
-        if (!state.real){ state.lat = DEMO.lat; state.lng = DEMO.lng; state.acc = 6; $("perm-loc").textContent = "Demo pin set"; }
+        if (!state.real){ state.lat = DEMO.lat; state.lng = DEMO.lng; state.acc = 6; $("perm-loc").textContent = "Demo pin set"; fetchCity(state.lat, state.lng); }
         paintHud(); startJitter();
       }, 900);
     }
@@ -1654,7 +1679,8 @@
         primary: (opts && typeof opts.primary === "number")
           ? Math.min(opts.primary, frames.length - 1)
           : (frames.length > 1 ? Math.min(SHARPEST, frames.length - 1) : 0),
-        sel: frames.map(function(_, i){ return i; })
+        sel: frames.map(function(_, i){ return i; }),
+        city: state.city || ""
       };
       var c = state.captured;
       $("st-id").textContent = c.id;
@@ -1843,10 +1869,12 @@
     function reportText(){
       var c = state.captured; if (!c) return "";
       var pin = { label: "Found animal · " + c.id, lat: c.lat, lng: c.lng };
+      var city = c.city || state.city || "";
+      var where = city ? city + " — " + fmtCoords(c.lat, c.lng) : fmtCoords(c.lat, c.lng);
       return "🐾 FOUND ANIMAL — Wayward Paws report " + c.id + "\n" +
         "https://ajindallas.github.io/guy-and-i/paws-found/\n" +
         "Spotted: " + c.dateStr + " at " + c.timeStr + "\n" +
-        "Where: " + fmtCoords(c.lat, c.lng) + "\n" +
+        "Where: " + where + "\n" +
         "Details: " + identifierText() + "\n" +
         "See the exact pin on the map here " + mapsUrl("search", pin) + " — it opens in Google Maps.\n" +
         "Please share — help get this animal home. 💛";
