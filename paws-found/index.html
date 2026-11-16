@@ -1844,11 +1844,11 @@
       var c = state.captured; if (!c) return "";
       var pin = { label: "Found animal · " + c.id, lat: c.lat, lng: c.lng };
       return "🐾 FOUND ANIMAL — Wayward Paws report " + c.id + "\n" +
-        "Wayward Paws: https://ajindallas.github.io/guy-and-i/paws-found/\n" +
+        "https://ajindallas.github.io/guy-and-i/paws-found/\n" +
         "Spotted: " + c.dateStr + " at " + c.timeStr + "\n" +
         "Where: " + fmtCoords(c.lat, c.lng) + "\n" +
         "Details: " + identifierText() + "\n" +
-        "Map: " + mapsUrl("search", pin) + "\n" +
+        "Map — " + mapsUrl("search", pin) + "\n" +
         "Please share — help get this animal home. 💛";
     }
     /* Pick which burst frames go out when you share — 1 to 5, favorite first.
