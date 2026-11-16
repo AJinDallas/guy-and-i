@@ -2390,7 +2390,11 @@
       if (!list.length){ box.innerHTML = ""; applyFeed(); return; }
       var html = '<div class="sec-label" style="margin-bottom:8px">📸 Your reports — they stay on your phone</div>';
       html += list.map(function(r){
-        var dist = havMi(DEMO.lat, DEMO.lng, r.lat, r.lng);
+        /* Distance from where you actually are (real GPS when we have
+           it) — not from the demo pin. A report taken where you're
+           standing is ~0 mi away, so it shows at any radius. */
+        var ref = (state.real && state.lat && state.lng) ? { lat: state.lat, lng: state.lng } : DEMO;
+        var dist = havMi(ref.lat, ref.lng, r.lat, r.lng);
         var det = r.details || "";
         var first = det.split(" · ")[0] || "";
         var title = first || "Found animal";
