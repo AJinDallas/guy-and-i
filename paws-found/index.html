@@ -1420,6 +1420,13 @@
        background, stop the camera — it must never sit live in a pocket. */
     document.addEventListener("visibilitychange", function(){
       if (document.hidden){ stopLiveCamera(); stopElapsed(); }
+      else if (state.camOpen && !state.liveStream && $("view-camera").classList.contains("on")){
+        /* The app came back to the foreground with the camera view still open.
+           The feed was stopped on hide so it never sits live in a pocket —
+           restart it now so the viewfinder doesn't come back black. */
+        startLiveCamera();
+        startElapsed();
+      }
     });
     window.addEventListener("pagehide", function(){ stopLiveCamera(); stopElapsed(); });
     /* Grab the frame the live feed is showing right now.
