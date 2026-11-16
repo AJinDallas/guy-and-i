@@ -1239,6 +1239,16 @@
       var sc = $("tosScroll"); if (sc) sc.scrollTop = 0;
     }
 
+    /* Deep link for the lock-screen Shortcut: opening the app with ?camera
+       (or ?snap) in the address jumps straight into the camera, so the
+       lock-screen button is one tap to snapping. Terms still come first
+       on a fresh device — the camera opens after agreeing. */
+    function deepLinkWantsCamera(){
+      try {
+        var q = new URLSearchParams(location.search);
+        return q.has("camera") || q.has("snap");
+      } catch(e){ return /[?&](camera|snap)(=|&|$)/.test(location.search); }
+    }
     function showView(name){
       /* Leaving the camera view any way at all releases the live feed. */
       if (name !== "camera" && state.liveStream) stopLiveCamera();
@@ -2008,7 +2018,7 @@
     $("agreeBtn").addEventListener("click", function(){
       var firstTime = !state.tosAgreed;
       rememberAgreement();
-      showView("home");
+      if (deepLinkWantsCamera()){ openCamera(); } else { showView("home"); }
       toast(firstTime ? "Thanks for reading — welcome to Wayward Paws 💛" : "Got it — back to the app 💛");
     });
     $("reopenTerms").addEventListener("click", function(){ showTerms(true); });
@@ -2137,8 +2147,9 @@
     applyFeed();
     paintHud();
     /* First launch: Terms of Service gate. Once agreed (remembered on this
-       device), launches go straight into the app like normal. */
-    if (state.tosAgreed){ showView("home"); } else { showTerms(false); }
+       device), launches go straight into the app like normal — or straight
+       into the camera when the lock-screen deep link (?camera / ?snap) is on. */
+    if (state.tosAgreed){ if (deepLinkWantsCamera()){ openCamera(); } else { showView("home"); } } else { showTerms(false); }
   })();
   </script>
   </body>
