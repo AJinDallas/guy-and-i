@@ -216,6 +216,9 @@
       .fthumb.primary{border-color:var(--amber)}
       .fthumb.primary .fkept{background:var(--amber);border-color:var(--amber);color:#231a00}
       .fthumb .fsharp{position:absolute;top:-7px;right:-5px;background:var(--amber);color:#231a00;font-size:.6rem;font-weight:800;padding:3px 6px;border-radius:999px}
+      .fthumb.off{opacity:.45}
+      .fthumb .fcheck{position:absolute;bottom:-8px;left:-5px;background:var(--teal);color:#fff;font-size:.68rem;font-weight:800;width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
+      .fthumb.off .fcheck{background:var(--surface);border:1.5px solid var(--line2);color:var(--ink3)}
       .share-pick{margin:14px 0 4px}
       .share-pick .sec-label{margin-bottom:8px}
       .share-count{margin-top:8px;font-size:.8rem;color:var(--ink2);text-align:center}
@@ -223,8 +226,13 @@
       .sthumb img{width:100%;height:64px;object-fit:cover;border-radius:10px;display:block}
       .sthumb .fno{position:absolute;top:-7px;left:-5px;background:var(--ink);color:var(--bg);font-size:.64rem;font-weight:800;width:19px;height:19px;border-radius:50%;display:grid;place-items:center}
       .sthumb.sel{border-color:var(--teal)}
-      .sthumb .scheck{position:absolute;top:-8px;right:-5px;background:var(--teal);color:#fff;font-size:.68rem;font-weight:800;width:20px;height:20px;border-radius:50%;display:none;place-items:center}
-      .sthumb.sel .scheck{display:grid}
+      .sthumb .scheck{position:absolute;bottom:-8px;left:-5px;background:var(--teal);color:#fff;font-size:.68rem;font-weight:800;width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
+      .sthumb.off{opacity:.45}
+      .sthumb.off .scheck{background:var(--surface);border:1.5px solid var(--line2);color:var(--ink3)}
+      .sthumb.primary{border-color:var(--amber)}
+      .sthumb .fkept{position:absolute;bottom:-7px;right:-4px;background:var(--surface);border:1.5px solid var(--line2);color:var(--ink3);font-size:.62rem;font-weight:800;padding:3px 7px;border-radius:999px}
+      .sthumb.primary .fkept{background:var(--amber);border-color:var(--amber);color:#231a00}
+      .sthumb .fsharp{position:absolute;top:-7px;right:-5px;background:var(--amber);color:#231a00;font-size:.6rem;font-weight:800;padding:3px 6px;border-radius:999px}
 
       /* captured */
       .shot{border-radius:18px;overflow:hidden;border:1px solid var(--line);background:var(--surface)}
@@ -672,8 +680,8 @@
                   </div>
                 </div>
                 <div id="burstBox">
-                  <div class="sec-label">▣ Burst ×5 — tap your favorite</div>
-                  <p style="margin:5px 0 9px;color:var(--ink2);font-size:.85rem">One press fired all five frames. The clearest one starts as your favorite — tap any frame to pick a different one instead. Your favorite is the photo that goes on the report.</p>
+                  <div class="sec-label">▣ Burst ×5 — pick your favorite, keep 1 to 5</div>
+                  <p style="margin:5px 0 9px;color:var(--ink2);font-size:.85rem">One press fired all five frames. The clearest one starts as your favorite — tap any frame to pick a different one instead. Your favorite is the first photo people see. Tap ✓ to leave a frame out — keep anywhere from one to five.</p>
                   <div class="filmstrip" id="filmstrip"></div>
                 </div>
                 <div class="stopped-note"><span aria-hidden="true">⏹️</span><span><strong>Done running.</strong> The photo is saved with its geotag, so camera, GPS and clock have stopped. Nothing else happens until <em>you</em> choose below.</span></div>
@@ -756,7 +764,7 @@
                 </div>
                 <div class="report-preview mono" id="reportPreview">—</div>
                 <div class="share-pick" id="sharePick">
-                  <div class="sec-label">📸 Choose photos to share — tap to pick, 1 to 5</div>
+                  <div class="sec-label">📸 Choose photos to share — favorite first, 1 to 5</div>
                   <div class="filmstrip" id="shareStrip"></div>
                   <div class="share-count mono" id="shareCount"></div>
                 </div>
@@ -1544,16 +1552,49 @@
       });
       return best;
     }
+    /* The picked set: which burst frames are shown and shared, 1 to 5.
+       The favorite (c.primary) is the first one people see. The app's
+       clearest pick is only a suggestion — tap any frame to make it the
+       favorite instead, tap the ✓ to leave a frame out or add it back. */
+    function orderedSel(c){
+      if (!c || !c.sel || !c.sel.length) return c ? [c.primary] : [];
+      var out = [c.primary];
+      c.sel.forEach(function(i){ if (i !== c.primary) out.push(i); });
+      return out;
+    }
+    function setFavorite(i){
+      var c = state.captured; if (!c) return;
+      var wasSel = c.sel.indexOf(i) !== -1;
+      if (!wasSel){ c.sel.push(i); c.sel.sort(function(a, b){ return a - b; }); }
+      if (c.primary === i && wasSel) return;
+      c.primary = i;
+      paintShot(); renderFilmstrip(); renderShareStrip(); updatePhotoCount();
+      toast("Frame " + (i+1) + " is your favorite — that's the first one people see ♥");
+    }
+    function toggleFrame(i){
+      var c = state.captured; if (!c) return;
+      var at = c.sel.indexOf(i);
+      if (at !== -1){
+        if (c.sel.length <= 1){ toast("Keep at least one photo — that's the one that goes out"); return; }
+        c.sel.splice(at, 1);
+        if (c.primary === i){ c.primary = c.sel[0]; }
+      } else {
+        c.sel.push(i);
+        c.sel.sort(function(a, b){ return a - b; });
+      }
+      paintShot(); renderFilmstrip(); renderShareStrip(); updatePhotoCount();
+    }
     function renderFilmstrip(){
       var c = state.captured; if (!c) return;
       var strip = $("filmstrip"); strip.innerHTML = "";
       var clearest = clearestIndex(c);
       c.frames.forEach(function(fr, i){
         var isFav = c.primary === i;
+        var isSel = c.sel.indexOf(i) !== -1;
         var b = document.createElement("button");
-        b.className = "fthumb" + (isFav ? " primary" : "");
+        b.className = "fthumb" + (isFav ? " primary" : "") + (isSel ? "" : " off");
         b.setAttribute("aria-pressed", isFav ? "true" : "false");
-        b.setAttribute("aria-label", "Frame " + (i+1) + (i === clearest && c.frames.length > 1 ? ", the clearest" : "") + (isFav ? ", your favorite" : "") + ". Tap to make this frame your favorite.");
+        b.setAttribute("aria-label", "Frame " + (i+1) + (i === clearest && c.frames.length > 1 ? ", the clearest" : "") + (isFav ? ", your favorite" : "") + (isSel ? ", included" : ", left out") + ". Tap to make this frame your favorite, tap the check to " + (isSel ? "leave it out" : "add it back") + ".");
         var im = document.createElement("img");
         im.src = fr.src || c.imgSrc; im.alt = "";
         im.style.objectPosition = fr.pos; im.style.transform = "scale(" + fr.scale + ")";
@@ -1562,12 +1603,9 @@
         var no = document.createElement("span"); no.className = "fno"; no.textContent = i+1; b.appendChild(no);
         if (i === clearest && c.frames.length > 1){ var sh = document.createElement("span"); sh.className = "fsharp"; sh.textContent = "★ CLEAREST"; b.appendChild(sh); }
         if (isFav){ var kp = document.createElement("span"); kp.className = "fkept"; kp.textContent = "♥ FAVORITE"; b.appendChild(kp); }
-        b.addEventListener("click", function(){
-          if (c.primary === i) return;
-          c.primary = i;
-          paintShot(); renderFilmstrip(); updatePhotoCount();
-          toast("Frame " + (i+1) + " is your favorite — that's the one on your report ♥");
-        });
+        var ck = document.createElement("span"); ck.className = "fcheck"; ck.textContent = isSel ? "✓" : "＋"; b.appendChild(ck);
+        ck.addEventListener("click", function(ev){ ev.stopPropagation(); toggleFrame(i); });
+        b.addEventListener("click", function(){ setFavorite(i); });
         strip.appendChild(b);
       });
     }
@@ -1589,7 +1627,7 @@
       $("st-photos").textContent = c.viaPicker
         ? "Picked photo · stamped with this spot & time"
         : (c.frames.length > 1
-          ? "Burst ×5 · favorite: frame " + (c.primary+1) + " of " + c.frames.length + " — that's the one submitted"
+          ? "Burst ×5 · showing " + c.sel.length + " of " + c.frames.length + " · favorite: frame " + (c.primary+1) + " — that's the first one people see"
           : "Single photo");
       $("burstBox").style.display = c.frames.length > 1 ? "" : "none";
       var fb = $("favBadge");
@@ -1615,7 +1653,8 @@
         live: liveShot,
         primary: (opts && typeof opts.primary === "number")
           ? Math.min(opts.primary, frames.length - 1)
-          : (frames.length > 1 ? Math.min(SHARPEST, frames.length - 1) : 0)
+          : (frames.length > 1 ? Math.min(SHARPEST, frames.length - 1) : 0),
+        sel: frames.map(function(_, i){ return i; })
       };
       var c = state.captured;
       $("st-id").textContent = c.id;
@@ -1812,44 +1851,38 @@
         "Map: " + mapsUrl("search", pin) + "\n" +
         "Please share — help get this animal home. 💛";
     }
-    /* Pick which burst frames go out when you share — 1 to 5, favorite pre-picked. */
+    /* Pick which burst frames go out when you share — 1 to 5, favorite first.
+       Same picker as the shot page: tap a photo to make it your favorite,
+       tap the ✓ to leave a frame out or add it back. */
     function renderShareStrip(){
       var c = state.captured;
       var pick = $("sharePick");
       if (!c || !c.frames || c.frames.length < 2){ if (pick) pick.style.display = "none"; return; }
       if (pick) pick.style.display = "";
-      if (!state.shareSel || !state.shareSel.length){ state.shareSel = [c.primary]; }
-      state.shareSel = state.shareSel.filter(function(i){ return i >= 0 && i < c.frames.length; });
-      if (!state.shareSel.length){ state.shareSel = [c.primary]; }
       var strip = $("shareStrip"); strip.innerHTML = "";
+      var clearest = clearestIndex(c);
       c.frames.forEach(function(fr, i){
-        var sel = state.shareSel.indexOf(i) !== -1;
+        var sel = c.sel.indexOf(i) !== -1;
+        var isFav = c.primary === i;
         var b = document.createElement("button");
-        b.className = "sthumb" + (sel ? " sel" : "");
-        b.setAttribute("aria-pressed", sel ? "true" : "false");
-        b.setAttribute("aria-label", "Frame " + (i+1) + (sel ? ", selected to share" : "") + ". Tap to " + (sel ? "remove it from" : "add it to") + " the photos you share.");
+        b.className = "sthumb" + (sel ? " sel" : " off") + (isFav ? " primary" : "");
+        b.setAttribute("aria-pressed", isFav ? "true" : "false");
+        b.setAttribute("aria-label", "Frame " + (i+1) + (i === clearest ? ", the clearest" : "") + (isFav ? ", your favorite" : "") + (sel ? ", selected to share" : ", left out") + ". Tap to make it your favorite, tap the check to " + (sel ? "leave it out" : "add it back") + ".");
         var im = document.createElement("img");
         im.src = fr.src || c.imgSrc; im.alt = "";
         im.style.objectPosition = fr.pos; im.style.transform = "scale(" + fr.scale + ")";
         im.style.filter = fr.blur ? "blur(" + fr.blur + "px)" : "none";
         b.appendChild(im);
         var no = document.createElement("span"); no.className = "fno"; no.textContent = i+1; b.appendChild(no);
-        var ck = document.createElement("span"); ck.className = "scheck"; ck.textContent = "✓"; b.appendChild(ck);
-        b.addEventListener("click", function(){
-          var at = state.shareSel.indexOf(i);
-          if (at !== -1){
-            if (state.shareSel.length <= 1){ toast("Keep at least one photo — that's the one that goes out"); return; }
-            state.shareSel.splice(at, 1);
-          } else {
-            state.shareSel.push(i);
-            state.shareSel.sort(function(a, b){ return a - b; });
-          }
-          renderShareStrip();
-        });
+        if (i === clearest){ var sh = document.createElement("span"); sh.className = "fsharp"; sh.textContent = "★ CLEAREST"; b.appendChild(sh); }
+        if (isFav){ var kp = document.createElement("span"); kp.className = "fkept"; kp.textContent = "♥ FAVORITE"; b.appendChild(kp); }
+        var ck = document.createElement("span"); ck.className = "scheck"; ck.textContent = sel ? "✓" : "＋"; b.appendChild(ck);
+        ck.addEventListener("click", function(ev){ ev.stopPropagation(); toggleFrame(i); });
+        b.addEventListener("click", function(){ setFavorite(i); });
         strip.appendChild(b);
       });
-      var n = state.shareSel.length;
-      $("shareCount").textContent = "Sharing " + n + " photo" + (n > 1 ? "s" : "") + " of " + c.frames.length + " — the favorite is picked for you, tap to add or remove";
+      var n = c.sel.length;
+      $("shareCount").textContent = "Sharing " + n + " photo" + (n > 1 ? "s" : "") + " of " + c.frames.length + " — your favorite goes first";
     }
     function buildShare(){
       var txt = reportText();
@@ -1861,7 +1894,6 @@
       $("shX").href = "https://twitter.com/intent/tweet?text=" + enc;
       $("shWa").href = "https://wa.me/?text=" + enc;
       $("shSms").href = "sms:?&body=" + enc;
-      state.shareSel = null;
       renderShareStrip();
     }
     $("goReturned").addEventListener("click", function(){ showView("returned"); });
@@ -1879,7 +1911,7 @@
       if (!navigator.share){ toast("Your share sheet would open here in the app"); return; }
       var c = state.captured;
       var shareTxt = { title:"Wayward Paws — found animal", text: txt };
-      var idxs = (state.shareSel && state.shareSel.length) ? state.shareSel.slice() : (c ? [c.primary] : []);
+      var idxs = orderedSel(c);
       var srcs = [];
       if (c && c.frames){
         idxs.forEach(function(i){
