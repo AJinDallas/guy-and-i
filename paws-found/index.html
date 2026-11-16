@@ -2432,7 +2432,7 @@
             '<div class="meta">🕐 ' + r.dateStr + ' · ' + r.timeStr + ' · ' + where + ' · ' + dist.toFixed(1) + ' mi from home · <a href="' + mapLink + '" target="_blank" rel="noopener">See on map 📍</a></div>' +
             '<div class="feed-actions">' +
               '<button class="follow-btn" type="button" aria-pressed="false">＋ Follow</button>' +
-              '<button class="follow-btn" type="button" data-again="' + r.id + '">🔁 Out again</button>' +
+              '<button class="follow-btn" type="button" data-again="' + r.id + '">🤷 Out again</button>' +
               reacts +
             '</div>' +
           '</div>' +
@@ -2457,7 +2457,7 @@
           saveReports(all);
           if (state.captured && state.captured.id === r.id) state.captured.escapes = n;
           renderFeed();
-          toast("Noted — out again. That's escape #" + n + " for this one 🌀");
+          toast("Out again 🤷 — that's escape #" + n + " for this one");
         });
       });
       applyFeed();
