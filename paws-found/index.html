@@ -1885,14 +1885,15 @@
       var c = state.captured; if (!c) return "";
       var pin = { label: "Found animal · " + c.id, lat: c.lat, lng: c.lng };
       var city = c.city || state.city || "";
-      var where = city ? city + " — " + fmtCoords(c.lat, c.lng) : fmtCoords(c.lat, c.lng);
-      return "🐾 FOUND ANIMAL — Wayward Paws report " + c.id + "\n" +
-        "Follow on Wayward Paws here https://ajindallas.github.io/guy-and-i/paws-found/ — the full report and photos live there.\n" +
-        "Spotted: " + plainDate(c.dateStr) + " at " + plainDate(c.timeStr) + "\n" +
-        "Where: " + where + "\n" +
+      var where = city || fmtCoords(c.lat, c.lng);
+      var dateShort = String(c.dateStr).replace(/, \d{4}$/, "");
+      var timeShort = String(c.timeStr).replace(/:\d{2}( [AP]M)$/, "$1");
+      return "🐾 Wayward Paws — FOUND ANIMAL\n" +
+        "Full report and photos here https://ajindallas.github.io/guy-and-i/paws-found/ — see it there.\n" +
+        "Spotted " + plainDate(dateShort) + " at " + plainDate(timeShort) + "\n" +
+        "Where: " + where + " — See on Maps here " + mapsUrl("search", pin) + "\n" +
         "Details: " + identifierText() + "\n" +
-        "See the exact pin on the map here " + mapsUrl("search", pin) + " — it opens in Google Maps.\n" +
-        "Please share — help get this animal home. 💛";
+        "Be a hero today — get this animal home 💛";
     }
     /* Pick which burst frames go out when you share — 1 to 5, favorite first.
        Same picker as the shot page: tap a photo to make it your favorite,
