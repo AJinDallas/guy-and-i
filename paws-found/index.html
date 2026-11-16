@@ -1794,16 +1794,18 @@
     }
     function mapsUrl(kind, pin){
       var place = { label: pin.label, lat: pin.lat, lng: pin.lng };
+      var q = pin.lat.toFixed(6) + "," + pin.lng.toFixed(6);
+      if (kind === "search"){
+        /* Short link — same pin, fewer characters in the shared message. */
+        return "https://maps.google.com/?q=" + q;
+      }
       try {
         if (window.MapHelpers){
-          var u = kind === "dir" ? MapHelpers.mapsDirectionsUrl(place, {}) : MapHelpers.mapsSearchUrl(place);
+          var u = MapHelpers.mapsDirectionsUrl(place, {});
           if (u) return u;
         }
       } catch(e){}
-      var q = pin.lat.toFixed(6) + "," + pin.lng.toFixed(6);
-      return kind === "dir"
-        ? "https://www.google.com/maps/dir/?api=1&destination=" + q
-        : "https://www.google.com/maps/search/?api=1&query=" + q;
+      return "https://www.google.com/maps/dir/?api=1&destination=" + q;
     }
     function renderMap(){
       var pin = currentPin();
@@ -1866,14 +1868,20 @@
     }
 
     /* ---------- share ---------- */
+    /* Keep the phone from underlining the date/time as a tappable "share the
+       date" link: a zero-width space breaks the detector's pattern but is
+       invisible to the reader. */
+    function plainDate(s){
+      return String(s).replace(/,/, ",​").replace(/ ([AP]M)$/, "​ $1");
+    }
     function reportText(){
       var c = state.captured; if (!c) return "";
       var pin = { label: "Found animal · " + c.id, lat: c.lat, lng: c.lng };
       var city = c.city || state.city || "";
       var where = city ? city + " — " + fmtCoords(c.lat, c.lng) : fmtCoords(c.lat, c.lng);
       return "🐾 FOUND ANIMAL — Wayward Paws report " + c.id + "\n" +
-        "https://ajindallas.github.io/guy-and-i/paws-found/\n" +
-        "Spotted: " + c.dateStr + " at " + c.timeStr + "\n" +
+        "Follow on Wayward Paws here https://ajindallas.github.io/guy-and-i/paws-found/ — the full report and photos live there.\n" +
+        "Spotted: " + plainDate(c.dateStr) + " at " + plainDate(c.timeStr) + "\n" +
         "Where: " + where + "\n" +
         "Details: " + identifierText() + "\n" +
         "See the exact pin on the map here " + mapsUrl("search", pin) + " — it opens in Google Maps.\n" +
