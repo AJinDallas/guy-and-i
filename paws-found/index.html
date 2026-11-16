@@ -289,6 +289,8 @@
       .share-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
       .share-btn{display:flex;align-items:center;gap:11px;border:1.5px solid var(--line2);background:var(--surface);color:var(--ink);border-radius:14px;padding:12px 14px;font-weight:700;font-size:.93rem;text-decoration:none;min-height:52px}
       .share-btn .sic{width:34px;height:34px;border-radius:9px;display:grid;place-items:center;color:#fff;font-weight:800;flex:none;font-size:.9rem}
+      .share-btn .lbl{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+      .share-btn .lbl small{font-weight:600;font-size:.78rem;color:var(--ink2)}
       .report-preview{background:var(--surface2);border:1.5px dashed var(--line2);border-radius:14px;padding:13px 15px;font-size:.86rem;color:var(--ink2);white-space:pre-line}
       .report-preview .preview-logo{width:22px;height:22px;vertical-align:-4px;border-radius:6px}
 
@@ -773,9 +775,9 @@
                   <a class="share-btn" id="shFb" href="#" target="_blank" rel="noopener"><span class="sic" style="background:#1877F2">f</span>Facebook</a>
                   <a class="share-btn" id="shX" href="#" target="_blank" rel="noopener"><span class="sic" style="background:#000">𝕏</span>X / Twitter</a>
                   <a class="share-btn" id="shWa" href="#" target="_blank" rel="noopener"><span class="sic" style="background:#25D366">✆</span>WhatsApp</a>
-                  <a class="share-btn" id="shSms" href="#"><span class="sic" style="background:#34B759">💬</span>Messages</a>
+                  <a class="share-btn" id="shSms" href="#"><span class="sic" style="background:#34B759">💬</span><span class="lbl">Messages<small>no photos</small></span></a>
                   <button class="share-btn" id="shCopy"><span class="sic" style="background:var(--teal)">⧉</span>Copy report</button>
-                  <button class="share-btn" id="shNative"><span class="sic" style="background:var(--coral)">📤</span>More options…</button>
+                  <button class="share-btn" id="shNative"><span class="sic" style="background:var(--coral)">📤</span><span class="lbl">More options…<small>with photos</small></span></button>
                 </div>
                 <div class="safety-strip"><span aria-hidden="true">💛</span><p><strong>Share kindly:</strong> <span>post the pin, not your live location — helpers will come to the animal.</span></p></div>
                 <button class="ghost-btn" data-back>← Back to my report</button>
