@@ -359,6 +359,8 @@
       .feed-actions{display:flex;align-items:center;gap:8px;margin-top:12px;flex-wrap:wrap}
       .follow-btn{border:1.5px solid var(--teal);background:var(--teal-soft);color:var(--ink);border-radius:999px;padding:8px 15px;font-weight:700;font-size:.85rem;min-height:40px}
       .follow-btn.on{background:var(--teal);color:#fff}
+      .remove-btn{border:1.5px solid var(--line2);background:transparent;color:var(--ink3);border-radius:999px;padding:8px 12px;font-weight:700;font-size:.8rem;min-height:40px}
+      .remove-btn.armed{border-color:var(--coral);background:var(--coral-soft);color:var(--ink)}
       .react{border:1.5px solid var(--line2);background:var(--surface2);color:var(--ink);border-radius:999px;padding:8px 12px;font-weight:700;font-size:.85rem;min-height:40px}
       .react.on{border-color:var(--coral);background:var(--coral-soft)}
       .react.paw{font-size:1.05rem;padding:10px 15px;min-height:44px}
@@ -2433,6 +2435,7 @@
             '<div class="feed-actions">' +
               '<button class="follow-btn" type="button" aria-pressed="false">＋ Follow</button>' +
               '<button class="follow-btn" type="button" data-again="' + r.id + '">🤷 Out again</button>' +
+              '<button class="remove-btn" type="button" data-remove="' + r.id + '">🗑 Remove</button>' +
               reacts +
             '</div>' +
           '</div>' +
@@ -2458,6 +2461,23 @@
           if (state.captured && state.captured.id === r.id) state.captured.escapes = n;
           renderFeed();
           toast("Out again 🤷 — that's escape #" + n + " for this one");
+        });
+        /* "Remove" — take one of your own reports off the Feed.
+           Two taps: the first arms it ("Tap again to remove"), the
+           second takes it off for good. Clearing the current capture
+           too, so the next render doesn't put it straight back. */
+        var rem = card.querySelector("[data-remove]");
+        if (rem) rem.addEventListener("click", function(){
+          if (!rem.classList.contains("armed")){
+            rem.classList.add("armed");
+            rem.textContent = "Tap again to remove";
+            return;
+          }
+          var all = loadReports().filter(function(x){ return x.id !== r.id; });
+          saveReports(all);
+          if (state.captured && state.captured.id === r.id) state.captured = null;
+          renderFeed();
+          toast("Report removed 🗑");
         });
       });
       applyFeed();
