@@ -263,6 +263,13 @@
       .chips{display:flex;flex-wrap:wrap;gap:7px}
       .chip{border:1.5px solid var(--line2);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 15px;font-weight:600;font-size:.88rem}
       .chip.sel{background:var(--teal);border-color:var(--teal);color:#fff}
+      .place-row{display:none;margin-top:9px;gap:8px}
+      .place-row.on{display:flex}
+      .place-row input{flex:1;min-width:0;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:12px;padding:10px 12px;font-size:.95rem;font-family:inherit}
+      .place-row input::placeholder{color:#8E7FB8}
+      .place-go{flex:none;border:1.5px solid var(--teal);background:var(--teal);color:#fff;border-radius:12px;padding:10px 16px;font-weight:800;font-size:.95rem;font-family:inherit}
+      .place-map{display:none;margin-top:7px;font-size:.85rem;font-weight:700}
+      .place-map.on{display:block}
       .note-in{width:100%;border:1.5px solid var(--line2);border-radius:12px;padding:12px 13px;font:inherit;font-size:.93rem;background:var(--surface);color:var(--ink)}
       .next-grid{display:flex;flex-direction:column;gap:9px}
       .next-btn{display:flex;align-items:center;gap:13px;text-align:left;border-radius:16px;padding:14px 16px;border:1.5px solid var(--line2);background:var(--surface);color:var(--ink);width:100%}
@@ -956,12 +963,17 @@
                   <div class="sec-label">How far around?</div>
                   <div style="height:8px"></div>
                   <div class="chips" id="aroundChips" role="group" aria-label="Around home or around me">
-                    <button class="chip sel" data-around="home">🏠 Around home</button><button class="chip" data-around="me">📍 Around me</button>
+                    <button class="chip sel" data-around="home">🏠 Around home</button><button class="chip" data-around="me">📍 Around me</button><button class="chip" data-around="place">🗺️ Another place</button>
                   </div>
                   <div style="height:7px"></div>
                   <div class="chips" id="radiusChips" role="group" aria-label="Radius in miles">
                     <button class="chip" data-r="1">1 mi</button><button class="chip sel" data-r="5">5 mi</button><button class="chip" data-r="10">10 mi</button><button class="chip" data-r="25">25 mi</button>
                   </div>
+                  <div class="place-row" id="placeRow">
+                    <input id="placeSearch" type="text" placeholder="City, zip, or address — e.g. Lafayette, LA" autocomplete="off" />
+                    <button class="place-go" id="placeGo" type="button">Go</button>
+                  </div>
+                  <a class="place-map" id="placeMapLink" href="#" target="_blank" rel="noopener">See this area on the map 🗺️</a>
                   <p style="margin:9px 0 0;color:var(--ink2);font-size:.85rem" id="feedCount">Showing animals spotted within 5 mi of home.</p>
                 </div>
                 <div class="stopped-note" id="feedAlert" style="display:none"><span aria-hidden="true">🔔</span><span id="feedAlertText"><strong>Good news!</strong> An animal you're following made it home. 🎉</span></div>
@@ -2333,16 +2345,20 @@
     });
 
     /* ---------- nearby feed: radius, follow, reactions ---------- */
-    var feedRadius = 5, feedAround = "home";
+    var feedRadius = 5, feedAround = "home", watchPlace = null; /* watchPlace: {lat, lng, label} — the "another place" you're keeping an eye on */
     function applyFeed(){
       var shown = 0;
+      var watching = (feedAround === "place" && watchPlace);
       document.querySelectorAll(".feed-card").forEach(function(card){
         var d = parseFloat(card.getAttribute("data-dist"));
-        var vis = d <= feedRadius;
+        /* Community examples live outside #realFeed — they belong to
+           home, not to the place you're watching, so they sit this one out. */
+        var isMock = !card.closest("#realFeed");
+        var vis = (d <= feedRadius) && !(watching && isMock);
         card.style.display = vis ? "" : "none";
         if (vis) shown++;
       });
-      var where = feedAround === "home" ? "home" : "you";
+      var where = feedAround === "home" ? "home" : feedAround === "me" ? "you" : (watchPlace ? watchPlace.label : "that place");
       $("feedCount").textContent = "Showing " + shown + (shown === 1 ? " animal" : " animals") + " spotted within " + feedRadius + " mi of " + where + ".";
       $("feedEmpty").style.display = shown === 0 ? "" : "none";
     }
@@ -2356,7 +2372,55 @@
       });
     }
     chipGroup("radiusChips", function(ch){ feedRadius = parseFloat(ch.getAttribute("data-r")); applyFeed(); });
-    chipGroup("aroundChips", function(ch){ feedAround = ch.getAttribute("data-around"); applyFeed(); });
+    chipGroup("aroundChips", function(ch){
+      feedAround = ch.getAttribute("data-around");
+      if (feedAround === "place"){ $("placeRow").classList.add("on"); }
+      else { $("placeRow").classList.remove("on"); $("placeMapLink").classList.remove("on"); watchPlace = null; renderFeed(); return; }
+      applyFeed();
+    });
+    /* "Another place" — watch a friend's area, or a friend's house while
+       they're out of town. Type a city, zip, or address; we look it up
+       (OpenStreetMap, no account) and the Feed re-centers on that spot.
+       Your own reports re-measure from the new spot; the community
+       examples sit out, because they belong to home. */
+    function shortPlaceName(display){
+      var parts = (display || "").split(", ");
+      if (!parts.length) return display || "that place";
+      /* US places come back "City, County, State, United States" — the
+         label people actually read is "City, State". A zip or a street
+         address leads instead, so the city is the next part over. */
+      if (parts[parts.length - 1] === "United States" && parts.length >= 3){
+        var state = parts[parts.length - 2];
+        var first = parts[0];
+        var city = (/^\d+$/.test(first) || /^\d+\s/.test(first)) ? (parts[1] || first) : first;
+        return city + ", " + state;
+      }
+      return parts.slice(0, 2).join(", ") || display || "that place";
+    }
+    function goToPlace(){
+      var q = ($("placeSearch").value || "").trim();
+      if (!q){ toast("Type a place first — a city, zip, or address"); return; }
+      var btn = $("placeGo"); btn.textContent = "…"; btn.disabled = true;
+      fetch("https://nominatim.openstreetmap.org/search?format=json&limit=1&q=" + encodeURIComponent(q), { headers: { "Accept": "application/json" } })
+        .then(function(res){ return res.json(); })
+        .then(function(list){
+          btn.textContent = "Go"; btn.disabled = false;
+          if (!list || !list.length){ toast("Couldn't find that place — try a city and state, like Lafayette, LA"); return; }
+          var hit = list[0];
+          watchPlace = { lat: parseFloat(hit.lat), lng: parseFloat(hit.lon), label: shortPlaceName(hit.display_name) };
+          var link = $("placeMapLink");
+          link.href = mapsUrl("search", { label: watchPlace.label, lat: watchPlace.lat, lng: watchPlace.lng });
+          link.classList.add("on");
+          renderFeed();
+          toast("Watching " + watchPlace.label + " 👀");
+        })
+        .catch(function(){
+          btn.textContent = "Go"; btn.disabled = false;
+          toast("Couldn't reach the place search — check your connection and try again");
+        });
+    }
+    $("placeGo").addEventListener("click", goToPlace);
+    $("placeSearch").addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); goToPlace(); } });
     /* Escape Artist badges — a badge on the feed card, never a separate
        page, and never blaming the owner: the animal is crafty, that's all.
        Out twice (2-4): the magic hat. Out five or more: Houdini himself —
@@ -2415,10 +2479,11 @@
       if (!list.length){ box.innerHTML = ""; applyFeed(); return; }
       var html = '<div class="sec-label" style="margin-bottom:8px">📸 Your reports — they stay on your phone</div>';
       html += list.map(function(r){
-        /* Distance from where you actually are (real GPS when we have
-           it) — not from the demo pin. A report taken where you're
-           standing is ~0 mi away, so it shows at any radius. */
-        var ref = (state.real && state.lat && state.lng) ? { lat: state.lat, lng: state.lng } : DEMO;
+        /* Distance from the spot you're watching — the place you searched,
+           or where you actually are (real GPS when we have it), or the
+           demo pin. A report taken where you're standing is ~0 mi away,
+           so it shows at any radius. */
+        var ref = (feedAround === "place" && watchPlace) ? watchPlace : ((state.real && state.lat && state.lng) ? { lat: state.lat, lng: state.lng } : DEMO);
         var dist = havMi(ref.lat, ref.lng, r.lat, r.lng);
         var det = r.details || "";
         var first = det.split(" · ")[0] || "";
