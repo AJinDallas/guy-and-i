@@ -685,6 +685,7 @@
                   <p>Willow the tabby made it home today. Tap to see who's back — when an animal's home, everybody can stop looking.</p>
                 </button>
                 <button class="ghost-btn" id="reopenTerms" type="button" style="align-self:center">📜 Read the Terms of Service again</button>
+                <p class="labs-egg" id="labsEgg" style="text-align:center;color:var(--ink3);font-size:.78rem;margin-top:2px;cursor:pointer">✨ Guy and I Labs ✨</p>
               </div>
             </section>
 
@@ -2335,6 +2336,21 @@
       toast(firstTime ? "Thanks for reading — welcome to Wayward Paws 💛" : "Got it — back to the app 💛");
     });
     $("reopenTerms").addEventListener("click", function(){ showTerms(true); });
+
+    /* ---------- Easter egg: tap "Guy and I Labs" — a secret message from Nibs ---------- */
+    /* The studio name at the bottom of Home is tappable. Each tap shows the
+       next secret from Nibs, then it cycles. He's the one hiding them. */
+    var nibsSecrets = [
+      "Psst — you found me. I'm Nibs, the nebula cat. That paw you tap? That's mine. 🐾",
+      "Shh — I'm everywhere in this app. Sometimes I'm on the feed, sometimes the map. Catch me if you can. 🌌",
+      "You found the secret! A rabbit, a monkey, and one very sneaky cat built this together. 💛"
+    ];
+    var nibsSecretIdx = 0;
+    var labsEgg = $("labsEgg");
+    if (labsEgg) labsEgg.addEventListener("click", function(){
+      toast(nibsSecrets[nibsSecretIdx % nibsSecrets.length]);
+      nibsSecretIdx++;
+    });
 
     /* ---------- home: brand mark & Home tab ---------- */
     /* Tapping the Wayward Paws name / paw logo in the app bar always goes
