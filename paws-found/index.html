@@ -1134,7 +1134,7 @@
               <button data-tab="stories"><span class="tic">💛</span>Stories</button>
               <button data-tab="records"><span class="tic">🏆</span>Records</button>
             </nav>
-            <div class="peek-cat" id="peekCat" aria-hidden="true">🐱</div>
+            <div class="peek-cat" id="peekCat" aria-hidden="true"><span id="peekCatFace">🐱</span></div>
           </div>
         </div>
         <p style="text-align:center;color:var(--ink3);font-size:.82rem;margin:12px 0 0">Concept mock-up — the flow, stamps and choices are all live. Try the paw, and tap the expand button in the app bar to go full screen.</p>
@@ -2378,16 +2378,41 @@
 
     /* ---------- the peek-a-boo kitten ---------- */
     var peekCat = $("peekCat");
+    var peekCatFace = $("peekCatFace");
     var peekCats = ["🐱","🐈","🐈‍⬛"];
+    var peekX = 0, peekDir = 1, peekWalking = false;
     function schedulePeek(){ setTimeout(peekCatPop, 25000 + Math.random() * 35000); }
+    /* While he's up he strolls along the bottom bar — he doesn't just
+       pop straight up and straight back down. He turns at the edges. */
+    function peekWalk(){
+      if (!peekWalking || !peekCat) return;
+      var screenW = peekCat.parentElement.offsetWidth;
+      var catW = peekCat.offsetWidth;
+      peekX += peekDir * 0.7;
+      var minX = 8, maxX = Math.max(minX, screenW - catW - 8);
+      if (peekX >= maxX){ peekX = maxX; peekDir = -1; }
+      if (peekX <= minX){ peekX = minX; peekDir = 1; }
+      peekCat.style.left = peekX + "px";
+      if (peekCatFace) peekCatFace.style.transform = peekDir === 1 ? "scaleX(-1)" : "";
+      requestAnimationFrame(peekWalk);
+    }
     function peekCatPop(){
       if (!peekCat) return;
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       if (!state.tosAgreed){ schedulePeek(); return; }
-      peekCat.textContent = peekCats[Math.floor(Math.random() * peekCats.length)];
-      peekCat.style.left = (8 + Math.random() * 68) + "%";
+      if (peekCatFace) peekCatFace.textContent = peekCats[Math.floor(Math.random() * peekCats.length)];
+      var screenW = peekCat.parentElement.offsetWidth;
+      peekX = (0.08 + Math.random() * 0.68) * screenW;
+      peekDir = Math.random() < 0.5 ? -1 : 1;
+      peekCat.style.left = peekX + "px";
       peekCat.classList.add("pop");
-      setTimeout(function(){ peekCat.classList.remove("pop"); }, 2400);
+      peekWalking = true;
+      requestAnimationFrame(peekWalk);
+      /* He stays a good while now — 4 to 6 seconds — then ducks down. */
+      setTimeout(function(){
+        peekWalking = false;
+        peekCat.classList.remove("pop");
+      }, 4000 + Math.random() * 2000);
       schedulePeek();
     }
     setTimeout(peekCatPop, 5000);
