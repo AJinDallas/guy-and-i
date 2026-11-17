@@ -93,6 +93,12 @@
          now and then, at a random spot, then ducks back down. */
       .peek-cat{position:absolute;left:12%;bottom:calc(66px + env(safe-area-inset-bottom,0px));font-size:2rem;line-height:1;z-index:25;transform:translateY(320%);transition:transform .5s cubic-bezier(.34,1.56,.64,1);pointer-events:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
       .peek-cat.pop{transform:translateY(0)}
+      /* The walking cat: a little ledge above the yellow "3-second
+         window" box on Home. He strolls back and forth along the top
+         of the box and always turns at the edge — he never falls off.
+         Tap him and he turns around on the spot, just for fun. */
+      .walk-ledge{position:relative;display:inline-block;margin-top:30px}
+      .walk-cat{position:absolute;left:0;bottom:100%;font-size:1.5rem;line-height:1;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent;filter:drop-shadow(0 2px 2px rgba(0,0,0,.3))}
       #view-terms{overflow:hidden}
       /* iOS scroll fix: the gate is a 3-row grid (header / scrolling
          terms / I agree bar) instead of a nested flex column. WebKit
@@ -635,7 +641,7 @@
                   </button>
                   <h2>See an animal<br />that needs help?</h2>
                   <p><strong id="pawLead">Tap the paw — boom, camera's open.</strong><br />No menus, no hunting for a button. One tap starts only three things: camera, location, clock. Nothing else runs until you say so.</p>
-                  <p style="margin-top:8px"><span style="display:inline-block;background:var(--amber-soft);border:1px solid var(--amber);color:var(--ink);font-weight:700;font-size:.8rem;padding:6px 12px;border-radius:999px">⚡ Built for a 3-second window — try it, the camera view times you</span></p>
+                  <div class="walk-ledge" id="walkLedge"><span class="walk-cat" id="walkCat" role="button" aria-label="Turn the cat around" tabindex="0">🐈</span><span style="display:inline-block;background:var(--amber-soft);border:1px solid var(--amber);color:var(--ink);font-weight:700;font-size:.8rem;padding:6px 12px;border-radius:999px">⚡ Built for a 3-second window — try it, the camera view times you</span></div>
                   <p class="demo-note" style="color:var(--ink3);margin-top:8px">Paw artwork: an original galaxy paw made for Wayward Paws — purple, blue &amp; pink nebula on black.</p>
                 </div>
                 <button class="btn primary block" id="openCamBtn" type="button" style="display:none">📷 Open the camera — when I'm ready</button>
@@ -2385,6 +2391,31 @@
       schedulePeek();
     }
     setTimeout(peekCatPop, 5000);
+
+    /* ---------- the walking cat on Home ---------- */
+    var walkCat = $("walkCat"), walkLedge = $("walkLedge");
+    var walkX = 0, walkDir = 1, walkSpeed = 0.7; /* px per frame — a leisurely stroll */
+    function walkStep(){
+      if (walkCat && walkLedge){
+        var ledgeW = walkLedge.offsetWidth, catW = walkCat.offsetWidth;
+        if (ledgeW > 0 && catW > 0){
+          var maxX = Math.max(0, ledgeW - catW);
+          walkX += walkDir * walkSpeed;
+          /* He always turns at the edge — he never falls off. */
+          if (walkX >= maxX){ walkX = maxX; walkDir = -1; }
+          if (walkX <= 0){ walkX = 0; walkDir = 1; }
+          walkCat.style.left = walkX + "px";
+          /* 🐈 faces left — flip him when he's strolling right. */
+          walkCat.style.transform = walkDir === 1 ? "scaleX(-1)" : "";
+        }
+      }
+      requestAnimationFrame(walkStep);
+    }
+    if (walkCat && !(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches)){
+      walkCat.addEventListener("click", function(){ walkDir = -walkDir; });
+      walkCat.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); walkDir = -walkDir; } });
+      requestAnimationFrame(walkStep);
+    }
 
     /* ---------- returned cards ---------- */
     document.querySelectorAll(".ret-card").forEach(function(c){
