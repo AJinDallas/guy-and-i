@@ -1484,10 +1484,10 @@
       t.classList.remove("show"); t.classList.remove("sticky");
     });
 
-    /* ---------- cat & dog fun facts — tap an animal, get a fact ---------- */
+    /* ---------- animal fun facts — matched to THAT animal ---------- */
     /* Tap a page critter, the walking cat, or catch Nibs and you get a real
-       fact about cats or dogs. Facts rotate so you don't get the same one
-       twice in a row. */
+       fact about that exact animal. Rabbit gets a rabbit fact, poodle gets
+       a poodle fact, Doberman gets a Doberman fact. Facts rotate. */
     var catFacts = [
       "A cat's purr is 25–150 Hz — the same range that helps bones heal. They purr when hurt, not just happy.",
       "Cats have a third eyelid that sweeps across the eye to keep it clean.",
@@ -1496,22 +1496,58 @@
       "A cat's whiskers are as wide as its body — they judge gaps with them.",
       "A cat can rotate each ear 180°. Each ear has 32 muscles."
     ];
-    var dogFacts = [
-      "A dog's nose print is unique, like a human fingerprint.",
-      "Dogs have up to 300 million scent receptors. Humans have about 6 million.",
-      "Dogs dream like people do — puppies dream most, and paddle their paws.",
-      "The Basenji is the only dog that can't bark. It yodels instead.",
-      "Dogs have three eyelids — the third keeps the eye moist and safe.",
-      "A bloodhound's nose is so good its tracking can hold up in court."
+    var foxFacts = [
+      "Foxes are in the dog family — they're canines, like wolves and pet dogs.",
+      "A fox can hear a mouse squeaking from over 100 feet away.",
+      "Foxes use the Earth's magnetic field to hunt — they pounce facing north-east.",
+      "A group of foxes is called a skulk. A baby fox is a kit."
     ];
-    var catFactIdx = 0, dogFactIdx = 0;
+    var dobermanFacts = [
+      "Dobermans were bred by a German tax collector named Karl Dobermann — he wanted a loyal guard dog for his rounds.",
+      "Dobermans are one of the smartest breeds — top 5 for obedience and working intelligence.",
+      "A Doberman's cropped ears and docked tail were for protection work — so nothing could be grabbed in a fight.",
+      "Dobermans are velcro dogs — they stick to their person everywhere. They were bred to be a one-man bodyguard."
+    ];
+    var poodleFacts = [
+      "Poodles are one of the smartest dog breeds — second only to the Border Collie.",
+      "Poodles were bred as water retrievers in Germany — their fancy clip kept their joints warm while they swam.",
+      "Poodles barely shed, which is why they're popular with people who have allergies.",
+      "The word 'poodle' comes from the German 'pudeln,' meaning 'to splash in water.'"
+    ];
+    var rabbitFacts = [
+      "A rabbit's teeth never stop growing — they wear them down by chewing.",
+      "Rabbits can see nearly 360 degrees around them, but they have a blind spot right in front of their nose.",
+      "A happy rabbit does a 'binky' — it jumps in the air and twists its body.",
+      "Rabbits are crepuscular — most active at dawn and dusk."
+    ];
+    var monkeyFacts = [
+      "Monkeys use their tails like a fifth hand — some can hang from a branch by the tail alone.",
+      "A monkey's fingerprints are almost identical to a human's.",
+      "Capuchin monkeys use tools — they crack nuts with stones.",
+      "Monkeys groom each other to bond — it's how they say 'you're my friend.'"
+    ];
+    var lionFacts = [
+      "A lion's roar can be heard up to 5 miles away.",
+      "Lions are the only cats that live in groups — a pride can have up to 30 lions.",
+      "A lion's mane tells other lions how healthy and strong he is — darker means stronger.",
+      "Female lions do most of the hunting — they work together to bring down prey."
+    ];
+    var catFactIdx = 0, foxFactIdx = 0, dobermanFactIdx = 0, poodleFactIdx = 0, rabbitFactIdx = 0, monkeyFactIdx = 0, lionFactIdx = 0, storyFactIdx = 0;
     function nextCatFact(){ return "🐱 " + catFacts[catFactIdx++ % catFacts.length]; }
-    function nextDogFact(){ return "🐶 " + dogFacts[dogFactIdx++ % dogFacts.length]; }
+    function nextFoxFact(){ return "🦊 " + foxFacts[foxFactIdx++ % foxFacts.length]; }
+    function nextDobermanFact(){ return "🐶 " + dobermanFacts[dobermanFactIdx++ % dobermanFacts.length]; }
+    function nextPoodleFact(){ return "🐩 " + poodleFacts[poodleFactIdx++ % poodleFacts.length]; }
+    function nextRabbitFact(){ return "🐰 " + rabbitFacts[rabbitFactIdx++ % rabbitFacts.length]; }
+    function nextMonkeyFact(){ return "🐵 " + monkeyFacts[monkeyFactIdx++ % monkeyFacts.length]; }
+    function nextLionFact(){ return "🦁 " + lionFacts[lionFactIdx++ % lionFacts.length]; }
     function factForCritter(ch){
-      if (ch === "🐱" || ch === "🦁") return nextCatFact();
-      if (ch === "🦮" || ch === "🐩" || ch === "🦊") return nextDogFact();
-      /* stories 🐰🐵 and anything else: alternate cat and dog */
-      return (catFactIdx + dogFactIdx) % 2 === 0 ? nextCatFact() : nextDogFact();
+      if (ch === "🐱") return nextCatFact();
+      if (ch === "🦊") return nextFoxFact();
+      if (ch === "🦮") return nextDobermanFact();
+      if (ch === "🐩") return nextPoodleFact();
+      if (ch === "🦁") return nextLionFact();
+      /* stories 🐰🐵: alternate rabbit and monkey */
+      return (storyFactIdx++ % 2 === 0) ? nextRabbitFact() : nextMonkeyFact();
     }
     /* Tap a page critter and it tells you a fact about cats or dogs. */
     var pageCritterEl = $("pageCritter");
