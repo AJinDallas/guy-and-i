@@ -2427,17 +2427,39 @@
     function schedulePeek(){ setTimeout(peekCatPop, 25000 + Math.random() * 35000); }
     /* While he's up he strolls along the bottom bar — he doesn't just
        pop straight up and straight back down. He turns at the edges. */
+    /* Dodge burst: when a finger gets close to the middle of his circle he
+       darts a few quick steps forward or back to elude you. */
+    var dodgeSteps = 0, dodgeDir = 1, lastDodgeAt = 0;
     function peekWalk(){
       if (!peekWalking || !peekCat) return;
       var screenW = peekCat.parentElement.offsetWidth;
       var catW = peekCat.offsetWidth;
-      peekX += peekDir * 0.7;
+      if (dodgeSteps > 0){
+        peekX += dodgeDir * 5;
+        dodgeSteps--;
+      } else {
+        peekX += peekDir * 0.7;
+      }
       var minX = 8, maxX = Math.max(minX, screenW - catW - 8);
-      if (peekX >= maxX){ peekX = maxX; peekDir = -1; }
-      if (peekX <= minX){ peekX = minX; peekDir = 1; }
+      if (peekX >= maxX){ peekX = maxX; peekDir = -1; dodgeDir = -1; }
+      if (peekX <= minX){ peekX = minX; peekDir = 1; dodgeDir = 1; }
       peekCat.style.left = peekX + "px";
       requestAnimationFrame(peekWalk);
     }
+    /* A finger getting close to the middle of his circle makes him dart away
+       from it — a few quick steps, forward or back. */
+    function nibsDodge(px){
+      if (!peekCat || !peekCat.classList.contains("pop") || !peekWalking) return;
+      var now = Date.now();
+      if (now - lastDodgeAt < 500) return;
+      var r = peekCat.getBoundingClientRect();
+      var cx = r.left + r.width / 2;
+      if (Math.abs(px - cx) > 70) return;
+      lastDodgeAt = now;
+      dodgeDir = px < cx ? 1 : -1;
+      dodgeSteps = 6;
+    }
+    document.addEventListener("pointermove", function(e){ nibsDodge(e.clientX); });
     function peekCatPop(){
       if (!peekCat) return;
       if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
