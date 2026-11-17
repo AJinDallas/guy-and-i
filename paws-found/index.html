@@ -86,6 +86,8 @@
 
       /* terms of service gate */
       .screen.tos-locked .tabbar{display:none}
+      .screen.exited .tabbar{display:none}
+      .screen.exited .appbar{display:none}
       #view-terms{overflow:hidden}
       /* iOS scroll fix: the gate is a 3-row grid (header / scrolling
          terms / I agree bar) instead of a nested flex column. WebKit
@@ -546,6 +548,9 @@
               <button class="fs-btn" id="fsBtn" type="button" aria-label="Enter full screen" aria-pressed="false" title="Full screen">
                 <svg class="ic-enter" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/></svg>
                 <svg class="ic-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h5V4M20 9h-5V4M4 15h5v5M20 15h-5v5"/></svg>
+              </button>
+              <button class="fs-btn" id="closeBtn" type="button" aria-label="Close app" title="Close">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
               </button>
             </div>
 
@@ -1064,6 +1069,19 @@
               </div>
             </section>
 
+            <!-- ALL DONE — the "get out" screen. A web app can't force
+                 itself shut (the phone owns that), so Close tries the
+                 window first and lands here: a clean stop, nothing
+                 showing, swipe the app away or tap back in. -->
+            <section class="view" id="view-exit" aria-label="All done">
+              <div class="view-pad" style="flex:1;justify-content:center;align-items:center;text-align:center">
+                <div style="font-size:3rem;line-height:1">🐾</div>
+                <h2 style="font-size:1.4rem;margin:14px 0 0">All done for now.</h2>
+                <p style="margin:8px 0 0;color:var(--ink2);font-size:.95rem;max-width:300px">You're out. Swipe the app away when you're ready — or tap below to jump back in.</p>
+                <button class="tos-agree" id="backInBtn" type="button" style="max-width:280px;margin-top:18px">Back in</button>
+              </div>
+            </section>
+
             <!-- ACTIVATING OVERLAY -->
             <div class="overlay" id="overlay" aria-live="polite">
               <div class="act-box">
@@ -1302,8 +1320,8 @@
       facing: "environment"
     };
     var $ = function(id){ return document.getElementById(id); };
-    var views = ["terms","home","camera","captured","map","shelters","share","stories","records","returned","feed"];
-    var tabFor = { terms:"home", home:"home", camera:"report", captured:"report", share:"report", map:"map", shelters:"shelters", stories:"stories", records:"records", returned:"returned", feed:"feed" };
+    var views = ["terms","home","camera","captured","map","shelters","share","stories","records","returned","feed","exit"];
+    var tabFor = { terms:"home", home:"home", camera:"report", captured:"report", share:"report", map:"map", shelters:"shelters", stories:"stories", records:"records", returned:"returned", feed:"feed", exit:"home" };
 
     /* ---------- terms of service: agree once, remembered ---------- */
     var TOS_KEY = "waywardpaws.tosAgreed.v1";
@@ -1396,6 +1414,7 @@
       views.forEach(function(v){ $("view-"+v).classList.toggle("on", v===name); });
       var screenEl = document.querySelector(".screen");
       if (screenEl) screenEl.classList.toggle("tos-locked", name === "terms" && !state.tosAgreed);
+      if (screenEl) screenEl.classList.toggle("exited", name === "exit");
       var tabs = document.querySelectorAll(".tabbar button");
       tabs.forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-tab")===tabFor[name]); });
       var active = $("view-"+name);
@@ -2332,6 +2351,18 @@
     document.addEventListener("fullscreenchange", syncFsBtn);
     document.addEventListener("webkitfullscreenchange", syncFsBtn);
     syncFsBtn();
+
+    /* ---------- close the app ---------- */
+    function closeApp(){
+      /* A web app can't force itself shut — the phone owns that, and
+         window.close() only works when the app was opened from a link.
+         Try it first; if we're still here a beat later, land on the
+         clean "you're out" screen instead. */
+      try { window.close(); } catch(e){}
+      setTimeout(function(){ if (!document.hidden) showView("exit"); }, 250);
+    }
+    $("closeBtn").addEventListener("click", closeApp);
+    $("backInBtn").addEventListener("click", function(){ showView("home"); });
 
     /* ---------- returned cards ---------- */
     document.querySelectorAll(".ret-card").forEach(function(c){
