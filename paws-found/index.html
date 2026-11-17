@@ -88,6 +88,11 @@
       .screen.tos-locked .tabbar{display:none}
       .screen.exited .tabbar{display:none}
       .screen.exited .appbar{display:none}
+      /* The peek-a-boo kitten: hides below the bottom edge (the screen
+         clips it) and pops its head up from behind the tab bar every
+         now and then, at a random spot, then ducks back down. */
+      .peek-cat{position:absolute;left:12%;bottom:calc(66px + env(safe-area-inset-bottom,0px));font-size:2rem;line-height:1;z-index:25;transform:translateY(320%);transition:transform .5s cubic-bezier(.34,1.56,.64,1);pointer-events:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35))}
+      .peek-cat.pop{transform:translateY(0)}
       #view-terms{overflow:hidden}
       /* iOS scroll fix: the gate is a 3-row grid (header / scrolling
          terms / I agree bar) instead of a nested flex column. WebKit
@@ -1123,6 +1128,7 @@
               <button data-tab="stories"><span class="tic">💛</span>Stories</button>
               <button data-tab="records"><span class="tic">🏆</span>Records</button>
             </nav>
+            <div class="peek-cat" id="peekCat" aria-hidden="true">🐱</div>
           </div>
         </div>
         <p style="text-align:center;color:var(--ink3);font-size:.82rem;margin:12px 0 0">Concept mock-up — the flow, stamps and choices are all live. Try the paw, and tap the expand button in the app bar to go full screen.</p>
@@ -2363,6 +2369,22 @@
     }
     $("closeBtn").addEventListener("click", closeApp);
     $("backInBtn").addEventListener("click", function(){ showView("home"); });
+
+    /* ---------- the peek-a-boo kitten ---------- */
+    var peekCat = $("peekCat");
+    var peekCats = ["🐱","🐈","🐈‍⬛"];
+    function schedulePeek(){ setTimeout(peekCatPop, 25000 + Math.random() * 35000); }
+    function peekCatPop(){
+      if (!peekCat) return;
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      if (!state.tosAgreed){ schedulePeek(); return; }
+      peekCat.textContent = peekCats[Math.floor(Math.random() * peekCats.length)];
+      peekCat.style.left = (8 + Math.random() * 68) + "%";
+      peekCat.classList.add("pop");
+      setTimeout(function(){ peekCat.classList.remove("pop"); }, 2400);
+      schedulePeek();
+    }
+    setTimeout(peekCatPop, 5000);
 
     /* ---------- returned cards ---------- */
     document.querySelectorAll(".ret-card").forEach(function(c){
