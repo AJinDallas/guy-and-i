@@ -339,6 +339,7 @@
       .shelter-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:5px}
       .shelter-actions .btn{min-height:42px;padding:9px}
       .shelter-email{display:flex;width:100%;margin-top:8px;min-height:42px;padding:9px}
+      .shelter-adopt{display:flex;width:100%;margin-top:8px;min-height:42px;padding:9px}
       .shelter-facts{font-size:.86rem;color:var(--ink2);margin-top:2px}
       .shelter-facts .nk{color:#1a7f37;font-weight:700}
 
@@ -2221,13 +2222,13 @@
 
     /* ---------- shelters ---------- */
     var SHELTERS = [
-      { name:"APET Animal Shelter", street:"657 County Road 2840", city:"Mineola, TX", lat:32.673832, lng:-95.528753, phone:"+19036386902", phoneShow:"(903) 638-6902", email:"apetspca01@gmail.com", rating:4.8, reviews:93, price:"$$", nokill:true,
+      { name:"APET Animal Shelter", street:"657 County Road 2840", city:"Mineola, TX", lat:32.673832, lng:-95.528753, phone:"+19036386902", phoneShow:"(903) 638-6902", email:"apetspca01@gmail.com", rating:4.8, reviews:93, price:"$$", nokill:true, adopt:"https://www.adoptapet.com/shelter/209823-apet-animal-preservation-of-east-texas-mineola-texas",
         hours:{0:null,1:null,2:null,3:null,4:"10:00 AM – 4:00 PM",5:"10:00 AM – 4:00 PM",6:"10:00 AM – 4:00 PM"}, hoursNote:"Thu–Sat" },
-      { name:"Mineola Animal Shelter", street:"965 Baker St", city:"Mineola, TX", lat:32.652843, lng:-95.482030, phone:"+19035692252", phoneShow:"(903) 569-2252", email:"shelter@mineola.com", rating:4.6, reviews:115, price:"$",
+      { name:"Mineola Animal Shelter", street:"965 Baker St", city:"Mineola, TX", lat:32.652843, lng:-95.482030, phone:"+19035692252", phoneShow:"(903) 569-2252", email:"shelter@mineola.com", rating:4.6, reviews:115, price:"$", adopt:"https://facebook.com/people/City-of-Mineola-Animal-Shelter-Texas/61592263217492/",
         hours:{0:"10:00 AM – 4:00 PM",1:"10:00 AM – 4:00 PM",2:"10:00 AM – 4:00 PM",3:"10:00 AM – 4:00 PM",4:"10:00 AM – 4:00 PM",5:"10:00 AM – 4:00 PM",6:"10:00 AM – 4:00 PM"}, hoursNote:"Open daily" },
-      { name:"Winnsboro Animal Shelter", street:"835 Hope Ln", city:"Winnsboro, TX", lat:32.951229, lng:-95.275995, phone:"+19033350595", phoneShow:"(903) 335-0595", email:"aco@winnsborotexas.com", rating:4.7, reviews:18, price:"$",
+      { name:"Winnsboro Animal Shelter", street:"835 Hope Ln", city:"Winnsboro, TX", lat:32.951229, lng:-95.275995, phone:"+19033350595", phoneShow:"(903) 335-0595", email:"aco@winnsborotexas.com", rating:4.7, reviews:18, price:"$", adopt:"https://www.adoptapet.com/shelter/91065-winnsboro-animal-shelter-winnsboro-texas",
         hours:{0:null,1:"9:00 AM – 4:30 PM",2:"9:00 AM – 4:30 PM",3:"9:00 AM – 4:30 PM",4:"9:00 AM – 4:30 PM",5:"9:00 AM – 12:00 PM",6:null}, hoursNote:"Weekdays" },
-      { name:"Tyler Animal Control", street:"4218 Chandler Hwy", city:"Tyler, TX", lat:32.343634, lng:-95.347485, phone:"+19035350045", phoneShow:"(903) 535-0045", rating:4.3, reviews:52, price:"$$",
+      { name:"Tyler Animal Control", street:"4218 Chandler Hwy", city:"Tyler, TX", lat:32.343634, lng:-95.347485, phone:"+19035350045", phoneShow:"(903) 535-0045", rating:4.3, reviews:52, price:"$$", adopt:"https://www.cityoftyler.org/Resident-Services/Animal-Services/Adopt-a-Pet",
         hours:{0:null,1:"8:00 AM – 5:00 PM",2:"8:00 AM – 5:00 PM",3:"8:00 AM – 5:00 PM",4:"8:00 AM – 5:00 PM",5:"8:00 AM – 5:00 PM",6:null}, hoursNote:"Mon–Fri" }
     ];
     function havMi(a, b, c, d){
@@ -2291,7 +2292,8 @@
           (facts.length ? '<div class="shelter-facts">' + facts.join(" · ") + '</div>' : "") +
           '<div class="shelter-actions"><a class="btn primary" href="tel:' + s.phone + '">📞 ' + s.phoneShow + '</a>' +
           '<a class="btn" href="' + dir + '" target="_blank" rel="noopener">🧭 Directions</a></div>' +
-          (s.email ? '<a class="btn shelter-email" href="' + shelterMailto(s) + '">✉️ Email the report</a>' : '') + '</article>';
+          (s.email ? '<a class="btn shelter-email" href="' + shelterMailto(s) + '">✉️ Email the report</a>' : '') +
+          (s.adopt ? '<a class="btn shelter-adopt" href="' + s.adopt + '" target="_blank" rel="noopener">🐾 See animals for adoption</a>' : '') + '</article>';
       }).join("");
     }
 
