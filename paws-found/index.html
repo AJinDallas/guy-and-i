@@ -200,6 +200,9 @@
       .wel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
       .wel-av{font-size:1.7rem;line-height:1;background:rgba(255,255,255,.06);border:2px solid transparent;border-radius:14px;padding:9px 0;cursor:pointer;font-family:inherit}
       .wel-av.sel{border-color:var(--amber);background:rgba(255,196,0,.14)}
+      .wel-shuffle{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+      .wel-shuffle-paw{font-size:2.6rem;line-height:1;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.06);border:2px solid var(--amber);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
+      .wel-shuffle-btn{flex:1;background:var(--amber);color:#231A00;border:none;border-radius:999px;padding:12px;font-size:.95rem;font-weight:800;cursor:pointer;font-family:inherit}
       .wel-name{width:100%;box-sizing:border-box;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);color:#fff;border-radius:12px;padding:11px 13px;font-size:1rem;font-family:inherit;margin-bottom:12px;text-align:center}
       .wel-name::placeholder{color:#8E7FB8}
       .wel-privacy{color:#8E7FB8;font-size:.8rem;line-height:1.5;margin:0 0 12px}
@@ -1136,6 +1139,10 @@
                 <h3>Alright, alright —<br />you're one of us now.</h3>
                 <p class="wel-sub">This is your corner of Wayward Paws. Pick an animal, give yourself a name, and you're in.</p>
                 <p class="wel-pick">Choose your paw 🐾</p>
+                <div class="wel-shuffle">
+                  <span class="wel-shuffle-paw" id="welShufflePaw" role="img" aria-label="Your paw">🐾</span>
+                  <button class="wel-shuffle-btn" id="welShuffle" type="button">🎲 Shuffle my paw</button>
+                </div>
                 <div class="wel-grid" id="welGrid"></div>
                 <input class="wel-name" id="welName" type="text" maxlength="24" placeholder="Your name" autocomplete="off" />
                 <p class="wel-privacy">We don't keep anything — your name and your animal stay on your phone. We're here to save animals. 💛</p>
@@ -1427,22 +1434,35 @@
       if (!badge && !nm) return "";
       return '<div class="poster"><span class="p-av">' + av + '</span>' + (nm ? '<span>' + nm + '</span>' : '') + badge + '</div>';
     }
+    function setWelAvatar(a){
+      welAvatar = a;
+      var pv = $("welShufflePaw"); if (pv) pv.textContent = a;
+      var g = $("welGrid");
+      if (g) Array.prototype.forEach.call(g.children, function(c){ c.classList.toggle("sel", c.textContent === a); });
+    }
+    /* Paw randomizer — hit Shuffle, it pulls up another paw. Hit it again
+       for another one. When you like the one you see, that's the one —
+       "Let's go" locks it in. The grid below is still there to pick
+       your own directly. */
+    function shufflePaw(){
+      var pool = AVATARS.filter(function(a){ return a !== welAvatar; });
+      if (!pool.length) pool = AVATARS;
+      setWelAvatar(pool[Math.floor(Math.random() * pool.length)]);
+    }
     function buildWelGrid(){
       var g = $("welGrid"); if (!g || g.children.length) return;
       AVATARS.forEach(function(a){
         var b = document.createElement("button");
         b.type = "button"; b.className = "wel-av"; b.textContent = a;
         b.setAttribute("aria-label", "Avatar " + a);
-        b.addEventListener("click", function(){
-          welAvatar = a;
-          Array.prototype.forEach.call(g.children, function(c){ c.classList.toggle("sel", c === b); });
-        });
+        b.addEventListener("click", function(){ setWelAvatar(a); });
         g.appendChild(b);
       });
     }
     function showWelcome(dest){
       welDest = dest || "home";
       buildWelGrid();
+      setWelAvatar((state.profile && state.profile.avatar) || welAvatar);
       var nm = $("welName"); if (nm) nm.value = (state.profile && state.profile.name) || "";
       var wf = $("welFounder"); if (wf) wf.style.display = FOUNDING_OPEN ? "" : "none";
       $("welcomeOverlay").classList.add("on");
@@ -1465,6 +1485,7 @@
       toast((nm ? "Welcome, " + nm + " " + welAvatar : "Welcome to Wayward Paws " + welAvatar) + (FOUNDING_OPEN ? " · 🌟 Founding Member" : "") + " 💛");
     }
     $("welGo").addEventListener("click", finishWelcome);
+    $("welShuffle").addEventListener("click", shufflePaw);
     $("welSkip").addEventListener("click", function(){
       closeWelcome();
       goAfterWelcome();
