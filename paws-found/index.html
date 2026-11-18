@@ -362,6 +362,10 @@
       .comm{background:var(--amber);color:#1A1206;font-size:.68rem;font-weight:800;padding:4px 9px;border-radius:999px;letter-spacing:.03em}
       .esc1{background:#f59e0b;color:#fff;font-size:.68rem;font-weight:800;padding:4px 9px;border-radius:999px;letter-spacing:.03em}
       .esc2{background:#7c3aed;color:#fff;font-size:.68rem;font-weight:800;padding:4px 9px;border-radius:999px;letter-spacing:.03em}
+      .founder{background:linear-gradient(135deg,#FFC24D,#FF8A00);color:#231A00;font-size:.68rem;font-weight:800;padding:4px 9px;border-radius:999px;letter-spacing:.03em}
+      .poster{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:.82rem;font-weight:700;color:var(--ink2)}
+      .poster .p-av{font-size:1.05rem;line-height:1}
+      .wel-founder{font-size:.85rem;font-weight:700;color:var(--amber);margin:8px 0 0}
       .story-card p{margin:6px 0 0;font-size:.88rem;color:var(--ink2)}
       .story-card .meta{font-size:.76rem;color:var(--ink3);font-weight:600;margin-top:8px}
       /* record holder (avatar + time + when) */
@@ -1135,6 +1139,7 @@
                 <div class="wel-grid" id="welGrid"></div>
                 <input class="wel-name" id="welName" type="text" maxlength="24" placeholder="Your name" autocomplete="off" />
                 <p class="wel-privacy">We don't keep anything — your name and your animal stay on your phone. We're here to save animals. 💛</p>
+                <p class="wel-founder" id="welFounder">🌟 You're a Founding Member — one of the first people here.</p>
                 <button class="wel-go" id="welGo" type="button">Let's go</button>
                 <button class="wel-skip" id="welSkip" type="button">I'll do this later</button>
               </div>
@@ -1397,6 +1402,31 @@
       state.profile = p;
     }
     state.profile = loadProfile();
+    /* ---------- founding members ----------
+       The first wave of Wayward Paws people. While the founding window is
+       open, every profile is a founding member. Member numbers are handed
+       out by the shared feed when it launches, in join order (Quinn is
+       #1 — she joined first); until then the badge shows without a number. */
+    var FOUNDING_OPEN = true;
+    function isFounder(p){
+      if (p && p.founder === true) return true;
+      if (p && p.founder === false) return false;
+      return FOUNDING_OPEN;
+    }
+    function founderBadge(){
+      var p = state.profile;
+      if (!isFounder(p)) return "";
+      var n = (p && p.memberNo) ? " #" + p.memberNo : "";
+      return '<span class="founder">🌟 Founding Member' + n + '</span>';
+    }
+    function posterLine(){
+      var p = state.profile;
+      var badge = founderBadge();
+      var av = (p && p.avatar) || "🐾";
+      var nm = (p && p.name) || "";
+      if (!badge && !nm) return "";
+      return '<div class="poster"><span class="p-av">' + av + '</span>' + (nm ? '<span>' + nm + '</span>' : '') + badge + '</div>';
+    }
     function buildWelGrid(){
       var g = $("welGrid"); if (!g || g.children.length) return;
       AVATARS.forEach(function(a){
@@ -1414,6 +1444,7 @@
       welDest = dest || "home";
       buildWelGrid();
       var nm = $("welName"); if (nm) nm.value = (state.profile && state.profile.name) || "";
+      var wf = $("welFounder"); if (wf) wf.style.display = FOUNDING_OPEN ? "" : "none";
       $("welcomeOverlay").classList.add("on");
       if (nm) setTimeout(function(){ nm.focus(); }, 350);
     }
@@ -1426,10 +1457,12 @@
     }
     function finishWelcome(){
       var nm = ($("welName").value || "").trim();
-      saveProfile({ avatar: welAvatar, name: nm });
+      var prof = { avatar: welAvatar, name: nm, joinedAt: new Date().toISOString() };
+      if (FOUNDING_OPEN) prof.founder = true;
+      saveProfile(prof);
       closeWelcome();
       goAfterWelcome();
-      toast(nm ? "Welcome, " + nm + " " + welAvatar + " 💛" : "Welcome to Wayward Paws " + welAvatar + " 💛");
+      toast((nm ? "Welcome, " + nm + " " + welAvatar : "Welcome to Wayward Paws " + welAvatar) + (FOUNDING_OPEN ? " · 🌟 Founding Member" : "") + " 💛");
     }
     $("welGo").addEventListener("click", finishWelcome);
     $("welSkip").addEventListener("click", function(){
@@ -2855,6 +2888,7 @@
           '<div class="ph"><img src="' + r.img + '" alt="Found animal, ' + r.id + '"></div>' +
           '<div class="sb">' +
             '<h3>' + title + ' <span class="mine">YOUR REPORT</span></h3>' +
+            posterLine() +
             '<p>' + (det || "Spotted here — add an identifier on the report page and it will show up here.") + '</p>' +
             '<div class="meta">🕐 ' + r.dateStr + ' · ' + r.timeStr + ' · ' + where + ' · ' + dist.toFixed(1) + ' mi from home · <a href="' + mapLink + '" target="_blank" rel="noopener">See on map 📍</a></div>' +
             '<div class="feed-actions">' +
