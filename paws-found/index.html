@@ -710,7 +710,7 @@
                     <span class="hud-loc mono"><span id="hud-coords">Locating…</span><span id="hud-place">—</span></span>
                     <span class="hud-chip mono" id="hud-clock">--</span>
                     <span class="hud-chip" id="hud-acc">GPS locking…</span>
-                    <span class="hud-chip mono" id="hud-elapsed" title="Time since you tapped the paw">0.0s</span>
+                    <span class="hud-chip mono" id="hud-elapsed" title="Time since you tapped the paw">0.000s</span>
                   </div>
                 </div>
               <div class="cam-wrap">
@@ -923,7 +923,7 @@
                       <span class="rec-avatar" aria-hidden="true">🐵<span class="rec-badge" aria-hidden="true">⚡</span></span>
                       <span class="rec-who">
                         <span class="rec-name">AJ</span>
-                        <span class="rec-time">⚡ 2.7 seconds</span>
+                        <span class="rec-time">⚡ 2.700 seconds</span>
                         <span class="rec-when">Set Mon, Nov 16, 2026 · 12:14:51 AM</span>
                       </span>
                     </div>
@@ -1219,7 +1219,7 @@
           <h3>⏱️ The three-second test</h3>
           <p>At highway speed a car passes a stranded dog in about <strong>three seconds</strong> — which is exactly why the paw is built for a <strong>passenger's hand</strong>, or for yours <strong>after you've pulled over safely</strong>. Never use it while driving; no photo is worth a wreck. In that tiny window, a normal app → find the camera → line up the shot is already a quarter-mile too late. Wayward Paws is built backwards from that moment:</p>
           <div class="speed-tiles" aria-label="Tap to photo timeline">
-            <div class="tile"><div class="tt">0.0s</div><div class="tl">Tap the paw</div></div>
+            <div class="tile"><div class="tt">0.000s</div><div class="tl">Tap the paw</div></div>
             <div class="arrow" aria-hidden="true">→</div>
             <div class="tile"><div class="tt">Instant</div><div class="tl">Camera open</div></div>
             <div class="arrow" aria-hidden="true">→</div>
@@ -1412,8 +1412,9 @@
     /* ---------- founding members ----------
        The first wave of Wayward Paws people. While the founding window is
        open, every profile is a founding member. Member numbers are handed
-       out by the shared feed when it launches, in join order (Quinn is
-       #1 — she joined first); until then the badge shows without a number. */
+       out in join order — Quinn is #1, she joined first. Until the shared
+       feed launches, numbers are handed out on each phone (beta), so the
+       admin keeps the master list; the shared feed will make them global. */
     var FOUNDING_OPEN = true;
     function isFounder(p){
       if (p && p.founder === true) return true;
@@ -1426,6 +1427,38 @@
       var n = (p && p.memberNo) ? " #" + p.memberNo : "";
       return '<span class="founder">🌟 Founding Member' + n + '</span>';
     }
+    /* Member numbers (beta): Quinn is #1. New joiners take the next
+       number from a counter kept on the phone — it starts at 2. Until
+       the shared feed launches, each phone hands out its own numbers,
+       so the admin keeps the master list and sorts out any doubles. */
+    var MEMBER_COUNTER_KEY = "wpNextMemberNo";
+    var MEMBER_FIRST_FREE = 2; /* Quinn is #1 — she joined first */
+    function nextMemberNo(){
+      var n = MEMBER_FIRST_FREE;
+      try {
+        var raw = localStorage.getItem(MEMBER_COUNTER_KEY);
+        if (raw) n = parseInt(raw, 10) || MEMBER_FIRST_FREE;
+        localStorage.setItem(MEMBER_COUNTER_KEY, String(n + 1));
+      } catch(e){ /* in-memory only — fall back to the start number */ }
+      return n;
+    }
+    /* Quinn is member #1. Her profile was created before numbers existed,
+       so on load we give her #1 if her profile has no number yet and it
+       looks like hers (name Quinn/Elizabeth, or the dog paw), and it was
+       created before the beta (Sat Nov 21). A.J.'s own profile (the
+       monkey) gets no number — he's the creator. */
+    function seedMemberNo(){
+      var p = state.profile;
+      if (!p || p.memberNo) return;
+      if (!isFounder(p)) return;
+      var nm = String(p.name || "").trim().toLowerCase();
+      var isQuinn = (nm === "quinn" || nm === "elizabeth" || nm === "elizabeth quinn" || nm === "quinn bryan" || nm === "elizabeth bryan") || (p.avatar === "🐶");
+      if (!isQuinn) return;
+      if (p.joinedAt && p.joinedAt >= "2026-11-21") return;
+      p.memberNo = 1;
+      saveProfile(p);
+    }
+    seedMemberNo();
     function posterLine(){
       var p = state.profile;
       var badge = founderBadge();
@@ -1479,6 +1512,7 @@
       var nm = ($("welName").value || "").trim();
       var prof = { avatar: welAvatar, name: nm, joinedAt: new Date().toISOString() };
       if (FOUNDING_OPEN) prof.founder = true;
+      if (FOUNDING_OPEN && !prof.memberNo) prof.memberNo = nextMemberNo();
       saveProfile(prof);
       closeWelcome();
       goAfterWelcome();
@@ -1701,8 +1735,8 @@
     function startElapsed(){
       stopElapsed();
       state.elapsedTimer = setInterval(function(){
-        if (state.tapTime) $("hud-elapsed").textContent = ((Date.now() - state.tapTime)/1000).toFixed(1) + "s";
-      }, 100);
+        if (state.tapTime) $("hud-elapsed").textContent = ((Date.now() - state.tapTime)/1000).toFixed(3) + "s";
+      }, 30);
     }
     function stopElapsed(){ if (state.elapsedTimer){ clearInterval(state.elapsedTimer); state.elapsedTimer = null; } }
     function openCamera(){
@@ -1710,7 +1744,7 @@
          the same tap but lock in the background — the shutter never waits. */
       state.tapTime = Date.now();
       state.camOpen = true;
-      $("hud-elapsed").textContent = "0.0s";
+      $("hud-elapsed").textContent = "0.000s";
       $("hud-acc").textContent = "GPS locking…";
       askLocation();
       $("perm-cam").textContent = "Open"; $("perm-cam").classList.add("ok");
@@ -2065,7 +2099,7 @@
       $("st-acc").textContent = "±" + c.acc + " m" + (c.real ? "" : " · demo");
       $("st-coords").textContent = fmtCoords(c.lat, c.lng);
       var total = state.tapTime ? Math.max(secs, (Date.now() - state.tapTime)/1000) : secs;
-      var totalTxt = (total < 1 ? total.toFixed(2) : total.toFixed(1)) + " seconds";
+      var totalTxt = total.toFixed(3) + " seconds";
       $("st-speed").textContent = totalTxt + (total <= 3 ? " — inside the 3-second window ⚡" : " — every second was yours, the camera never made you wait");
       paintShot(); renderFilmstrip(); updatePhotoCount();
       buildShare();
