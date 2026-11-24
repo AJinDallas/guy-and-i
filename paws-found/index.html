@@ -2413,6 +2413,37 @@
       } catch(e){ fallback(); }
     }
 
+    /* ---------- fold / unfold: re-mount the map at the new size ---------- */
+    /* The map canvas is sized when it mounts and never hears about viewport
+       changes — nothing in this file listens for resize at all — so folding
+       or unfolding a Fold leaves the map rendering at its old size. On a
+       real size change, drop the mounted-for guard and re-mount, but only
+       while the map view is on screen; otherwise just clear the guard so
+       the next visit mounts fresh. Debounced, and small jitters ignored. */
+    var _lastVW = window.innerWidth, _lastVH = window.innerHeight, _rzT = null;
+    function _remountMapForSize(){
+      if (!state.mapMountedFor) return;
+      state.mapMountedFor = null;
+      var mv = $("view-map");
+      if (mv && mv.classList.contains("on")){
+        var box = $("mapBox");
+        if (box && box.childNodes.length){ box.innerHTML = ""; }
+        renderMap();
+      }
+    }
+    function _onViewportResize(force){
+      clearTimeout(_rzT);
+      _rzT = setTimeout(function(){
+        if (document.hidden) return;
+        var w = window.innerWidth, h = window.innerHeight;
+        if (!force && Math.abs(w - _lastVW) < 40 && Math.abs(h - _lastVH) < 40) return;
+        _lastVW = w; _lastVH = h;
+        _remountMapForSize();
+      }, 250);
+    }
+    window.addEventListener("resize", function(){ _onViewportResize(false); });
+    window.addEventListener("orientationchange", function(){ _onViewportResize(true); });
+
     /* ---------- shelters ---------- */
     var SHELTERS = [
       { name:"APET Animal Shelter", street:"657 County Road 2840", city:"Mineola, TX", lat:32.673832, lng:-95.528753, phone:"+19036386902", phoneShow:"(903) 638-6902", email:"apetspca01@gmail.com", rating:4.8, reviews:93, price:"$$", nokill:true, adopt:"https://www.adoptapet.com/shelter/209823-apet-animal-preservation-of-east-texas-mineola-texas",
