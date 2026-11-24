@@ -322,6 +322,7 @@
       .sec-label{font-size:.74rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink3)}
       .chips{display:flex;flex-wrap:wrap;gap:7px}
       .chip{border:1.5px solid var(--line2);background:var(--surface);color:var(--ink);border-radius:999px;padding:9px 15px;font-weight:600;font-size:.88rem}
+      .chip .chip-ic{width:18px;height:18px;border-radius:4px;vertical-align:-4px;margin-right:1px}
       .chip.sel{background:var(--teal);border-color:var(--teal);color:#fff}
       .place-row{display:none;margin-top:9px;gap:8px}
       .place-row.on{display:flex}
@@ -800,7 +801,7 @@
                   <div class="sec-label">Add an identifier (optional, helps a lot)</div>
                   <div style="height:8px"></div>
                   <div class="chips" id="chip-species" role="group" aria-label="Animal type">
-                    <button class="chip sel">🐕 Dog</button><button class="chip">🐈 Cat</button><button class="chip">🐾 Other</button>
+                    <button class="chip sel">🐕 Dog</button><button class="chip">🐈 Cat</button><button class="chip"><img class="chip-ic" src="assets/neon-paw-sign.png" alt=""> Other</button>
                   </div>
                   <div style="height:7px"></div>
                   <div class="chips" id="chip-collar" role="group" aria-label="Collar">
@@ -1191,7 +1192,7 @@
             <!-- TAB BAR -->
             <nav class="tabbar" aria-label="App sections">
               <button data-tab="home" class="on"><span class="tic">⌂</span>Home</button>
-              <button data-tab="report"><span class="tic">🐾</span>Report</button>
+              <button data-tab="report"><span class="tic"><img src="assets/neon-paw-sign.png" alt="" style="width:20px;height:20px;border-radius:5px;vertical-align:-2px"></span>Report</button>
               <button data-tab="feed"><span class="tic">📍</span>Feed</button>
               <button data-tab="map"><span class="tic">🗺️</span>Map</button>
               <button data-tab="shelters"><span class="tic">🏠</span>Shelters</button>
@@ -2284,7 +2285,7 @@
     });
     $("noteIn").addEventListener("input", function(){ upsertReport(state.captured); });
     function identifierText(){
-      function sel(gid){ var el = $(gid).querySelector(".chip.sel"); return el ? el.textContent.trim() : ""; }
+      function sel(gid){ var el = $(gid).querySelector(".chip.sel"); if(!el) return ""; var t = el.textContent.trim(); if(el.querySelector("img.chip-ic") && t.slice(0,2) !== "🐾") t = "🐾 " + t; return t; }
       var parts = [sel("chip-species"), sel("chip-collar"), sel("chip-state")];
       var note = $("noteIn").value.trim();
       if (note) parts.push(note);
