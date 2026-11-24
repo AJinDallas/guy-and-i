@@ -3087,7 +3087,7 @@
    stays quiet, so nothing half-working ever goes live. */
 (function(){
   var SUPPORT_EMAIL = "waywardpawshelp@gmail.com";
-  var TAWK_PROPERTY_ID = "";
+  var TAWK_PROPERTY_ID = "6b050f62adcb063cf840cf39";
   var TAWK_WIDGET_ID = "default";
   var btn = document.getElementById("askNibsBtn");
   var sheet = document.getElementById("askNibsSheet");
@@ -3130,7 +3130,7 @@
         var tick = setInterval(function(){
           tries++;
           if(window.Tawk_API && window.Tawk_API.maximize){ clearInterval(tick); window.Tawk_API.maximize(); }
-          else if(tries > 40){ clearInterval(tick); }
+          else if(tries > 40){ clearInterval(tick); closeSheet(); if(typeof toast === "function"){ toast("Chat isn't loading right now — email us for help and we'll get right back to you! 💛"); } }
         }, 250);
         return;
       }
