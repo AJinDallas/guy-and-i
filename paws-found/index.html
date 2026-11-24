@@ -227,6 +227,8 @@
       .wel-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
       .wel-av{font-size:2.3rem;line-height:1;background:rgba(255,255,255,.06);border:2px solid transparent;border-radius:14px;padding:9px 0;cursor:pointer;font-family:inherit}
       .wel-av.sel{border-color:var(--amber);background:rgba(255,196,0,.14)}
+      .wel-crew-h{font-size:.8rem;font-weight:800;letter-spacing:.04em;opacity:.85;margin:4px 0 8px}
+      .wel-av small{display:block;font-size:.6rem;font-weight:700;letter-spacing:.02em;opacity:.75;margin-top:3px;line-height:1.1}
       .wel-shuffle{display:flex;align-items:center;gap:12px;margin-bottom:12px}
       .wel-shuffle-paw{font-size:2.6rem;line-height:1;width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.06);border:2px solid var(--amber);display:flex;align-items:center;justify-content:center;flex:0 0 auto}
       .wel-shuffle-btn{flex:1;background:var(--amber);color:#231A00;border:none;border-radius:999px;padding:12px;font-size:.95rem;font-weight:800;cursor:pointer;font-family:inherit}
@@ -1172,6 +1174,8 @@
                   <button class="wel-shuffle-btn" id="welShuffle" type="button">🎲 Shuffle my paw</button>
                 </div>
                 <div class="wel-grid" id="welGrid"></div>
+                <p class="wel-crew-h">🌆 Neon Alley crew — our little Easter eggs</p>
+                <div class="wel-grid" id="welCrewGrid"></div>
                 <input class="wel-name" id="welName" type="text" maxlength="24" placeholder="Your name" autocomplete="off" />
                 <p class="wel-privacy">We don't keep anything — your name and your animal stay on your phone. We're here to save animals. 💛</p>
                 <p class="wel-founder" id="welFounder">🌟 You're a Founding Member — one of the first people here.</p>
@@ -1476,7 +1480,8 @@
        The pick is the user's profile — an animal avatar (paw animals
        only) and a name — saved on this device. */
     var PROFILE_KEY = "waywardpaws.profile.v1";
-    var AVATARS = ["🐶","🐱","🐵","🐻","🐼","🦊","🦁","🐯","🦝","🐨","🦦","🐰","🐹","🐸","🐷","🐴","🦆","🐔","🦉","🐺","🐧","🐢","🐾"];
+    var AVATARS = ["🐶","🐱","🐵","🐻","🐼","🦊","🦁","🐯","🦝","🐨","🦦","🐰","🐹","🐸","🐷","🐴","🦆","🐔","🦉","🐺","🐧","🐾"];
+    var CREW = [{e:"🐕",n:"Bytr"},{e:"🐆",n:"Ozzie"},{e:"🐀",n:"Ralphie"},{e:"🦝",n:"Maple"},{e:"🙃",n:"Pogo"},{e:"🐢",n:"Shelly"},{e:"🦮",n:"Diesel"},{e:"🦉",n:"Mordecai"}];
     var welAvatar = "🐾";
     var welDest = "home";
     function loadProfile(){
@@ -1551,8 +1556,10 @@
     function setWelAvatar(a){
       welAvatar = a;
       var pv = $("welShufflePaw"); if (pv) pv.textContent = a;
-      var g = $("welGrid");
-      if (g) Array.prototype.forEach.call(g.children, function(c){ c.classList.toggle("sel", c.textContent === a); });
+      ["welGrid","welCrewGrid"].forEach(function(id){
+        var g = $(id);
+        if (g) Array.prototype.forEach.call(g.children, function(c){ c.classList.toggle("sel", (c.dataset.av || c.textContent) === a); });
+      });
     }
     /* Paw randomizer — hit Shuffle, it pulls up another paw. Hit it again
        for another one. When you like the one you see, that's the one —
@@ -1567,15 +1574,27 @@
       var g = $("welGrid"); if (!g || g.children.length) return;
       AVATARS.forEach(function(a){
         var b = document.createElement("button");
-        b.type = "button"; b.className = "wel-av"; b.textContent = a;
+        b.type = "button"; b.className = "wel-av"; b.dataset.av = a; b.textContent = a;
         b.setAttribute("aria-label", "Avatar " + a);
         b.addEventListener("click", function(){ setWelAvatar(a); });
         g.appendChild(b);
       });
     }
+    function buildWelCrew(){
+      var g = $("welCrewGrid"); if (!g || g.children.length) return;
+      CREW.forEach(function(c){
+        var b = document.createElement("button");
+        b.type = "button"; b.className = "wel-av"; b.dataset.av = c.e;
+        b.setAttribute("aria-label", "Avatar " + c.n);
+        var em = document.createElement("span"); em.textContent = c.e; b.appendChild(em);
+        var nm = document.createElement("small"); nm.textContent = c.n; b.appendChild(nm);
+        b.addEventListener("click", function(){ setWelAvatar(c.e); });
+        g.appendChild(b);
+      });
+    }
     function showWelcome(dest){
       welDest = dest || "home";
-      buildWelGrid();
+      buildWelGrid(); buildWelCrew();
       setWelAvatar((state.profile && state.profile.avatar) || welAvatar);
       var nm = $("welName"); if (nm) nm.value = (state.profile && state.profile.name) || "";
       var wf = $("welFounder"); if (wf) wf.style.display = FOUNDING_OPEN ? "" : "none";
