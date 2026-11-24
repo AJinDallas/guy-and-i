@@ -1688,9 +1688,9 @@
     }
     $("toast").addEventListener("click", function(){
       var t = $("toast");
-      if (!t.classList.contains("sticky")) return;
+      if (!t.classList.contains("sticky") && !t.classList.contains("fact")) return;
       clearTimeout(t._h);
-      t.classList.remove("show"); t.classList.remove("sticky");
+      t.classList.remove("show"); t.classList.remove("sticky"); t.classList.remove("fact");
     });
 
     /* ---------- animal fun facts — matched to THAT animal ---------- */
@@ -1765,12 +1765,12 @@
     function bindCritterFact(el){
       if (!el) return;
       el.addEventListener("click", function(){
-        toast(factForCritter(el.textContent || ""), {duration: 3500, fact: true});
+        toast(factForCritter(el.textContent || ""), {duration: 2500, fact: true});
       });
       el.addEventListener("keydown", function(e){
         if (e.key !== "Enter" && e.key !== " ") return;
         e.preventDefault();
-        toast(factForCritter(el.textContent || ""), {duration: 3500, fact: true});
+        toast(factForCritter(el.textContent || ""), {duration: 2500, fact: true});
       });
     }
     bindCritterFact($("critterL"));
