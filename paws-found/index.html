@@ -733,7 +733,6 @@
                 <div class="cam-hud">
                   <div class="hud-top">
                     <span class="hud-loc mono"><span id="hud-coords">Locating…</span><span id="hud-place">—</span></span>
-                    <span class="hud-chip mono" id="hud-clock">--</span>
                     <span class="hud-chip" id="hud-acc">GPS locking…</span>
                     <span class="hud-chip mono" id="hud-elapsed" title="Time since you tapped the paw">0.000s</span>
                   </div>
@@ -1772,11 +1771,6 @@
     function fmtCoords(lat, lng){
       return Math.abs(lat).toFixed(6) + "° " + (lat>=0?"N":"S") + ", " + Math.abs(lng).toFixed(6) + "° " + (lng>=0?"E":"W");
     }
-    function tickClock(){
-      var now = new Date();
-      $("hud-clock").textContent = now.toLocaleDateString("en-US",{month:"short",day:"numeric"}) + " · " + now.toLocaleTimeString("en-US",{hour12:false});
-    }
-    setInterval(tickClock, 1000); tickClock();
 
     /* ---------- one-tap flow ---------- */
     function startJitter(){
