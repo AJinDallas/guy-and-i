@@ -551,10 +551,10 @@
          and the Terms scroll area gets the full height between the
          header and the I agree button instead of a cramped slot. */
       @media (max-width:640px){
-        .stage{padding-top:0}
+        .stage{padding-top:0}html,body{height:100%;overflow:hidden;overscroll-behavior:none}
         .phone-col{margin:0 -20px}
         .phone-col > p{padding:0 20px}
-        .phone{max-width:none;border-radius:0;padding:0;box-shadow:none}
+        .phone{max-width:none;border-radius:0;padding:0;box-shadow:none;position:fixed;inset:0;z-index:30}
         .screen{height:100vh;height:100svh;height:100dvh;border-radius:0;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto}         .view-pad{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
       }
       @media (max-width:480px){
