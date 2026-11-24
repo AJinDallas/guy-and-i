@@ -77,14 +77,15 @@
       .tabbar button{min-width:0;overflow:hidden}
       .statusbar{display:flex;justify-content:space-between;align-items:center;padding:12px 22px 4px;font-size:.8rem;font-weight:600;color:var(--ink)}
       .statusbar .sicons{display:flex;gap:6px;align-items:center;color:var(--ink2)}
-      .appbar{display:flex;align-items:center;gap:10px;padding:6px 18px 8px;border-bottom:1px solid var(--line)}
+      .appbar{display:flex;align-items:center;gap:8px;padding:6px 10px 8px;border-bottom:1px solid var(--line)}
       .appbar .logo{width:32px;height:32px;border-radius:12px;background:var(--teal-deep);display:block;overflow:hidden;flex:none}
       .appbar .logo img{width:100%;height:100%;object-fit:cover;transform:scale(1.12)}
       .appbar .t1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:1.13rem;line-height:1.1}
       .appbar .t2{font-size:.74rem;color:var(--ink3);font-weight:600;letter-spacing:.04em;text-transform:uppercase}
       .appbar .t2{display:none}
-      .appbar .brand-home{display:flex;align-items:center;gap:10px;background:none;border:none;color:var(--ink);padding:2px 4px 2px 0;margin:0;text-align:left;border-radius:14px;cursor:pointer}
+      .appbar .brand-home{display:flex;min-width:0;align-items:center;gap:8px;background:none;border:none;color:var(--ink);padding:2px 4px 2px 0;margin:0;text-align:left;border-radius:14px;cursor:pointer}
       .appbar .brand-home:active{opacity:.72}
+      .appbar .brand-home>:first-child{flex:none}
       .appbar .live{margin-left:auto;font-size:.72rem;font-weight:700;color:var(--good);display:flex;gap:6px;align-items:center}
       .appbar .live i{width:8px;height:8px;border-radius:50%;background:var(--good);display:block}
       .view{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;display:none;flex-direction:column}
@@ -438,8 +439,8 @@
       .react.paw{font-size:1.05rem;padding:10px 15px;min-height:44px}
 
       /* bottom nav */
-      .tabbar{display:grid;grid-template-columns:repeat(8,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 6px calc(12px + env(safe-area-inset-bottom,0px));flex:none}
-      .tabbar button{background:none;border:none;color:var(--ink3);font-size:.64rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 1px;border-radius:10px;min-height:52px;white-space:nowrap}
+      .tabbar{display:grid;grid-template-columns:repeat(8,1fr);border-top:1px solid var(--line);background:var(--surface);padding:6px 4px calc(12px + env(safe-area-inset-bottom,0px));flex:none}
+      .tabbar button{background:none;border:none;color:var(--ink3);font-size:.60rem;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 1px;border-radius:10px;min-height:52px;white-space:nowrap}
       .tabbar button .tic{font-size:1.2rem;line-height:1}
       .tabbar button.on{color:var(--coral)}
       .toast{position:absolute;left:50%;bottom:calc(92px + env(safe-area-inset-bottom,0px));transform:translateX(-50%) translateY(16px);background:var(--ink);color:var(--bg);font-weight:600;font-size:.86rem;padding:11px 17px;border-radius:999px;opacity:0;pointer-events:none;transition:.3s;z-index:40;max-width:88%;text-align:center;box-shadow:var(--shadow)}
