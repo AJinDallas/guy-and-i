@@ -1789,15 +1789,16 @@
       $("hud-acc").textContent = "GPS ±" + state.acc + " m";
       $("hud-place").textContent = state.real ? "Your location" : DEMO.label;
     }
-    function askLocation(){
-      if (!navigator.geolocation) return;
+    function askLocation(cb){
+      if (!navigator.geolocation){ if (cb) cb(false); return; }
       navigator.geolocation.getCurrentPosition(function(pos){
         state.lat = pos.coords.latitude; state.lng = pos.coords.longitude;
         state.acc = Math.max(3, Math.round(pos.coords.accuracy || 10)); state.real = true;
         $("perm-loc").textContent = "Locked · live"; $("perm-loc").classList.add("ok");
         paintHud();
         fetchCity(state.lat, state.lng);
-      }, function(){ /* keep demo pin */ }, { enableHighAccuracy:true, timeout:6000, maximumAge:15000 });
+        if (cb) cb(true);
+      }, function(){ /* keep demo pin */ if (cb) cb(false); }, { enableHighAccuracy:true, timeout:6000, maximumAge:15000 });
     }
     /* Turn the GPS pin into a city name (BigDataCloud, free, no key) so the
        shared report can say "Quitman, TX" next to the coordinates — most
@@ -2541,11 +2542,21 @@
       var pin = { label: "Found animal · " + c.id, lat: c.lat, lng: c.lng };
       var city = c.city || state.city || "";
       var where = city ? expandState(city) : fmtCoords(c.lat, c.lng);
+      /* The app link goes LAST, on its own line, with nothing after it:
+         mail apps that greedily linkify pasted text swallowed the date
+         after the URL and turned it into a broken path (404). And a
+         demo pin must never go out looking like a real location. */
+      var locLine;
+      if (c.real){
+        locLine = plainDate(longWhen(c)) + ", " + where + " — maps: " + mapsUrl("search", pin).replace(/^https:\/\//, "");
+      } else {
+        locLine = plainDate(longWhen(c)) + " — GPS had not locked when this photo was taken, so there is NO real pin yet. The demo pin near Quitman, TX is NOT where the animal is — please ask the finder for the real spot.";
+      }
       return "🐾 Wayward Paws — FOUND ANIMAL\n" +
-        "Report and photos here https://waywardpaws.app/\n" +
-        plainDate(longWhen(c)) + ", " + where + " — maps: " + mapsUrl("search", pin).replace(/^https:\/\//, "") + "\n" +
+        locLine + "\n" +
         "Details: " + identifierText() + "\n" +
-        "Be our hero today — get this animal home 💛";
+        "Be our hero today — get this animal home 💛\n" +
+        "Report and photos here: https://waywardpaws.app/";
     }
     /* Pick which burst frames go out when you share — 1 to 5, favorite first.
        Same picker as the shot page: tap a photo to make it your favorite,
@@ -2581,6 +2592,21 @@
       $("shareCount").textContent = "Sharing " + n + " photo" + (n > 1 ? "s" : "") + " of " + c.frames.length + " — your favorite goes first";
     }
     function buildShare(){
+      /* Capture stays instant, but sharing takes one more run at a real
+         GPS lock when the capture only holds the demo pin — a slow lock
+         must not ship demo coordinates as the animal's location. */
+      var cap = state.captured;
+      if (cap && !cap.real){
+        askLocation(function(ok){
+          if (ok && state.captured){
+            var cc = state.captured;
+            cc.lat = state.lat; cc.lng = state.lng; cc.acc = state.acc; cc.real = true; cc.city = state.city || cc.city;
+            $("st-acc").textContent = "±" + cc.acc + " m";
+            $("st-coords").textContent = fmtCoords(cc.lat, cc.lng);
+            buildShare();
+          }
+        });
+      }
       var txt = reportText();
       /* The app shows the real Nebula Paw logo at the front of the header;
          the text message itself keeps the paw emoji (plain text can't

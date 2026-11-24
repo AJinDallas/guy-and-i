@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Wayward Paws</title>
+<script>
+(function(){
+  /* Safety net for shared links that arrive with junk on the end
+     (a mail app gluing extra words onto the URL, a bad paste).
+     Real missing files keep their 404; extensionless junk paths
+     land on the app instead of a dead page. */
+  var p = location.pathname;
+  var last = p.split('/').pop();
+  if (last.indexOf('.') !== -1) return;
+  var i = p.indexOf('/paws-found/');
+  if (i !== -1) { location.replace(p.slice(0, i + 12) + '/'); return; }
+  location.replace('paws-found/');
+})();
+</script>
+</head>
+<body>
+<p>Finding your way back to <a href="paws-found/">Wayward Paws</a>&hellip;</p>
+</body>
+</html>
