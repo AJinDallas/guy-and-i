@@ -111,7 +111,7 @@
       .travel-nibs{position:absolute;top:96px;left:0;width:36px;height:36px;z-index:16;pointer-events:none;display:none}
       .travel-nibs img{width:36px;height:36px;border-radius:50%;object-fit:cover;display:block;border:2px solid var(--coral);box-shadow:0 2px 8px rgba(0,0,0,.45)}
       /* Ask Nibs — help button + sheet. Nibs is here to help. */
-      .ask-nibs-btn{position:absolute;right:12px;bottom:calc(150px + env(safe-area-inset-bottom,0px));z-index:30;width:46px;height:46px;border-radius:50%;padding:0;border:2px solid var(--coral);background:var(--surface);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.45);pointer-events:auto}
+      .ask-nibs-btn{flex:none;width:38px;height:38px;min-height:38px;border-radius:50%;padding:0;border:1.5px solid var(--coral);background:var(--surface);cursor:pointer;overflow:hidden}
       .ask-nibs-btn img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
       .ask-nibs-sheet{position:absolute;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.4);max-height:82%;display:none;flex-direction:column;overflow:hidden}
       .ask-nibs-sheet.open{display:flex}
@@ -600,6 +600,7 @@
                 </span>
               </button>
               <span class="live"><i></i>READY</span>
+              <button class="ask-nibs-btn" id="askNibsBtn" type="button" aria-label="Ask Nibs for help"><img src="assets/img-1a09fc17.jpg" alt=""></button>
               <button class="fs-btn" id="fsBtn" type="button" aria-label="Enter full screen" aria-pressed="false" title="Full screen">
                 <svg class="ic-enter" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5"/></svg>
                 <svg class="ic-exit" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h5V4M20 9h-5V4M4 15h5v5M20 15h-5v5"/></svg>
@@ -1196,7 +1197,6 @@
             <!-- Traveling Nibs — he walks across the top of whatever page you're on. -->
             <div class="travel-nibs" id="travelNibs" aria-hidden="true"><img src="" alt=""></div>
             <!-- ASK NIBS — help button + sheet. Nibs is here to help. -->
-            <button class="ask-nibs-btn" id="askNibsBtn" type="button" aria-label="Ask Nibs for help"><img src="assets/img-1a09fc17.jpg" alt=""></button>
             <div class="ask-nibs-sheet" id="askNibsSheet" role="dialog" aria-label="Nibs is here to help" aria-hidden="true">
               <div class="ask-nibs-head">
                 <img src="assets/img-1a09fc17.jpg" alt="Nibs the nebula cat">
@@ -2496,7 +2496,7 @@
       var city = c.city || state.city || "";
       var where = city ? expandState(city) : fmtCoords(c.lat, c.lng);
       return "🐾 Wayward Paws — FOUND ANIMAL\n" +
-        "Report and photos here ajindallas.github.io/guy-and-i/paws-found/\n" +
+        "Report and photos here https://waywardpaws.app/\n" +
         plainDate(longWhen(c)) + ", " + where + " — maps: " + mapsUrl("search", pin).replace(/^https:\/\//, "") + "\n" +
         "Details: " + identifierText() + "\n" +
         "Be our hero today — get this animal home 💛";
