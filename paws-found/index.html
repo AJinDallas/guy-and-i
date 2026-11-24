@@ -75,8 +75,6 @@
       .view{overflow-x:hidden}
       img{max-width:100%}
       .tabbar button{min-width:0;overflow:hidden}
-      .statusbar{display:flex;justify-content:space-between;align-items:center;padding:12px 22px 4px;font-size:.8rem;font-weight:600;color:var(--ink)}
-      .statusbar .sicons{display:flex;gap:6px;align-items:center;color:var(--ink2)}
       .appbar{display:flex;align-items:center;gap:8px;padding:6px 10px 8px;border-bottom:1px solid var(--line)}
       .appbar .logo{width:32px;height:32px;border-radius:12px;background:var(--teal-deep);display:block;overflow:hidden;flex:none}
       .appbar .logo img{width:100%;height:100%;object-fit:cover;transform:scale(1.12)}
@@ -566,7 +564,7 @@
         .phone-col{margin:0 -20px}
         .phone-col > p{padding:0 20px}
         .phone{max-width:100vw;border-radius:0;padding:0;box-shadow:none;position:fixed;inset:0;z-index:30}
-        .screen{height:100vh;height:100svh;height:100dvh;border-radius:0;display:grid;grid-template-rows:auto auto minmax(0,1fr) auto}         .view-pad{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
+        .screen{height:100vh;height:100svh;height:100dvh;border-radius:0;display:grid;grid-template-rows:auto minmax(0,1fr) auto}         .view-pad{padding-bottom:calc(22px + env(safe-area-inset-bottom,0px))}
       }
       @media (max-width:480px){
         .phone-col{margin:0 -15px}
@@ -598,9 +596,6 @@
       <div class="phone-col">
         <div class="phone" role="region" aria-label="Interactive Wayward Paws app mock-up">
           <div class="screen tos-locked">
-            <div class="statusbar">
-              <span id="sb-clock" class="mono">--:--</span>
-            </div>
             <div class="appbar">
               <button class="brand-home" id="brandHome" type="button" aria-label="Wayward Paws — go to the home screen" title="Home">
                 <span class="logo"><img src="assets/img-1371f2a4.jpg" alt="" draggable="false" /></span>
@@ -1779,8 +1774,6 @@
     }
     function tickClock(){
       var now = new Date();
-      var s = now.toLocaleTimeString("en-US",{hour:"numeric",minute:"2-digit"});
-      $("sb-clock").textContent = s;
       $("hud-clock").textContent = now.toLocaleDateString("en-US",{month:"short",day:"numeric"}) + " · " + now.toLocaleTimeString("en-US",{hour12:false});
     }
     setInterval(tickClock, 1000); tickClock();
