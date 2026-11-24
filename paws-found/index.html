@@ -2612,7 +2612,8 @@
          the text message itself keeps the paw emoji (plain text can't
          carry an image). */
       var html = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-        .replace(/^🐾 /, '<img class="preview-logo" src="paw-icon-512.png" alt="The Nebula Paw"> ');
+        .replace(/^🐾 /, '<img class="preview-logo" src="assets/neon-paw-sign.png" alt="Neon paw sign"> ')
+        .replace("🐾 Other", '<img class="preview-logo" src="assets/neon-paw-sign.png" alt="Neon paw sign"> Other');
       $("reportPreview").innerHTML = html;
       var enc = encodeURIComponent(txt);
       var pin = currentPin();
