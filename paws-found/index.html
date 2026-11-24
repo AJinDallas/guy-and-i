@@ -1837,6 +1837,9 @@
          the same tap but lock in the background — the shutter never waits. */
       state.tapTime = Date.now();
       state.camOpen = true;
+      /* Fresh photo, fresh note: the last report's comment must not ride
+         along into the next one — the box starts empty every time. */
+      if ($("noteIn")) $("noteIn").value = "";
       $("hud-elapsed").textContent = "0.000s";
       $("hud-acc").textContent = "GPS locking…";
       askLocation();
@@ -3150,9 +3153,10 @@
     applyFeed();
     paintHud();
     /* First launch: Terms of Service gate. Once agreed (remembered on this
-       device), launches go straight into the app like normal — or straight
-       into the camera when the lock-screen deep link (?camera / ?snap) is on. */
-    if (state.tosAgreed){ if (deepLinkWantsCamera()){ openCamera(); } else { showView("home"); } } else { showTerms(false); }
+       device), launches go straight to the camera — tap the icon, take the
+       picture, that's the whole job. ?home on the address opens the home
+       screen instead; ?camera / ?snap still force the camera too. */
+    if (state.tosAgreed){ var _q = null; try { _q = new URLSearchParams(location.search); } catch(e){} if (_q && _q.has("home")){ showView("home"); } else { openCamera(); } } else { showTerms(false); }
   })();
   </script>
       <script>
