@@ -3139,7 +3139,8 @@
       if(typeof toast === "function"){ toast("Live chat is coming soon — email us for help meanwhile! 💛"); }
     });
   }
-  if(TAWK_PROPERTY_ID){ loadTawk(); }
+  /* Speed is the game: the chat script loads ONLY on the first chat tap,
+     never on app open — the click handler above already loads + polls for it. */
 })();
     </script>
   </body>
