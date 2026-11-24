@@ -110,6 +110,25 @@
          then ducks away. You never know when he'll show up. */
       .travel-nibs{position:absolute;top:96px;left:0;width:36px;height:36px;z-index:16;pointer-events:none;display:none}
       .travel-nibs img{width:36px;height:36px;border-radius:50%;object-fit:cover;display:block;border:2px solid var(--coral);box-shadow:0 2px 8px rgba(0,0,0,.45)}
+      /* Ask Nibs — help button + sheet. Nibs is here to help. */
+      .ask-nibs-btn{position:absolute;right:12px;bottom:calc(66px + env(safe-area-inset-bottom,0px));z-index:30;width:46px;height:46px;border-radius:50%;padding:0;border:2px solid var(--coral);background:var(--surface);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.45);pointer-events:auto}
+      .ask-nibs-btn img{width:100%;height:100%;border-radius:50%;object-fit:cover;display:block}
+      .ask-nibs-sheet{position:absolute;left:0;right:0;bottom:0;z-index:40;background:var(--surface);border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -6px 24px rgba(0,0,0,.4);max-height:82%;display:none;flex-direction:column;overflow:hidden}
+      .ask-nibs-sheet.open{display:flex}
+      .ask-nibs-head{display:flex;align-items:center;gap:10px;padding:14px 16px 10px;border-bottom:1px solid var(--line)}
+      .ask-nibs-head img{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid var(--coral);flex:none}
+      .ask-nibs-head h3{margin:0;font-size:1.05rem}
+      .ask-nibs-head p{margin:2px 0 0;color:var(--ink2);font-size:.85rem}
+      .ask-nibs-close{margin-left:auto;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;width:34px;height:34px;font-size:1rem;cursor:pointer;flex:none}
+      .ask-nibs-body{overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 16px 16px;display:flex;flex-direction:column;gap:10px}
+      .ask-nibs-body details{border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:var(--bg)}
+      .ask-nibs-body summary{cursor:pointer;font-weight:700;font-size:.95rem;list-style:none}
+      .ask-nibs-body summary::-webkit-details-marker{display:none}
+      .ask-nibs-body details p{margin:8px 0 0;color:var(--ink2);font-size:.9rem;line-height:1.45}
+      .ask-nibs-actions{display:flex;gap:10px;margin-top:4px}
+      .ask-nibs-actions a,.ask-nibs-actions button{flex:1;text-align:center;text-decoration:none;border-radius:999px;padding:11px 8px;font-weight:700;font-size:.92rem;cursor:pointer;border:1px solid var(--coral)}
+      .ask-nibs-email{background:var(--coral);color:#fff}
+      .ask-nibs-chat{background:var(--bg);color:var(--ink)}
       /* The walking cat: a little ledge above the yellow "3-second
          window" box on Home. He strolls back and forth along the top
          of the box and always turns at the edge — he never falls off.
@@ -1176,6 +1195,60 @@
             <div class="peek-cat" id="peekCat" role="button" aria-label="Catch Nibs" tabindex="0"><img src="assets/img-1a09fc17.jpg" alt="Nibs the nebula cat"></div>
             <!-- Traveling Nibs — he walks across the top of whatever page you're on. -->
             <div class="travel-nibs" id="travelNibs" aria-hidden="true"><img src="" alt=""></div>
+            <!-- ASK NIBS — help button + sheet. Nibs is here to help. -->
+            <button class="ask-nibs-btn" id="askNibsBtn" type="button" aria-label="Ask Nibs for help"><img src="assets/img-1a09fc17.jpg" alt=""></button>
+            <div class="ask-nibs-sheet" id="askNibsSheet" role="dialog" aria-label="Nibs is here to help" aria-hidden="true">
+              <div class="ask-nibs-head">
+                <img src="assets/img-1a09fc17.jpg" alt="Nibs the nebula cat">
+                <div>
+                  <h3>Nibs is here to help 🐾</h3>
+                  <p>Tap a question. Still stuck? Email or chat with us.</p>
+                </div>
+                <button class="ask-nibs-close" id="askNibsClose" type="button" aria-label="Close help">✕</button>
+              </div>
+              <div class="ask-nibs-body">
+                <details>
+                  <summary>How do I report an animal I found?</summary>
+                  <p>Tap Report, take the photo, check the pin is where the animal is, add what you saw, and share it to the feed so helpers can find them. 💛</p>
+                </details>
+                <details>
+                  <summary>Why does the app ask for my location?</summary>
+                  <p>So helpers get the animal's exact spot. The pin is the animal's location, not yours. Post the pin, not your live location — helpers will come to the animal.</p>
+                </details>
+                <details>
+                  <summary>Why does the app ask for my camera?</summary>
+                  <p>One tap opens the camera so you don't miss the moment. The photo is what helps people recognize the animal.</p>
+                </details>
+                <details>
+                  <summary>Does anything about me leave my phone?</summary>
+                  <p>No. Your name and your animal stay on your phone. Only what you choose to share to the feed goes out.</p>
+                </details>
+                <details>
+                  <summary>I can't see the button on the welcome screen</summary>
+                  <p>Scroll inside the welcome box to find it, or tap "I'll do this later" and set up your corner afterward.</p>
+                </details>
+                <details>
+                  <summary>What are badges?</summary>
+                  <p>Little celebrations for helping. Founding Member is for the first folks here, and the Escape Artist badge celebrates the animal getting home safely.</p>
+                </details>
+                <details>
+                  <summary>How do I find the nearest shelter?</summary>
+                  <p>Tap the Shelters tab for the closest help, with hours and phone numbers.</p>
+                </details>
+                <details>
+                  <summary>I found an animal — what do I do first?</summary>
+                  <p>Keep a kind distance, don't cross traffic for a photo — one from right where you are helps plenty. If the animal is hurt or in danger, call a shelter and they'll send help.</p>
+                </details>
+                <details>
+                  <summary>The app looks squeezed after I fold or unfold my phone</summary>
+                  <p>That's a known issue on fold phones. Close the app fully and open it again — it will look right. A proper fix is on the way.</p>
+                </details>
+                <div class="ask-nibs-actions">
+                  <a class="ask-nibs-email" id="askNibsEmail" href="#">Email us for help</a>
+                  <button class="ask-nibs-chat" id="askNibsChat" type="button">Chat with Nibs</button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
         <p style="text-align:center;color:var(--ink3);font-size:.82rem;margin:12px 0 0">Concept mock-up — the flow, stamps and choices are all live. Try the paw, and tap the expand button in the app bar to go full screen.</p>
@@ -3008,5 +3081,65 @@
     if (state.tosAgreed){ if (deepLinkWantsCamera()){ openCamera(); } else { showView("home"); } } else { showTerms(false); }
   })();
   </script>
+      <script>
+/* Ask Nibs help — config + behavior. The support email and the live-chat
+   IDs are filled in when ready; while any of them is empty its button
+   stays quiet, so nothing half-working ever goes live. */
+(function(){
+  var SUPPORT_EMAIL = "waywardpawshelp@gmail.com";
+  var TAWK_PROPERTY_ID = "";
+  var TAWK_WIDGET_ID = "default";
+  var btn = document.getElementById("askNibsBtn");
+  var sheet = document.getElementById("askNibsSheet");
+  var closeBtn = document.getElementById("askNibsClose");
+  var emailBtn = document.getElementById("askNibsEmail");
+  var chatBtn = document.getElementById("askNibsChat");
+  if(!btn || !sheet) return;
+  function openSheet(){ sheet.classList.add("open"); sheet.setAttribute("aria-hidden","false"); }
+  function closeSheet(){ sheet.classList.remove("open"); sheet.setAttribute("aria-hidden","true"); }
+  btn.addEventListener("click", openSheet);
+  if(closeBtn) closeBtn.addEventListener("click", closeSheet);
+  var tabbar = document.querySelector(".tabbar");
+  if(tabbar) tabbar.addEventListener("click", closeSheet);
+  if(emailBtn){
+    if(SUPPORT_EMAIL){
+      emailBtn.href = "mailto:" + SUPPORT_EMAIL + "?subject=" + encodeURIComponent("Wayward Paws help");
+    } else {
+      emailBtn.style.display = "none";
+    }
+  }
+  function loadTawk(){
+    if(!TAWK_PROPERTY_ID || window.__nibsTawkLoaded) return false;
+    window.__nibsTawkLoaded = true;
+    var s = document.createElement("script");
+    s.async = true;
+    s.src = "https://embed.tawk.to/" + TAWK_PROPERTY_ID + "/" + TAWK_WIDGET_ID;
+    s.charset = "UTF-8";
+    s.setAttribute("crossorigin", "*");
+    document.head.appendChild(s);
+    return true;
+  }
+  if(chatBtn){
+    if(!TAWK_PROPERTY_ID){
+      chatBtn.style.display = "none";
+    }
+    chatBtn.addEventListener("click", function(){
+      if(window.Tawk_API && window.Tawk_API.maximize){ window.Tawk_API.maximize(); return; }
+      if(loadTawk()){
+        var tries = 0;
+        var tick = setInterval(function(){
+          tries++;
+          if(window.Tawk_API && window.Tawk_API.maximize){ clearInterval(tick); window.Tawk_API.maximize(); }
+          else if(tries > 40){ clearInterval(tick); }
+        }, 250);
+        return;
+      }
+      closeSheet();
+      if(typeof toast === "function"){ toast("Live chat is coming soon — email us for help meanwhile! 💛"); }
+    });
+  }
+  if(TAWK_PROPERTY_ID){ loadTawk(); }
+})();
+    </script>
   </body>
 </html>
