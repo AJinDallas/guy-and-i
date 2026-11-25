@@ -2556,9 +2556,9 @@
       } else {
         locLine = plainDate(longWhen(c)) + " — GPS had not locked when this photo was taken, so there is NO real pin yet. The demo pin near Quitman, TX is NOT where the animal is — please ask the finder for the real spot.";
       }
-      return "🐾 Wayward Paws — FOUND ANIMAL\n" +
+      return "🐰 Wayward Paws — FOUND ANIMAL\n" +
         locLine + "\n" +
-        "Details: " + identifierText() + "\n" +
+        "Details: " + identifierText().replace(/^🐾 /, "🐵 ") + "\n" +
         "Be our hero today — get this animal home 💛\n" +
         "Report and photos here: https://waywardpaws.app/";
     }
@@ -2613,11 +2613,11 @@
       }
       var txt = reportText();
       /* The app shows the real Nebula Paw logo at the front of the header;
-         the text message itself keeps the paw emoji (plain text can't
-         carry an image). */
+         the shared text itself keeps the rabbit and the monkey (plain text
+         can't carry an image). */
       var html = txt.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")
-        .replace(/^🐾 /, '<img class="preview-logo" src="assets/neon-paw-sign.png" alt="Neon paw sign"> ')
-        .replace("🐾 Other", '<img class="preview-logo" src="assets/neon-paw-sign.png" alt="Neon paw sign"> Other');
+        .replace(/^🐰 /, '<img class="preview-logo" src="assets/neon-paw-sign.png" alt="Neon paw sign"> ')
+        .replace("🐵 Other", '<img class="preview-logo" src="assets/neon-paw-sign.png" alt="Neon paw sign"> Other');
       $("reportPreview").innerHTML = html;
       var enc = encodeURIComponent(txt);
       var pin = currentPin();
