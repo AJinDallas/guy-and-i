@@ -884,6 +884,7 @@
                   <div class="filmstrip" id="shareStrip"></div>
                   <div class="share-count mono" id="shareCount"></div>
                 </div>
+                <div class="safety-strip"><span aria-hidden="true">👀</span><p><strong>Check who it's going to:</strong> <span>your phone sends this straight from here — make sure it's addressed to the right person before you tap send.</span></p></div>
                 <div class="share-grid">
                   <a class="share-btn" id="shFb" href="#" target="_blank" rel="noopener"><span class="sic" style="background:#1877F2">f</span>Facebook</a>
                   <a class="share-btn" id="shX" href="#" target="_blank" rel="noopener"><span class="sic" style="background:#000">𝕏</span>X / Twitter</a>
@@ -946,11 +947,11 @@
                     <h3>⚡ Fastest Capture</h3>
                     <p>Quickest from hitting the Nebula Paw to the photo saved. 3.000 seconds or less earns the lightning bolt on your avatar.</p>
                     <div class="rec-holder">
-                      <span class="rec-avatar" aria-hidden="true">🐵<span class="rec-badge" aria-hidden="true">⚡</span></span>
+                      <span class="rec-avatar" id="recAvatar" aria-hidden="true">🐵<span class="rec-badge" aria-hidden="true">⚡</span></span>
                       <span class="rec-who">
-                        <span class="rec-name">AJ</span>
-                        <span class="rec-time">⚡ 2.700 seconds</span>
-                        <span class="rec-when">Set Mon, Nov 16, 2026 · 12:14:51 AM</span>
+                        <span class="rec-name" id="recName">AJ</span>
+                        <span class="rec-time" id="recTime">⚡ 2.700 seconds</span>
+                        <span class="rec-when" id="recWhen">Set Mon, Nov 16, 2026 · 12:14:51 AM</span>
                       </span>
                     </div>
                   </div>
@@ -1650,6 +1651,7 @@
       if (name === "map") renderMap();
       if (name === "shelters") renderShelters();
       if (name === "feed") renderFeed();
+      if (name === "records") renderFastestCapture();
       /* Critter strip: each tab page gets its own little characters at the
          bottom, one on each side of the Guy and I Labs line. The critter
          string splits by character — Stories has two (rabbit left, monkey
@@ -2167,6 +2169,46 @@
         fb.textContent = "♥ MY FAVE · FRAME " + (c.primary+1) + " / " + c.frames.length;
       }
     }
+    /* ---------- fastest capture record ----------
+       The Records tab shows the quickest capture on this phone. The
+       time is measured on every capture (paw tap to photo saved); when
+       a capture beats the stored best, the record updates. Until the
+       first timed capture, the card keeps its opening example. */
+    var FASTEST_KEY = "waywardpaws.fastest.v1";
+    function loadFastest(){
+      try {
+        var raw = localStorage.getItem(FASTEST_KEY);
+        return raw ? JSON.parse(raw) : null;
+      } catch(e){ return null; }
+    }
+    function renderFastestCapture(){
+      var best = loadFastest();
+      if (!best) return;
+      var av = $("recAvatar"), nm = $("recName"), tm = $("recTime"), wn = $("recWhen");
+      if (!av || !nm || !tm || !wn) return;
+      av.textContent = best.avatar || "🐾";
+      if (best.secs <= 3){
+        var b = document.createElement("span");
+        b.className = "rec-badge"; b.setAttribute("aria-hidden", "true"); b.textContent = "⚡";
+        av.appendChild(b);
+      }
+      nm.textContent = best.name || "You";
+      tm.textContent = "⚡ " + Number(best.secs).toFixed(3) + " seconds";
+      wn.textContent = "Set " + best.dateStr + " · " + best.timeStr;
+    }
+    function recordFastestCapture(total, c){
+      if (!state.tapTime || !(total > 0)) return;
+      var best = loadFastest();
+      if (best && best.secs <= total) return;
+      var prof = state.profile || {};
+      try {
+        localStorage.setItem(FASTEST_KEY, JSON.stringify({
+          secs: total, name: prof.name || "You", avatar: prof.avatar || "🐾",
+          dateStr: c.dateStr, timeStr: c.timeStr, ts: c.ts
+        }));
+      } catch(e){ /* in-memory only */ }
+      renderFastestCapture();
+    }
     function finishCapture(frames, secs, imgSrc, viaPicker, opts){
       state.camOpen = false;
       clearTimeout(state.camIdleTimer);
@@ -2198,6 +2240,7 @@
       var total = state.tapTime ? Math.max(secs, (Date.now() - state.tapTime)/1000) : secs;
       var totalTxt = total.toFixed(3) + " seconds";
       $("st-speed").textContent = totalTxt + (total <= 3 ? " — inside the 3-second window ⚡" : " — every second was yours, the camera never made you wait");
+      recordFastestCapture(total, c);
       paintShot(); renderFilmstrip(); updatePhotoCount();
       buildShare();
       upsertReport(c); /* the report now sticks around — it shows on the Feed */
