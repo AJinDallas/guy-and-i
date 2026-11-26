@@ -135,6 +135,7 @@
       .ask-nibs-actions a,.ask-nibs-actions button{flex:1;text-align:center;text-decoration:none;border-radius:999px;padding:11px 8px;font-weight:700;font-size:.92rem;cursor:pointer;border:1px solid var(--coral)}
       .ask-nibs-email{background:var(--coral);color:#fff}
       .ask-nibs-chat{background:var(--bg);color:var(--ink)}
+      .ask-nibs-chat img{width:20px;height:20px;border-radius:4px;vertical-align:-4px;margin-right:4px}
       /* The walking cat: a little ledge above the yellow "3-second
          window" box on Home. He strolls back and forth along the top
          of the box and always turns at the edge — he never falls off.
@@ -1252,7 +1253,7 @@
                 </details>
                 <div class="ask-nibs-actions">
                   <a class="ask-nibs-email" id="askNibsEmail" href="#">Email us for help</a>
-                  <button class="ask-nibs-chat" id="askNibsChat" type="button">Chat with Nibs</button>
+                  <button class="ask-nibs-chat" id="askNibsChat" type="button"><img src="assets/neon-paw-sign.png" alt="">Chat with Nibs</button>
                 </div>
               </div>
             </div>
@@ -3189,6 +3190,9 @@
   function loadTawk(){
     if(!TAWK_PROPERTY_ID || window.__nibsTawkLoaded) return false;
     window.__nibsTawkLoaded = true;
+    window.Tawk_API = window.Tawk_API || {};
+    window.Tawk_LoadStart = new Date();
+    window.Tawk_API.onLoad = function(){ try{ window.Tawk_API.hideWidget(); }catch(e){} };
     var s = document.createElement("script");
     s.async = true;
     s.src = "https://embed.tawk.to/" + TAWK_PROPERTY_ID + "/" + TAWK_WIDGET_ID;
@@ -3202,12 +3206,12 @@
       chatBtn.style.display = "none";
     }
     chatBtn.addEventListener("click", function(){
-      if(window.Tawk_API && window.Tawk_API.maximize){ window.Tawk_API.maximize(); return; }
+      if(window.Tawk_API && window.Tawk_API.maximize){ try{ window.Tawk_API.hideWidget(); }catch(e){} window.Tawk_API.maximize(); return; }
       if(loadTawk()){
         var tries = 0;
         var tick = setInterval(function(){
           tries++;
-          if(window.Tawk_API && window.Tawk_API.maximize){ clearInterval(tick); window.Tawk_API.maximize(); }
+          if(window.Tawk_API && window.Tawk_API.maximize){ clearInterval(tick); try{ window.Tawk_API.hideWidget(); }catch(e){} window.Tawk_API.maximize(); }
           else if(tries > 40){ clearInterval(tick); closeSheet(); if(typeof toast === "function"){ toast("Chat isn't loading right now — email us for help and we'll get right back to you! 💛"); } }
         }, 250);
         return;
